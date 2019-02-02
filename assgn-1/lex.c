@@ -56,7 +56,17 @@ int lex(void){
 				case '>':
 					return GT;
 				case '=':
-					return EQU;
+					return EQEQ;
+				case ':':
+					{
+						current++;
+						if (*current=='='){
+							return EQU;
+						}
+						else{
+							fprintf(stderr, "Error in :=");
+						}
+					}
 				case '\n':
 				case '\t':
 				case ' ' :

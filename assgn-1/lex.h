@@ -10,12 +10,13 @@
 #define LT      9
 #define GT      10
 #define EQU     11
-#define IF      12
-#define THEN    13
-#define WHILE   14
-#define DO      15
-#define BEGIN   16
-#define END     17
+#define EQEQ    12
+#define IF      13
+#define THEN    14
+#define WHILE   15
+#define DO      16
+#define BEGIN   17
+#define END     18
 
 extern char *yytext;		/* in lex.c			*/
 extern int yyleng;

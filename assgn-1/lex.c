@@ -3,18 +3,17 @@
 #include <ctype.h>
 #include <string.h>
 
-yytext = ""; /* Lexeme (not '\0'
-							 terminated)              */
+yytext = ""; /* Lexeme (not '\0' terminated) */
 yyleng   = 0;  /* Lexeme length.           */
 yylineno = 0;  /* Input line number        */
+
+extern FILE *codefile;
 
 int lex(void){
 
 	static char input_buffer[1024];
 	char        *current;
-
-	current = yytext + yyleng; /* Skip current
-											lexeme        */
+	current = yytext + yyleng; /* Skip current lexeme        */
 
 	while(1){       /* Get the next one         */
 		while(!*current ){
@@ -22,11 +21,12 @@ int lex(void){
 			* white space on the line,
 			* until a nonblank line is found.
 			*/
-
-			current = input_buffer;
-			if(!gets(input_buffer)){
-				*current = '\0' ;
+			if (!fgets(input_buffer, 1020, codefile)){
+				*current = '\0';
 				return EOI;
+			}
+			else{
+				current = input_buffer;
 			}
 			++yylineno;
 			while(isspace(*current))

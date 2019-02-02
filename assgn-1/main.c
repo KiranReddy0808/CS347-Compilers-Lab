@@ -3,7 +3,17 @@
 #include "name.h"
 #include <stdio.h>
 
+FILE *codefile;
 int main ()
 {
-	statements ();
+	FILE *codefile = fopen("code.txt",'r');
+	FILE *assemblyfile = fopen ("code.asm",'w');
+	fprintf(assemblyfile,"ORG 8000H\n");
+    if ( !match(EOI) )
+    {
+	   statements();
+    }
+	fprintf(assemblyfile, "END\n");
+	fclose(codefile);
+	fclose(assemblyfile);
 }

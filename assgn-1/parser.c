@@ -12,19 +12,48 @@ void statements()
 void statement()
 {
     if (match(NUM_OR_ID)){
-        
+        if( !legal_lookahead( EQU, 0 ) )
+	        return;
+        advance();
+        expression();
     }
     else if(match(IF)){
-
+        if (!legal_lookahead(THEN, 0))
+            return;
+        advance();
+        expression();
+        if (match(THEN)){
+            statement();
+        }
     }
     else if(match(WHILE)){
-
+        if (!legal_lookahead(DO, 0))
+            return;
+        advance();
+        expression();
+        if (match(DO)){
+            statement();
+        }
     }
     else if(match(BEGIN)){
-
+        if (!legal_lookahead(END, 0))
+            return;
+        advance();
+        expression();
+        while (!match(END)){
+            statement();
+        }
     }
     else{
         expression();
+    }
+    if (match( SEMI ))
+    {
+        advance();
+    }
+    else
+    {
+        fprintf( stderr, "%d: Inserting missing semicolon\n", yylineno );
     }
 }
 
@@ -37,11 +66,21 @@ void expression()
     if( !legal_lookahead( NUM_OR_ID, LP, 0 ) )
 	return;
 
-    term();
-    while(match(PLUS) || match(MINUS))
-    {
-        advance();
+    if (legal_lookahead ( LT, GT, EQEQ)){
+        expression();
+        if (match(LT) || match(GT) || match(EQEQ))
+        {
+            advance();
+            expression();
+        }
+    }
+    else{
         term();
+        while(match(PLUS) || match(MINUS))
+        {
+            advance();
+            term();
+        }
     }
 }
 
@@ -84,8 +123,7 @@ void factor()
 #define MAXFIRST 16
 #define SYNCH	 SEMI
 
-int	legal_lookahead(  first_arg )
-int	first_arg;
+int	legal_lookahead(int first_arg, ... )
 {
     /* Simple error detection and recovery. Arguments are a 0-terminated list of
      * those tokens that can legitimately come next in the input. If the list is
@@ -136,5 +174,5 @@ int	first_arg;
     }
 
 exit:
-    va_end( args )
+    va_end( args );
     return rval;

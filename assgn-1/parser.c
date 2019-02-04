@@ -24,29 +24,83 @@ void statement()
                     | BEGIN statements END
                     | expression;
     */
+     
+    char *t;
+    
+    /* CONSIDERING THAT 'legal_lookahead' FUNCTION CHECKS IF THERE EXISTS THAT TOKEN ANY WHERE AHEAD else u gotto change the order of that func and 'advance' in many places*/
+    
     if (match(NUM_OR_ID)){
-        if( !legal_lookahead( EQU, 0 ) )
-	        return;
+
+        char variable[yyleng+1];
+        fgets(variable,yyleng,codefile);
+        variable[yyleng]='\0';
         advance();
-        expression();
+        if(!legal_lookahead(EQU,0)){
+            fprintf(stderr, "%d: Error in assignment operation\n", yylineno);
+            if (match(SEMI)){
+                advance();
+            }else{
+                    fprintf( stderr, "%d: Inserting missing semicolon\n", yylineno );
+                }
+        }else{
+            advance();
+            t=expression();
+            if(!strcmp(t,"t0")){
+                fprintf(assemblyfile, "STA _%s\n", variable);
+            }else{
+                fprintf(assemblyfile,"PUSH A\nMOV A %c\nSTA _%s\nPOP A\n", Reg[t[1]-'0'],variable);
+            }
+        }
     }
     else if(match(IF)){
-        if (!legal_lookahead(THEN, 0))
-            return;
-        advance();
-        expression();
-        if (match(THEN)){
-            statement();
-        }
+        if (!legal_lookahead(THEN, 0)){
+            fprintf(stderr, "%d: Missing 'then'\n", yylineno);
+            if (match(SEMI)){
+                advance();
+            }else{
+                    fprintf( stderr, "%d: Inserting missing semicolon\n", yylineno );
+                }
+        }else{
+            advance();
+            t=expression();
+            int ifcounter = num_IFTHEN();
+            fprintf(assemblyfile, "CMP %c 0\n", Reg[t[1]-'0']);
+            fprintf(assemblyfile,"JZ IFTHEN%d\nIFTHEN%d:\n", ifcounter, ifcounter) ;
+            freename(t);
+            advance();
+            if(match(THEN)){
+                advance();
+                statement();
+                return;
+            }
+        }        
     }
     else if(match(WHILE)){
-        if (!legal_lookahead(DO, 0))
-            return;
-        advance();
-        expression();
-        if (match(DO)){
-            statement();
+        if (!legal_lookahead(DO,0)){
+            fprintf(stderr, "%d: Missing 'do'\n",yylineno);
+            if (match(SEMI)){
+                advance();
+            }else{
+                    fprintf( stderr, "%d: Inserting missing semicolon\n", yylineno );
+                }
+        }else{
+            advance();
+            t=expression();
+            int whilecounter = num_WHILE();
+            fprintf(assemblyfile, "WHILELOOP%d:\n", whilecounter);
+            fprintf(assemblyfile, "CMP %c 0\n",Reg[t[1]-'0']);
+            fprintf(assemblyfile, "JZ WHILELOOP%d\n", whilecounter) ;
+            freename(t);
+            advance();
+            if (match(DO)){
+                advance();
+                statement();
+                int whilecounter2 = num_WHILE();
+                fprintf(assemblyfile, "JMP WHILELOOP%d\nWHILELOOP%d:\n", whilecounter, whilecounter2) ;
+                return;
+            }
         }
+        
     }
     else if(match(BEGIN)){
         if (!legal_lookahead(END, 0))
@@ -60,14 +114,11 @@ void statement()
     else{
         expression();
     }
-    if (match( SEMI ))
-    {
+    if (match(SEMI)){
         advance();
-    }
-    else
-    {
-        fprintf( stderr, "%d: Inserting missing semicolon\n", yylineno );
-    }
+    }else{
+            fprintf( stderr, "%d: Inserting missing semicolon\n", yylineno );
+        }
 }
 
 void expression()

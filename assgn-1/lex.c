@@ -58,7 +58,7 @@ int lex(void){
 					return GT;
 				case '=':
 					return EQEQ;
-				case ':':
+				case ':': /* GOTTO CHECK THIS ONCE,IF IT DOESNT WORK THEN CHANGE THE LOOPS IN statement(match-ID case)*/
 					{
 						current++;
 						if (*current=='='){

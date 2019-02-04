@@ -154,7 +154,9 @@ char* expression()
    if (legal_lookahead (LT, GT, EQEQ)){
         char *t1;
         t1=expression();
+        advance();
         int type;
+
         if(match(LT))type=1;
         else if(match(GT))type=2;
         else if(match(EQEQ))type=3;
@@ -162,27 +164,29 @@ char* expression()
         char *t2,*t3;
         advance();
         t2=expression();
+        t3=newname();
+
         int comparisions = num_COMPARISIONS();
 
-        fprintf(assemblyfile, "MOV %c,%c\n", Reg, Reg);
-        fprintf(assemblyfile, "CMPc%c %c\n", Reg, Reg);
+        //fprintf(assemblyfile, "MOV %c,%c\n", Reg, Reg);
+        fprintf(assemblyfile, "CMP %c %c\n", Reg[t1[1]-'0'], Reg[t2[1]-'0']);
 
         switch(type){
-            case '1':   fprintf(assemblyfile, "");
-                        fprintf(assemblyfile, "");
+            case '1':   fprintf(assemblyfile, "MVI %c 1\nJC COMPARISION%d\n", Reg[t3[1]-'0'], comparisions);
+                        fprintf(assemblyfile, "MVI %c 0\nCOMPARISION%d:\n", Reg[t3[1]-'0'], comparisions);
                         break;
-            case '2':   fprintf(assemblyfile, "");
-                        fprintf(assemblyfile, "");
+            case '2':   fprintf(assemblyfile, "MVI %c 1\nJNZ COMPARISION%d\n", Reg[t3[1]-'0'], comparisions);
+                        fprintf(assemblyfile, "MVI %c 0\nCOMPARISION%d:\n", Reg[t3[1]-'0'], comparisions);
                         break;
-            case '3':   fprintf(assemblyfile, "");
-                        fprintf(assemblyfile, "");
+            case '3':   fprintf(assemblyfile, "MVI %c 1\nJZ COMPARISION%d\n", Reg[t3[1]-'0'], comparisions);
+                        fprintf(assemblyfile, "MVI %c 0\nCOMPARISION%d:\n", Reg[t3[1]-'0'], comparisions);
                         break;
         };
 
-        freename(.....);
-        freename(.....);
+        freename(t1);
+        freename(t2);
 
-        return ..... ;
+        return t3 ;
     }
     else{
         char *t1,*t2;

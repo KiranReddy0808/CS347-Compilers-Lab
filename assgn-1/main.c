@@ -4,20 +4,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-extern FILE *codefile, *assemblyfile;
+extern FILE *codefile, *assemblyfile; /* File pointers for the input file and the output file */
+
 int main ()
 {
-	codefile = fopen("code.txt","r");
-	assemblyfile = fopen ("assembly.txt","w");
-	if(codefile== NULL || assemblyfile== NULL){
+	codefile = fopen("code.txt","r");	/* Input file */
+	assemblyfile = fopen ("assembly.txt","w");	/* Output file*/ 
+	if(codefile== NULL || assemblyfile== NULL){	
 		fprintf( stderr, "Files not opening\n");
 	}
-	fprintf(assemblyfile,"ORG 8000H\n");
-    if (!match(EOI))
+	fprintf(assemblyfile,"ORG 8000H\n");	/* Intialising the assembly code file */
+    if (!match(EOI))			
     {
-	   statements();
+	   statements();	/* Checks for multiple statements in input file */
     }
-	fprintf(assemblyfile, "END\n");
+	fprintf(assemblyfile, "END\n");		/* Ends the assembly code file */
 	fclose(codefile);
 	fclose(assemblyfile);
 }

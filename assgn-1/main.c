@@ -9,7 +9,7 @@ int main ()
 	FILE *codefile = fopen("code.txt",'r');
 	FILE *assemblyfile = fopen ("code.asm",'w');
 	fprintf(assemblyfile,"ORG 8000H\n");
-    if ( !match(EOI) )
+    if (!match(EOI))
     {
 	   statements();
     }

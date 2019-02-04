@@ -7,6 +7,7 @@ char **Namep  = Names;
 
 int numIfThen=0;
 int numWhile=0;
+int numComparisions=0;
    
 char  *newname()   
 {   
@@ -15,7 +16,7 @@ char  *newname()
 		fprintf( stderr, "%d: Expression too complex\n", yylineno );   
 		exit(1);   
 	}
-	return( *Namep++ );
+	return(*Namep++);
 }   
    
 freename(char *s)
@@ -27,6 +28,10 @@ freename(char *s)
 		fprintf(stderr, "%d: (Internal error) Name stack underflow\n", yylineno );
 	}
 }   
+
+int num_COMPARISIONS(){
+	return numComparisions++ ;
+}
 
 int num_IFTHEN(){
 	return numIfThen++ ;

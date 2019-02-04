@@ -41,6 +41,7 @@ void statement()
                 advance();
             }else{
                     fprintf( stderr, "%d: Inserting missing semicolon\n", yylineno );
+                    return;
                 }
         }else{
             advance();
@@ -48,7 +49,7 @@ void statement()
             if(!strcmp(t,"t0")){
                 fprintf(assemblyfile, "STA _%s\n", variable);
             }else{
-                fprintf(assemblyfile,"PUSH A\nMOV A %c\nSTA _%s\nPOP A\n", Reg[t[1]-'0'],variable);
+                fprintf(assemblyfile,"PUSH A\nMOV A,%c\nSTA _%s\nPOP A\n", Reg[t[1]-'0'],variable);
             }
         }
     }
@@ -59,6 +60,7 @@ void statement()
                 advance();
             }else{
                     fprintf( stderr, "%d: Inserting missing semicolon\n", yylineno );
+                    return;
                 }
         }else{
             advance();
@@ -76,12 +78,14 @@ void statement()
         }        
     }
     else if(match(WHILE)){
+        /* STILL HAVE TO CLARIFY THE REQUIREMENT OF TWO LABELS IN ONE WHILE...DO */
         if (!legal_lookahead(DO,0)){
             fprintf(stderr, "%d: Missing 'do'\n",yylineno);
             if (match(SEMI)){
                 advance();
             }else{
                     fprintf( stderr, "%d: Inserting missing semicolon\n", yylineno );
+                    return;
                 }
         }else{
             advance();
@@ -103,25 +107,39 @@ void statement()
         
     }
     else if(match(BEGIN)){
-        if (!legal_lookahead(END, 0))
+        if (!legal_lookahead(END, 0)){
+            fprintf(stderr, "%d: Missing 'end'\n", yylineno) ;
+            if (match(SEMI)){
+                    advance();
+                }else{
+                        fprintf( stderr, "%d: Inserting missing semicolon\n", yylineno );
+                        return;
+                    }  
+              
+        }else{
+            advance();
+            while (!match(END)){
+                statement();
+            }
             return;
-        advance();
-        expression();
-        while (!match(END)){
-            statement();
         }
     }
     else{
-        expression();
+        t=expression();
     }
+    if(t){
+        freename(t);
+    }
+
     if (match(SEMI)){
         advance();
     }else{
             fprintf( stderr, "%d: Inserting missing semicolon\n", yylineno );
+            return;
         }
 }
 
-void expression()
+char* expression()
 {
     /* expression  -> expression=expression
                     | expression<expression
@@ -130,31 +148,78 @@ void expression()
 
      * expression' -> PLUS term expression'
      *              | MINUS term expression'
-     *              |  epsilon
+     *              | epsilon
      */
 
-    if( !legal_lookahead( NUM_OR_ID, LP, 0 ) )
-	return;
+   if (legal_lookahead (LT, GT, EQEQ)){
+        char *t1;
+        t1=expression();
+        int type;
+        if(match(LT))type=1;
+        else if(match(GT))type=2;
+        else if(match(EQEQ))type=3;
 
-    if (legal_lookahead ( LT, GT, EQEQ)){
-        expression();
-        if (match(LT) || match(GT) || match(EQEQ))
-        {
-            advance();
-            expression();
-        }
+        char *t2,*t3;
+        advance();
+        t2=expression();
+        int comparisions = num_COMPARISIONS();
+
+        fprintf(assemblyfile, "MOV %c,%c\n", Reg, Reg);
+        fprintf(assemblyfile, "CMPc%c %c\n", Reg, Reg);
+
+        switch(type){
+            case '1':   fprintf(assemblyfile, "");
+                        fprintf(assemblyfile, "");
+                        break;
+            case '2':   fprintf(assemblyfile, "");
+                        fprintf(assemblyfile, "");
+                        break;
+            case '3':   fprintf(assemblyfile, "");
+                        fprintf(assemblyfile, "");
+                        break;
+        };
+
+        freename(.....);
+        freename(.....);
+
+        return ..... ;
     }
     else{
-        term();
+        char *t1,*t2;
+        t1=term();
+        advance();
         while(match(PLUS) || match(MINUS))
         {
-            advance();
-            term();
+            if(match(PLUS){
+                advance();
+                t2=factor();
+                if(!strcmp(t1,"t0")){
+                    fprintf(assemblyfile, "ADD %c\n", Reg[t2[1]-'0']);
+                }else{
+                    fprintf(assemblyfile, "PUSH A\n");
+                    fprintf(assemblyfile, "MOV A,%c\nADD %c\nMOV %c,A\n", Reg[t1[1]-'0'], Reg[t2[1]-'0'], Reg[t1[1]-'0']);
+                    fprintf(assemblyfile, "POP A\n");
+                }
+
+            }else  if(match(MINUS){
+                advance();
+                t2=factor();
+
+                if(!strcmp(t1,"t0")){
+                    fprintf(assemblyfile, "SUB %c\n", Reg[t2[1]-'0']);
+                }else{
+                    fprintf(assemblyfile, "PUSH A\n");
+                    fprintf(assemblyfile, "MOV A,%c\nSUB %c\nMOV %c,A\n", Reg[t1[1]-'0'], Reg[t2[1]-'0'], Reg[t1[1]-'0']);
+                    fprintf(assemblyfile, "POP A\n");
+                }
+            }
+            freename(t2);
         }
+        return t1; 
     }
 }
 
-void term()
+char* term()
 {
     /*
         term -> factor term'
@@ -162,41 +227,86 @@ void term()
                 | DIV factor term'
                 | epsilon
     */
-    if( !legal_lookahead( NUM_OR_ID, LP, 0 ) )
-	return;
 
-    factor();
-    while( match(MULT) || match(DIV))
+    char *t1,*t2;
+    t1=factor();
+    advance();
+    while(match(MULT) || match(DIV))
     {
-        advance();
-        factor();
+        if(match(MULT){
+            advance();
+            t2=factor();
+            if(!strcmp(t1,"t0")){
+                fprintf(assemblyfile, "MUL %c\n", Reg[t2[1]-'0']);
+            }else{
+                fprintf(assemblyfile, "PUSH A\n");
+                fprintf(assemblyfile, "MOV A,%c\nMUL %c\nMOV %c,A\n", Reg[t1[1]-'0'], Reg[t2[1]-'0'], Reg[t1[1]-'0']);
+                fprintf(assemblyfile, "POP A\n");
+            }
+
+        }else  if(match(DIV){
+            advance();
+            t2=factor();
+
+            if(!strcmp(t1,"t0")){
+                fprintf(assemblyfile, "DIV %c\n", Reg[t2[1]-'0']);
+            }else{
+                fprintf(assemblyfile, "PUSH A\n");
+                fprintf(assemblyfile, "MOV A,%c\nDIV %c\nMOV %c,A\n", Reg[t1[1]-'0'], Reg[t2[1]-'0'], Reg[t1[1]-'0']);
+                fprintf(assemblyfile, "POP A\n");
+            }
+        }
+        freename(t2);
     }
+    return t1; 
 }
 
-void factor()
+char* factor()
 {   
     /*
         factor -> NUM_OR_ID
                 | LP expression RP
     */
 
-    if( !legal_lookahead( NUM_OR_ID, LP, 0 ) )
-	return;
+   char *r = NULL;
 
-    if( match(NUM_OR_ID) )
+    if(match(NUM_OR_ID)){
+        r=newname();
+        int check=0;
+        char t[yyleng];
+        for(int i=0;i<yyleng;i++){
+            t[i]=*(yytext+i);
+            if(isdigit(t[i])!=0){
+                check=1;
+            }  
+        }
+        if(!check){
+            fprintf(assemblyfile, "MVI %c %.*s\n", Reg[r[1]-'0'], yyleng, t);
+        }else {
+            if(!strcmp(r,"t0")){
+                fprintf(assemblyfile, "LDA _%.*s\n", yyleng, t);
+            }else{
+                fprintf(assemblyfile, "PUSH A\n");
+                fprintf(assemblyfile, "LDA _%.*s\nMOV %c,A\nPOP A\n", yyleng, t, Reg[r[1]-'0']);
+            }
+        }
         advance();
+    }
 
-    else if( match(LP) )
+    else if(match(LP))
     {
         advance();
-        expression();
-        if( match(RP) )
+        char *t;
+        t=expression();
+        if(match(RP))
             advance();
         else
-            fprintf( stderr, "%d: Mismatched parenthesis\n", yylineno );
+            fprintf( stderr, "%d: Mismatched parenthesis\n", yylineno);
     }
     else
-	fprintf( stderr, "%d: Number or identifier expected\n", yylineno );
+	fprintf( stderr, "%d: Number or identifier expected\n", yylineno);
+
+    return r;
 }
 
 #include <stdarg.h>

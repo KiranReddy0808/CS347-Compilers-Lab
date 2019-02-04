@@ -1,5 +1,5 @@
-void factor (void);
-void term (void);
-void expression (void);
-void statement (void);
 void statements (void);
+void statement(void);
+char * expression(void);
+char * term(void);
+char * factor(void);

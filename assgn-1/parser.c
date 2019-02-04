@@ -14,6 +14,7 @@ char * expression(void);
 int legal_lookahead(int , ...);
 
 FILE *codefile, *assemblyfile;
+
 char Reg[] = {'A', 'B', 'C', 'D', 'E', 'H', 'L'};
 
 char* factor()
@@ -134,8 +135,7 @@ char* expression()
         t3=newname();
 
         int comparisions = num_COMPARISIONS();
-
-        //fprintf(assemblyfile, "MOV %c,%c\n", Reg, Reg);
+            
         fprintf(assemblyfile, "CMP %c %c\n", Reg[t1[1]-'0'], Reg[t2[1]-'0']);
 
         switch(type){

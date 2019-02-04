@@ -6,24 +6,20 @@
 #include <error.h>
 #include <string.h>
 
-char *yytext; /* Lexeme (not '\0' terminated) */
-int yyleng   = 0;  /* Lexeme length.           */
-int yylineno = 0;  /* Input line number        */
+char yytext[] =" "; /* Lexeme */
+int yyleng   = 0;  /* Lexeme length. */
+int yylineno = 0;  /* Line number*/
 
 extern FILE *codefile;
 
 int lex(void){
 
-	static char input_buffer[1024];
+	static char input_buffer[1024]; /* Input line being taken */
 	char        *current;
-	current = yytext + yyleng; /* Skip current lexeme        */
+	current = yytext + yyleng;
 
-	while(1){       /* Get the next one         */
+	while(1){       
 		while(!*current ){
-			/* Get new lines, skipping any leading
-			* white space on the line,
-			* until a nonblank line is found.
-			*/
 			if (!fgets(input_buffer, 1020, codefile)){
 				*current = '\0';
 				return EOI;
@@ -60,20 +56,21 @@ int lex(void){
 					return GT;
 				case '=':
 					return EQEQ;
-				case ':': /* GOTTO CHECK THIS ONCE,IF IT DOESNT WORK THEN CHANGE THE LOOPS IN statement(match-ID case)*/
-					{
+				case ':': 
+					{	
 						current++;
 						if (*current=='='){
 							return EQU;
 						}
 						else{
 							fprintf(stderr, "Error in :=");
+							return -1;
 						}
 					}
 				case '\n':
 				case '\t':
 				case ' ' :
-				break;
+					return -1;
 			  default:
 				if(!isalnum(*current))
 					fprintf(stderr, "Not alphanumeric <%c>\n", *current);
@@ -106,7 +103,7 @@ int lex(void){
 						return NUM_OR_ID;
 					}
 				}
-				break;
+				return -1;
 			}
 		}
 	}

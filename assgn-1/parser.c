@@ -1,9 +1,15 @@
 #include "name.h"
 #include "lex.h"
+#include "name.h"
 #include <stdio.h>
+#include <error.h>
 
 void statements()
 {
+    /* 
+        statements -> statements statement 
+                    | statement
+    */
     while (!match(EOI)){
         statement();
     }
@@ -11,6 +17,13 @@ void statements()
 
 void statement()
 {
+    /*
+        statement -> ID := expression;
+                    | IF expression THEN statement
+                    | WHILE expression DO statement
+                    | BEGIN statements END
+                    | expression;
+    */
     if (match(NUM_OR_ID)){
         if( !legal_lookahead( EQU, 0 ) )
 	        return;
@@ -59,8 +72,14 @@ void statement()
 
 void expression()
 {
-    /* expression  -> term expression'
-     * expression' -> PLUS term expression' | MINUS term expression' |  epsilon
+    /* expression  -> expression=expression
+                    | expression<expression
+                    | expression>expression
+                    | term expression'
+
+     * expression' -> PLUS term expression'
+     *              | MINUS term expression'
+     *              |  epsilon
      */
 
     if( !legal_lookahead( NUM_OR_ID, LP, 0 ) )
@@ -86,6 +105,12 @@ void expression()
 
 void term()
 {
+    /*
+        term -> factor term'
+        term' -> MULT factor term'
+                | DIV factor term'
+                | epsilon
+    */
     if( !legal_lookahead( NUM_OR_ID, LP, 0 ) )
 	return;
 
@@ -98,7 +123,12 @@ void term()
 }
 
 void factor()
-{
+{   
+    /*
+        factor -> NUM_OR_ID
+                | LP expression RP
+    */
+
     if( !legal_lookahead( NUM_OR_ID, LP, 0 ) )
 	return;
 

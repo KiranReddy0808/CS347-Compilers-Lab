@@ -1,6 +1,7 @@
 #include "lex.h"
 #include <stdio.h>
 #include <ctype.h>
+#include <error.h>
 #include <string.h>
 
 yytext = ""; /* Lexeme (not '\0' terminated) */

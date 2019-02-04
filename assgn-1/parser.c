@@ -1,17 +1,188 @@
 #include "name.h"
 #include "lex.h"
-#include "name.h"
+#include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <error.h>
+#include <ctype.h>
+#include <stdarg.h>
+#define MAXFIRST 16
+#define SYNCH	 SEMI
 
-void statements()
-{
-    /* 
-        statements -> statements statement 
-                    | statement
+char * expression(void);
+int legal_lookahead(int , ...);
+
+char* factor()
+{   
+    /*
+        factor -> NUM_OR_ID
+                | LP expression RP
     */
-    while (!match(EOI)){
-        statement();
+
+   char *r = NULL;
+
+    if(match(NUM_OR_ID)){
+        r=newname();
+        int check=0;
+        char t[yyleng];
+        for(int i=0;i<yyleng;i++){
+            t[i]=*(yytext+i);
+            if(isdigit(t[i])!=0){
+                check=1;
+            }  
+        }
+        if(!check){
+            fprintf(assemblyfile, "MVI %c %.*s\n", Reg[r[1]-'0'], yyleng, t);
+        }else {
+            if(!strcmp(r,"t0")){
+                fprintf(assemblyfile, "LDA _%.*s\n", yyleng, t);
+            }else{
+                fprintf(assemblyfile, "PUSH A\n");
+                fprintf(assemblyfile, "LDA _%.*s\nMOV %c,A\nPOP A\n", yyleng, t, Reg[r[1]-'0']);
+            }
+        }
+        advance();
+    }
+
+    else if(match(LP))
+    {
+        advance();
+        char *t;
+        t=expression();
+        if(match(RP))
+            advance();
+        else
+            fprintf( stderr, "%d: Mismatched parenthesis\n", yylineno);
+    }
+    else
+	fprintf( stderr, "%d: Number or identifier expected\n", yylineno);
+
+    return r;
+}
+
+char* term()
+{
+    /*
+        term -> factor term'
+        term' -> MULT factor term'
+                | DIV factor term'
+                | epsilon
+    */
+
+    char *t1,*t2;
+    t1=factor();
+    advance();
+    while(match(MULT) || match(DIV))
+    {
+        if(match(MULT)){
+            advance();
+            t2=factor();
+            if(!strcmp(t1,"t0")){
+                fprintf(assemblyfile, "MUL %c\n", Reg[t2[1]-'0']);
+            }else{
+                fprintf(assemblyfile, "PUSH A\n");
+                fprintf(assemblyfile, "MOV A,%c\nMUL %c\nMOV %c,A\n", Reg[t1[1]-'0'], Reg[t2[1]-'0'], Reg[t1[1]-'0']);
+                fprintf(assemblyfile, "POP A\n");
+            }
+
+        }else  if(match(DIV)){
+            advance();
+            t2=factor();
+
+            if(!strcmp(t1,"t0")){
+                fprintf(assemblyfile, "DIV %c\n", Reg[t2[1]-'0']);
+            }else{
+                fprintf(assemblyfile, "PUSH A\n");
+                fprintf(assemblyfile, "MOV A,%c\nDIV %c\nMOV %c,A\n", Reg[t1[1]-'0'], Reg[t2[1]-'0'], Reg[t1[1]-'0']);
+                fprintf(assemblyfile, "POP A\n");
+            }
+        }
+        freename(t2);
+    }
+    return t1; 
+}
+
+char* expression()
+{
+    /* expression  -> expression=expression
+                    | expression<expression
+                    | expression>expression
+                    | term expression'
+
+     * expression' -> PLUS term expression'
+     *              | MINUS term expression'
+     *              | epsilon
+     */
+
+   if (legal_lookahead (LT, GT, EQEQ)){
+        char *t1;
+        t1=expression();
+        advance();
+        int type;
+
+        if(match(LT))type=1;
+        else if(match(GT))type=2;
+        else if(match(EQEQ))type=3;
+
+        char *t2,*t3;
+        advance();
+        t2=expression();
+        t3=newname();
+
+        int comparisions = num_COMPARISIONS();
+
+        //fprintf(assemblyfile, "MOV %c,%c\n", Reg, Reg);
+        fprintf(assemblyfile, "CMP %c %c\n", Reg[t1[1]-'0'], Reg[t2[1]-'0']);
+
+        switch(type){
+            case '1':   fprintf(assemblyfile, "MVI %c 1\nJC COMPARISION%d\n", Reg[t3[1]-'0'], comparisions);
+                        fprintf(assemblyfile, "MVI %c 0\nCOMPARISION%d:\n", Reg[t3[1]-'0'], comparisions);
+                        break;
+            case '2':   fprintf(assemblyfile, "MVI %c 1\nJNZ COMPARISION%d\n", Reg[t3[1]-'0'], comparisions);
+                        fprintf(assemblyfile, "MVI %c 0\nCOMPARISION%d:\n", Reg[t3[1]-'0'], comparisions);
+                        break;
+            case '3':   fprintf(assemblyfile, "MVI %c 1\nJZ COMPARISION%d\n", Reg[t3[1]-'0'], comparisions);
+                        fprintf(assemblyfile, "MVI %c 0\nCOMPARISION%d:\n", Reg[t3[1]-'0'], comparisions);
+                        break;
+        };
+
+        freename(t1);
+        freename(t2);
+
+        return t3 ;
+    }
+    else{
+        char *t1,*t2;
+        t1=term();
+        advance();
+        while(match(PLUS) || match(MINUS))
+        {
+            if(match(PLUS)){
+                advance();
+                t2=factor();
+                if(!strcmp(t1,"t0")){
+                    fprintf(assemblyfile, "ADD %c\n", Reg[t2[1]-'0']);
+                }else{
+                    fprintf(assemblyfile, "PUSH A\n");
+                    fprintf(assemblyfile, "MOV A,%c\nADD %c\nMOV %c,A\n", Reg[t1[1]-'0'], Reg[t2[1]-'0'], Reg[t1[1]-'0']);
+                    fprintf(assemblyfile, "POP A\n");
+                }
+
+            }else  if(match(MINUS)){
+                advance();
+                t2=factor();
+
+                if(!strcmp(t1,"t0")){
+                    fprintf(assemblyfile, "SUB %c\n", Reg[t2[1]-'0']);
+                }else{
+                    fprintf(assemblyfile, "PUSH A\n");
+                    fprintf(assemblyfile, "MOV A,%c\nSUB %c\nMOV %c,A\n", Reg[t1[1]-'0'], Reg[t2[1]-'0'], Reg[t1[1]-'0']);
+                    fprintf(assemblyfile, "POP A\n");
+                }
+            }
+            freename(t2);
+        }
+        return t1; 
     }
 }
 
@@ -139,184 +310,16 @@ void statement()
         }
 }
 
-char* expression()
+void statements()
 {
-    /* expression  -> expression=expression
-                    | expression<expression
-                    | expression>expression
-                    | term expression'
-
-     * expression' -> PLUS term expression'
-     *              | MINUS term expression'
-     *              | epsilon
-     */
-
-   if (legal_lookahead (LT, GT, EQEQ)){
-        char *t1;
-        t1=expression();
-        advance();
-        int type;
-
-        if(match(LT))type=1;
-        else if(match(GT))type=2;
-        else if(match(EQEQ))type=3;
-
-        char *t2,*t3;
-        advance();
-        t2=expression();
-        t3=newname();
-
-        int comparisions = num_COMPARISIONS();
-
-        //fprintf(assemblyfile, "MOV %c,%c\n", Reg, Reg);
-        fprintf(assemblyfile, "CMP %c %c\n", Reg[t1[1]-'0'], Reg[t2[1]-'0']);
-
-        switch(type){
-            case '1':   fprintf(assemblyfile, "MVI %c 1\nJC COMPARISION%d\n", Reg[t3[1]-'0'], comparisions);
-                        fprintf(assemblyfile, "MVI %c 0\nCOMPARISION%d:\n", Reg[t3[1]-'0'], comparisions);
-                        break;
-            case '2':   fprintf(assemblyfile, "MVI %c 1\nJNZ COMPARISION%d\n", Reg[t3[1]-'0'], comparisions);
-                        fprintf(assemblyfile, "MVI %c 0\nCOMPARISION%d:\n", Reg[t3[1]-'0'], comparisions);
-                        break;
-            case '3':   fprintf(assemblyfile, "MVI %c 1\nJZ COMPARISION%d\n", Reg[t3[1]-'0'], comparisions);
-                        fprintf(assemblyfile, "MVI %c 0\nCOMPARISION%d:\n", Reg[t3[1]-'0'], comparisions);
-                        break;
-        };
-
-        freename(t1);
-        freename(t2);
-
-        return t3 ;
-    }
-    else{
-        char *t1,*t2;
-        t1=term();
-        advance();
-        while(match(PLUS) || match(MINUS))
-        {
-            if(match(PLUS){
-                advance();
-                t2=factor();
-                if(!strcmp(t1,"t0")){
-                    fprintf(assemblyfile, "ADD %c\n", Reg[t2[1]-'0']);
-                }else{
-                    fprintf(assemblyfile, "PUSH A\n");
-                    fprintf(assemblyfile, "MOV A,%c\nADD %c\nMOV %c,A\n", Reg[t1[1]-'0'], Reg[t2[1]-'0'], Reg[t1[1]-'0']);
-                    fprintf(assemblyfile, "POP A\n");
-                }
-
-            }else  if(match(MINUS){
-                advance();
-                t2=factor();
-
-                if(!strcmp(t1,"t0")){
-                    fprintf(assemblyfile, "SUB %c\n", Reg[t2[1]-'0']);
-                }else{
-                    fprintf(assemblyfile, "PUSH A\n");
-                    fprintf(assemblyfile, "MOV A,%c\nSUB %c\nMOV %c,A\n", Reg[t1[1]-'0'], Reg[t2[1]-'0'], Reg[t1[1]-'0']);
-                    fprintf(assemblyfile, "POP A\n");
-                }
-            }
-            freename(t2);
-        }
-        return t1; 
-    }
-}
-
-char* term()
-{
-    /*
-        term -> factor term'
-        term' -> MULT factor term'
-                | DIV factor term'
-                | epsilon
+    /* 
+        statements -> statements statement 
+                    | statement
     */
-
-    char *t1,*t2;
-    t1=factor();
-    advance();
-    while(match(MULT) || match(DIV))
-    {
-        if(match(MULT){
-            advance();
-            t2=factor();
-            if(!strcmp(t1,"t0")){
-                fprintf(assemblyfile, "MUL %c\n", Reg[t2[1]-'0']);
-            }else{
-                fprintf(assemblyfile, "PUSH A\n");
-                fprintf(assemblyfile, "MOV A,%c\nMUL %c\nMOV %c,A\n", Reg[t1[1]-'0'], Reg[t2[1]-'0'], Reg[t1[1]-'0']);
-                fprintf(assemblyfile, "POP A\n");
-            }
-
-        }else  if(match(DIV){
-            advance();
-            t2=factor();
-
-            if(!strcmp(t1,"t0")){
-                fprintf(assemblyfile, "DIV %c\n", Reg[t2[1]-'0']);
-            }else{
-                fprintf(assemblyfile, "PUSH A\n");
-                fprintf(assemblyfile, "MOV A,%c\nDIV %c\nMOV %c,A\n", Reg[t1[1]-'0'], Reg[t2[1]-'0'], Reg[t1[1]-'0']);
-                fprintf(assemblyfile, "POP A\n");
-            }
-        }
-        freename(t2);
+    while (!match(EOI)){
+        statement();
     }
-    return t1; 
 }
-
-char* factor()
-{   
-    /*
-        factor -> NUM_OR_ID
-                | LP expression RP
-    */
-
-   char *r = NULL;
-
-    if(match(NUM_OR_ID)){
-        r=newname();
-        int check=0;
-        char t[yyleng];
-        for(int i=0;i<yyleng;i++){
-            t[i]=*(yytext+i);
-            if(isdigit(t[i])!=0){
-                check=1;
-            }  
-        }
-        if(!check){
-            fprintf(assemblyfile, "MVI %c %.*s\n", Reg[r[1]-'0'], yyleng, t);
-        }else {
-            if(!strcmp(r,"t0")){
-                fprintf(assemblyfile, "LDA _%.*s\n", yyleng, t);
-            }else{
-                fprintf(assemblyfile, "PUSH A\n");
-                fprintf(assemblyfile, "LDA _%.*s\nMOV %c,A\nPOP A\n", yyleng, t, Reg[r[1]-'0']);
-            }
-        }
-        advance();
-    }
-
-    else if(match(LP))
-    {
-        advance();
-        char *t;
-        t=expression();
-        if(match(RP))
-            advance();
-        else
-            fprintf( stderr, "%d: Mismatched parenthesis\n", yylineno);
-    }
-    else
-	fprintf( stderr, "%d: Number or identifier expected\n", yylineno);
-
-    return r;
-}
-
-#include <stdarg.h>
-
-#define MAXFIRST 16
-#define SYNCH	 SEMI
 
 int	legal_lookahead(int first_arg, ... )
 {
@@ -330,44 +333,34 @@ int	legal_lookahead(int first_arg, ... )
      * false if we can't recover.
      */
 
-    va_list  	args;
-    int		tok;
-    int		lookaheads[MAXFIRST], *p = lookaheads, *current;
-    int		error_printed = 0;
-    int		rval	      = 0;
+    va_list args;
+    int	tok;
+    int	lookaheads[MAXFIRST], *p = lookaheads, *current;
+    int	error_printed = 0;
+    int	rval	      = 0;
 
-    va_start( args, first_arg );
+    va_start(args, first_arg);
 
-    if( !first_arg )
-    {
-	if( match(EOI) )
+    if( !first_arg ){
+	    if( match(EOI) )
 	    rval = 1;
+    }else{
+        *p++ = first_arg;
+        while( (tok = va_arg(args, int)) && p < &lookaheads[MAXFIRST] )
+            *p++ = tok;
+
+        while( !match( SYNCH ) ){
+            for( current = lookaheads; current < p ; ++current )
+            if( match( *current ) ){
+                rval = 1;
+                va_end(args);
+                return rval;
+            }
+            if( !error_printed ){
+                fprintf( stderr, "Line %d: Syntax error\n", yylineno );
+                error_printed = 1;
+            }
+            advance();
+        }
     }
-    else
-    {
-	*p++ = first_arg;
-	while( (tok = va_arg(args, int)) && p < &lookaheads[MAXFIRST] )
-	    *p++ = tok;
-
-	while( !match( SYNCH ) )
-	{
-	    for( current = lookaheads; current < p ; ++current )
-		if( match( *current ) )
-		{
-		    rval = 1;
-		    goto exit;
-		}
-
-	    if( !error_printed )
-	    {
-		fprintf( stderr, "Line %d: Syntax error\n", yylineno );
-		error_printed = 1;
-	    }
-
-	    advance();
-	}
-    }
-
-exit:
-    va_end( args );
-    return rval;
+}

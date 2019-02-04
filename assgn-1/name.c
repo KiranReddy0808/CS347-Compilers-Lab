@@ -1,8 +1,10 @@
 #include "lex.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <error.h>
+
 
 char *Names[] = { "t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7" };   
-char *Reg[] = {'A', 'B', 'C', 'D', 'E', 'H', 'L'};
 char **Namep  = Names;  
 
 int numIfThen=0;

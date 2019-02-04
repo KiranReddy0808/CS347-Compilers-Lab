@@ -1,12 +1,14 @@
 #include "lex.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include "name.h"
 #include <ctype.h>
 #include <error.h>
 #include <string.h>
 
-yytext = ""; /* Lexeme (not '\0' terminated) */
-yyleng   = 0;  /* Lexeme length.           */
-yylineno = 0;  /* Input line number        */
+char *yytext; /* Lexeme (not '\0' terminated) */
+int yyleng   = 0;  /* Lexeme length.           */
+int yylineno = 0;  /* Input line number        */
 
 extern FILE *codefile;
 
@@ -32,7 +34,7 @@ int lex(void){
 			++yylineno;
 			while(isspace(*current))
 				++current;
-		}
+		 }
 		for(; *current; ++current){
 			/* Get the next token */
 			yytext = current;

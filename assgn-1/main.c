@@ -2,12 +2,13 @@
 #include "lex.h"
 #include "name.h"
 #include <stdio.h>
+#include <stdlib.h>
 
-FILE *codefile;
+extern FILE *codefile, *assemblyfile;
 int main ()
 {
-	FILE *codefile = fopen("code.txt","r");
-	FILE *assemblyfile = fopen ("assembly.txt","w");
+	codefile = fopen("code.txt","r");
+	assemblyfile = fopen ("assembly.txt","w");
 	if(codefile== NULL || assemblyfile== NULL){
 		fprintf( stderr, "Files not opening\n");
 	}

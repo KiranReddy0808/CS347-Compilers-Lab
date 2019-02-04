@@ -1,4 +1,5 @@
 #include "name.h"
+#include "parser.h"
 #include "lex.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -11,6 +12,9 @@
 
 char * expression(void);
 int legal_lookahead(int , ...);
+
+FILE *codefile, *assemblyfile;
+char Reg[] = {'A', 'B', 'C', 'D', 'E', 'H', 'L'};
 
 char* factor()
 {   

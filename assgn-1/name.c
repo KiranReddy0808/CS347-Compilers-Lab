@@ -1,4 +1,5 @@
 #include "lex.h"
+#include "name.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <error.h>
@@ -21,7 +22,7 @@ char  *newname()
 	return(*Namep++);
 }   
    
-freename(char *s)
+void freename(char *s)
 {   
 	if (Namep > Names){
 		*--Namep = s;   

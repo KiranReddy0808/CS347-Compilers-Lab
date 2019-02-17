@@ -1,5 +1,5 @@
 Object declaration
-[static | extern | null] <class_name> <object_name>;
+[static | extern | null] <class_name> <object_name> (params);
 
 Class definition
 class <class_name> {};

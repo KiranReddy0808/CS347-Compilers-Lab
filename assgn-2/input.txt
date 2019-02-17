@@ -1,4 +1,302 @@
-abcd
-fdsdfagv
-dsfsafgf
-gafg
+#include <bits/stdc++.h>
+
+using namespace std;
+
+
+//Structure of one node
+struct heap{
+	int data;						//Storing data
+	int degree;						//Degree
+	heap* leftmost;					//pointer to leftmost child
+	heap* sibling;					//pointer to next node at same level
+	heap* parent;					//pointer to parent
+};
+
+//Making binomial heap class
+class binomial_heap{
+	heap *root_list;					//making pointer of rootlist as private
+public:
+	void make(){
+		root_list = NULL;			//initilising by making rootlist null
+	}
+
+	void insert(int data){
+		//Make a new node
+		heap* temp = new heap;
+		temp->data = data;
+		temp->degree = 0;
+		temp->leftmost = NULL;
+		temp->sibling = NULL;
+		temp->parent = NULL;
+		heap* new_root_list = temp;
+		//union new node with existing binomial heap
+		bh_union(root_list , new_root_list);
+	}
+
+	void bh_union(heap* original_list , heap* new_list ){
+		heap* temp_list = NULL;
+		heap* temp_list2;
+		//Normal merging of two list to be union (in order of increasing degrees)
+		while(original_list!=NULL && new_list!=NULL){
+			if(original_list->degree <= new_list->degree){
+				if(temp_list == NULL){
+					temp_list = original_list;
+					temp_list2 = temp_list;
+				}
+				else{
+					temp_list->sibling = original_list;
+					temp_list = temp_list->sibling;
+				}
+				original_list = original_list->sibling;
+			}
+			else if(original_list->degree > new_list->degree){
+				if(temp_list == NULL){
+					temp_list = new_list;
+					temp_list2 = temp_list;
+				}
+				else{
+					temp_list->sibling = new_list;
+					temp_list = temp_list->sibling;
+				}
+				new_list = new_list->sibling;
+			}
+		}
+		if(original_list == NULL){
+			while(new_list!=NULL){
+				if(temp_list == NULL){
+					temp_list = new_list;
+					temp_list2 = temp_list;
+				}
+				else{
+					temp_list->sibling = new_list;
+					temp_list = temp_list->sibling;
+				}
+				new_list = new_list->sibling;
+			}
+		}
+		if(new_list == NULL){
+			while(original_list!=NULL){
+				if(temp_list == NULL){
+					temp_list = original_list;
+					temp_list2 = temp_list;
+				}
+				else{
+					temp_list->sibling = original_list;
+					temp_list = temp_list->sibling;
+				}
+				original_list = original_list->sibling;
+			}
+		}
+		//after mergng is complete , make new merged list equal to rootlist
+		root_list = temp_list2;
+		//Making the main union function (keep track of 3 pointers)
+		heap* prevx = NULL;
+		heap* x = root_list;
+		heap* nextx = x->sibling;
+		//going until whole merged list is traversed
+		while(nextx != NULL){
+			//case 1 : if degrees not equal , move pointers one step ahead };
+			if(x->degree != nextx->degree){
+				prevx = x;
+				x = nextx;
+				nextx = nextx->sibling;
+			}
+			//case 2 : if three binomial_heap have same degrees , move pointers one step ahead
+			else if(nextx->sibling!=NULL && x->degree == nextx->degree && nextx->degree == (nextx->sibling)->degree){
+				prevx = x;
+				x = nextx;
+				nextx = nextx->sibling;
+			}
+			else if(x->data <= nextx->data){
+				x->sibling = nextx->sibling;
+				nextx->parent = x;
+				nextx->sibling = x->leftmost;
+				x->leftmost = nextx;
+				x->degree = x->degree+1;
+				nextx = x->sibling;
+			}
+
+			//case 4 : if two binomial_heap have same degrees , combine one with higher degree as child of other
+			else if(x->data > nextx->data){
+				// cout<<"case 4\n";
+				if(prevx == NULL){
+					root_list = nextx;
+				}
+				else{
+					prevx->sibling = nextx;
+				}
+				x->parent = nextx;
+				x->sibling = nextx->leftmost;
+				nextx->leftmost = x;
+				nextx->degree = nextx->degree+1;
+				x = nextx;
+				nextx = x->sibling;
+			}
+		}
+	}
+
+	//Making extractmin function
+
+	int extract_min(){
+		int min_data;
+		if(root_list == NULL){
+			return -1;
+		}
+		heap* traverse = root_list;
+		heap* traverse_help = root_list;
+		heap* min_key = new heap;
+		min_key->data = INT_MAX;
+		//traversing the whole list to find min node
+		while(traverse_help!=NULL){
+			if(traverse_help->data < min_key->data){
+				min_key = traverse_help;
+				min_data = min_key->data;
+			}
+			traverse_help = traverse_help->sibling;
+		}
+		//making a list containing only children of heap having min node
+		heap* rev_child_list = min_key->leftmost;
+		heap* child_list;
+		//reversing the ist since we want it to be in increasing order of degree
+		if(rev_child_list!=NULL){
+			if(rev_child_list->sibling == NULL){
+				child_list = rev_child_list;
+			}
+			else{
+				heap* prev = NULL;
+				heap* curr = rev_child_list;
+				heap* next;
+				while(curr!=NULL){
+					next = curr->sibling;
+					curr->sibling = prev;
+					prev = curr;
+					curr = next;
+				}
+				child_list = prev;
+			}
+		}
+		else{
+			child_list = NULL;
+		}
+		//Make seond list with the heap removed which was storing min element
+		traverse_help = traverse;
+		heap * ptr1;
+		if(traverse_help==NULL){
+			ptr1 = NULL;
+		}
+		else{
+			ptr1 = traverse_help->sibling;
+		}
+		if(ptr1 == NULL){
+			traverse = NULL;
+			if(child_list!=NULL){
+				bh_union(traverse , child_list);		//Unioning the two list formed
+			}
+			else{
+				root_list = NULL;
+			}
+		}
+		else{
+			while(ptr1 != NULL){
+				if(traverse_help == min_key){
+					traverse = ptr1;
+					break;
+				}
+				else if(ptr1 == min_key){
+					traverse_help->sibling = ptr1->sibling;
+					break;
+				}
+				traverse_help = ptr1;
+				ptr1 = ptr1->sibling;
+			}
+			bh_union(traverse , child_list);			//Unioning the two list formed
+		}
+		return min_data;
+	}
+	//show binomial heap function
+	void show_binamial_heap(){
+		cout<<"Stucture of binomial heap (rotated 90 degrees clockwise):\n";
+		if (root_list == NULL )
+			cout<<"Heap is Empty\n";
+		else
+			show_heap(root_list,0);
+	}
+
+	//recursive showheap function
+	void show_heap(heap* x,int depth){
+		if ( x != NULL ){
+	    	//recursively show all its sibling first
+	    	if (x->sibling != NULL){
+	        	show_heap ( x->sibling, depth ) ;
+			}
+	    	if (x->parent == NULL){
+	    		cout << endl ;
+			}
+	    	if ( (x->leftmost != NULL) || (x->parent == NULL) ){
+	        	cout << setw(depth*6 + 4)<< x->data ;
+	        	if (x->leftmost == NULL){
+	        		cout << "\n\n" ;		//node with degree 0
+				}
+	    	}
+	     	else{
+	        	cout <<setw( 6 )<< x->data << "\n\n" ;
+	    	}
+	    	// take care of children of that heap
+	    	if (x->leftmost != NULL){
+	        	show_heap ( x->leftmost, depth+1 ) ;
+			}
+	  	}
+	}
+};
+
+int main(){
+	binomial_heap bin_heap;
+	char flag = '-';
+	while(true){
+		char s;
+		if(cin>>s){
+			switch(s){
+				case 'c':{
+					bin_heap.make();
+					break;
+				}
+				case 'i':{
+					int data;
+					cin>>data;
+					bin_heap.insert(data);
+					break;
+				}
+				case 'S':{
+					bin_heap.show_binamial_heap();
+					break;
+				}
+				case '-':{
+					flag = '-';
+					break;
+				}
+				case '+':{
+					flag = '+';
+					break;
+				}
+				case 'd':{
+					int to_print = bin_heap.extract_min();
+					if(to_print == -1){
+						cout<<"Heap Empty\n";
+					}
+					if(flag == '-'){
+						if(to_print!=-1)
+						cout<<"Minimum extracted: "<<to_print<<endl;
+					}
+					break;
+				}
+				case 'e':{
+					return 0;
+				}
+				default:{
+					cout<<"Wrong option chosen\n";
+				}
+			}
+		}
+	}
+	return 0;
+}

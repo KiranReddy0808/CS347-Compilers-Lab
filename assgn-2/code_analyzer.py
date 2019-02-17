@@ -4,13 +4,15 @@ comment_spans = []
 classes = {}
 inherited_classes = {}
 functions = {}
+constructors = {}
+objects = []
 
 def find_comments(source):
 	pos = 0
 	match = re.search(r'\/\*[\s\S]*?\*\/|\/\/.*\n', source)
 	while match:
-		comment_spans.append((pos+match.span()[0], pos+match.span()[1]))
-		pos = pos + match.span()[1]
+		comment_spans.append((pos+match.start(), pos+match.end()))
+		pos = pos + match.end()
 		match = re.search(r'\/\*[\s\S]*?\*\/|\/\/.*\n', source[pos:])
 
 def in_comments(pos):
@@ -25,14 +27,14 @@ def find_classes(source):
 	pos = 0
 	class_start_match = re.search(r'class\s+([a-zA-Z_]\w*)\s*\{',source)
 	while class_start_match:
-		comment_check = in_comments(class_start_match.span()[0])
+		comment_check = in_comments(class_start_match.start())
 		if comment_check == -1:
-			end_pos = pos+class_start_match.span()[1]
+			end_pos = pos+class_start_match.end()
 			# print(end_pos)
 			class_end_match = re.search(r'\}\s*\;', source[end_pos:])
 			if class_end_match:
 				while class_end_match:
-					end_pos = end_pos + class_end_match.span()[1]
+					end_pos = end_pos + class_end_match.end()
 					# print(end_pos)
 					end_comment_check = in_comments(end_pos)
 					# print(end_comment_check)
@@ -43,7 +45,7 @@ def find_classes(source):
 						# print(end_pos)
 						class_end_match = re.search(r'\}\s*\;', source[end_pos:])
 				if class_end_match:
-					classes[class_start_match.group(1)] = (pos+class_start_match.span()[0], end_pos)
+					classes[class_start_match.group(1)] = (pos+class_start_match.start(), end_pos)
 					pos = end_pos
 				else:
 					print ('Error in ', class_start_match.group(), '\nMissing };')
@@ -55,19 +57,18 @@ def find_classes(source):
 			pos = comment_check
 		class_start_match = re.search(r'class\s+([a-zA-Z_]\w*)\s*\{',source[pos:])
 
-
 def find_inherited(source):
 	pos = 0
 	class_start_match = re.search(r'class\s+([a-zA-Z_]\w*)\s*\:\s*([\s\w,]*?)\{',source)
 	while class_start_match:
-		comment_check = in_comments(class_start_match.span()[0])
+		comment_check = in_comments(class_start_match.start())
 		if comment_check == -1:
-			end_pos = pos+class_start_match.span()[1]
+			end_pos = pos+class_start_match.end()
 			# print(end_pos)
 			class_end_match = re.search(r'\}\s*\;', source[end_pos:])
 			if class_end_match:
 				while class_end_match:
-					end_pos = end_pos + class_end_match.span()[1]
+					end_pos = end_pos + class_end_match.end()
 					# print(end_pos)
 					end_comment_check = in_comments(end_pos)
 					# print(end_comment_check)
@@ -96,7 +97,7 @@ def find_inherited(source):
 							print ('Error in ', class_start_match.group(), '\nParent classes do not exist')
 							break
 					if not error:
-						inherited_classes[class_start_match.group(1)] = (pos+class_start_match.span()[0], end_pos, parent_class_names)
+						inherited_classes[class_start_match.group(1)] = (pos+class_start_match.start(), end_pos, parent_class_names)
 					pos = end_pos
 				else:
 					print ('Error in ', class_start_match.group(), '\nMissing };')
@@ -109,7 +110,7 @@ def find_inherited(source):
 		class_start_match = re.search(r'class\s+([a-zA-Z_]\w*)\s*\:\s*([\s\w,]*?)\{',source[pos:])
 
 def is_class(class_name):
-	if class_name in classes.keys() + inherited_classes.keys():
+	if class_name in classes.keys() or class_name in inherited_classes.keys():
 		return True
 	else:
 		return False
@@ -125,18 +126,108 @@ def in_class(pos):
 			return class_name
 	return False
 
-source_file = open("test1.txt", "r")
-source = source_file.read()
+def match_flower(pos):
+	flower_stack = ['{']
+	for flower in re.finditer(r'(\{|\})', source[pos:]):
+		if (flower.group()=='{'):
+			flower_stack.append('{')
+		else:
+			if (flower_stack[-1]=='{'):
+				flower_stack.pop()
+				if (len(flower_stack)==0):
+					return pos+flower.end()
+	else:
+		return -1
 
-# find_comments(source)
+def find_func_constr(source):
+	func_matches = re.finditer(r'([a-zA-Z_]\w*\s*\:\:)?\s*([a-zA-Z_]\w*)\s*\(([\s\w,*]*)\)\s*\{', source)
+	for func_match in func_matches:
+		if in_comments(func_match.start())==-1:
+			closing_flower = match_flower(func_match.end())
+			if closing_flower == -1:
+				print("Error in ", func_match.group(), "\nMissing }")
+				continue
+			if func_match.group(1):
+				class_name = func_match.group(1).split('::')[0].split()[0]
+				if is_class(class_name):
+					if class_name == func_match.group(2):
+						func_name = func_match.group(2)
+						func_details = (func_match.start(),closing_flower,func_match.group(3))
+						if func_name in functions.keys():
+							constructors[func_name].append(func_details)
+						else:
+							constructors[func_name]=[func_details]
+					else:
+						func_name = class_name+'::'+func_match.group(2)
+						func_details = (func_match.start(),closing_flower,func_match.group(3))
+						if func_name in functions.keys():
+							functions[func_name].append(func_details)
+						else:
+							functions[func_name]=[func_details]
+				else:
+					print("Error in ", func_match.group(), "\nClass: ", class_name, " does not exist")
+			else:
+				class_name = in_class(closing_flower)
+				if class_name:
+					if class_name == func_match.group(2):
+						func_name = func_match.group(2)
+						func_details = (func_match.start(),closing_flower,func_match.group(3))
+						if func_name in functions.keys():
+							constructors[func_name].append(func_details)
+						else:
+							constructors[func_name]=[func_details]
+					else:
+						func_name = class_name+'::'+func_match.group(2)
+						func_details = (func_match.start(),closing_flower,func_match.group(3))
+						if func_name in functions.keys():
+							functions[func_name].append(func_details)
+						else:
+							functions[func_name]=[func_details]
+				else:
+					func_name = func_match.group(2)
+					func_details = (func_match.start(),closing_flower,func_match.group(3))
+					if func_name in functions.keys():
+						functions[func_name].append(func_details)
+					else:
+						functions[func_name]=[func_details]
+		else:
+			continue
+
+def find_objects(source):
+	obj_matches = re.finditer(r'([a-zA-Z_]\w*)\s+([a-zA-Z_]\w*)\s*(\([\s\w,*]*\))?\s*;',source)
+	for obj_match in obj_matches:
+		# print(obj_match.groups())
+		if in_comments(obj_match.start())==-1:
+			if is_class(obj_match.group(1)):
+				objects.append((obj_match.group(2), obj_match.start(), obj_match.end(), obj_match.group(1), obj_match.group(3)))
+		else:
+			continue
+source_file = open("input.txt", "r")
+source = source_file.read()
+source_file.close()
+
+find_comments(source)
 # print(comment_spans)
 
-# find_classes(source)
+find_classes(source)
 # print(classes)
 
-# find_inherited(source)
+find_inherited(source)
 # print(inherited_classes)
 
-#print(re.findall(r'([a-zA-Z_]\w*\s*\:\:)?\s*([a-zA-Z_]\w*)\s*\(([\s\w,*]*)\)\s*\{', source))
+find_func_constr(source)
+# print(functions)
+# print(constructors)
 
-source_file.close()
+find_objects(source)
+# print(objects)
+
+num_func = 0
+for func in functions.keys():
+	if (len(functions[func])>1):
+		num_func+=1
+
+output = '1) Objects declaration\t\t\t\t\t\t: '+str(len(objects))+'\n2) Class definition\t\t\t\t\t\t\t: '+str(len(classes.keys())+len(inherited_classes.keys()))+'\n3) Constructor definition\t\t\t\t\t: '+str(len(constructors.keys()))+'\n4) Inherited Class definition\t\t\t\t: '+str(len(inherited_classes.keys()))+'\n5) Operator Overloaded function definition\t: '+str(num_func)
+output_file = open("output.txt", "w")
+output_file.write(output)
+output_file.close()

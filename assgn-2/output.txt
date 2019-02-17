@@ -1,0 +1,5 @@
+1) Objects declaration						: 1
+2) Class definition							: 1
+3) Constructor definition					: 0
+4) Inherited Class definition				: 0
+5) Operator Overloaded function definition	: 0

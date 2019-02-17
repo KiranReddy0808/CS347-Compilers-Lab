@@ -1,0 +1,18 @@
+Object declaration
+[static | extern | null] <class_name> <object_name>;
+
+Class definition
+class <class_name> {};
+
+Constructor definition
+![~]<class_name> (params){}
+
+Inherited Class definition
+class <class_name> : [[public | private | protected | null] <class_name>]+ {};
+
+Operator Overloaded Function definition (doubt: multiple or even single occurence)
+[int | float | char | void | <class_name>][*]* <func_name> (params) {}
+[Store function name of function in class as <class_name>::<func_name> (params)]
+
+params: (Split with comma)
+[int | float | char | <class_name>] [*]* <variable_name> 

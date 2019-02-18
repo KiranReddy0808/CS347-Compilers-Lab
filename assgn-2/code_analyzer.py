@@ -248,7 +248,7 @@ def find_op_overload(source):
 		else:
 			continue
 
-source_file = open("test2.txt", "r")
+source_file = open("input.txt", "r")
 source = source_file.read()
 source_file.close()
 
@@ -269,17 +269,17 @@ find_objects(source)
 # print(objects)
 
 find_op_overload(source)
-print (op_over_functions)
-# num_func = 0
-# for func in functions.keys():
-# 	if (len(functions[func])>1):
-# 		num_func+=1
+# print (op_over_functions)
 
-# num_constr = 0
-# for constr in constructors.keys():
-# 	num_constr += len(constructors[constr])
+num_func = 0
+for func in op_over_functions.keys():
+	num_func += len(op_over_functions[func])
 
-# output = '1) Objects declaration\t\t\t\t\t\t: '+str(len(objects))+'\n2) Class definition\t\t\t\t\t\t\t: '+str(len(classes.keys())+len(inherited_classes.keys()))+'\n3) Constructor definition\t\t\t\t\t: '+str(len(constructors.keys()))+'\n4) Inherited Class definition\t\t\t\t: '+str(len(inherited_classes.keys()))+'\n5) Operator Overloaded function definition\t: '+str(num_func)
-# output_file = open("output.txt", "w")
-# output_file.write(output)
-# output_file.close()
+num_constr = 0
+for constr in constructors.keys():
+	num_constr += len(constructors[constr])
+
+output = '1) Objects declaration\t\t\t\t\t\t: '+str(len(objects))+'\n2) Class definition\t\t\t\t\t\t\t: '+str(len(classes.keys())+len(inherited_classes.keys()))+'\n3) Constructor definition\t\t\t\t\t: '+str(len(constructors.keys()))+'\n4) Inherited Class definition\t\t\t\t: '+str(len(inherited_classes.keys()))+'\n5) Operator Overloaded function definition\t: '+str(num_func)
+output_file = open("output.txt", "w")
+output_file.write(output)
+output_file.close()

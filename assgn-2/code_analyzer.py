@@ -5,6 +5,7 @@ classes = {}
 inherited_classes = {}
 functions = {}
 constructors = {}
+op_over_functions = {}
 objects = []
 
 def find_comments(source):
@@ -202,7 +203,52 @@ def find_objects(source):
 				objects.append((obj_match.group(2), obj_match.start(), obj_match.end(), obj_match.group(1), obj_match.group(3)))
 		else:
 			continue
-source_file = open("input.txt", "r")
+
+def find_op_overload(source):
+	func_matches = re.finditer(r'([a-zA-Z_]\w*\s*\:\:)?\s*operator\s*(\S+?)\s*\(([\s\w\,\*\&]*)\)\s*(const)?\s*\{', source)
+	for func_match in func_matches:
+		if in_comments(func_match.start())==-1:
+			closing_flower = match_flower(func_match.end())
+			if closing_flower == -1:
+				print("Error in ", func_match.group(), "\nMissing }")
+				continue
+			if func_match.group(1):
+				class_name = func_match.group(1).split('::')[0].split()[0]
+				if is_class(class_name):
+					func_name = class_name+'::'+'operator'+func_match.group(2)
+					if func_match.group(4):
+						func_name+=' '+func_match.group(4)
+					func_details = (func_match.start(),closing_flower,func_match.group(3))
+					if func_name in op_over_functions.keys():
+						op_over_functions[func_name].append(func_details)
+					else:
+						op_over_functions[func_name]=[func_details]
+				else:
+					print("Error in ", func_match.group(), "\nClass: ", class_name, " does not exist")
+			else:
+				class_name = in_class(closing_flower)
+				if class_name:
+					func_name = class_name+'::'+'operator'+func_match.group(2)
+					if func_match.group(4):
+						func_name+=' '+func_match.group(4)
+					func_details = (func_match.start(),closing_flower,func_match.group(3))
+					if func_name in op_over_functions.keys():
+						op_over_functions[func_name].append(func_details)
+					else:
+						op_over_functions[func_name]=[func_details]
+				else:
+					func_name = 'operator'+func_match.group(2)
+					if func_match.group(4):
+						func_name+=' '+func_match.group(4)
+					func_details = (func_match.start(),closing_flower,func_match.group(3))
+					if func_name in op_over_functions.keys():
+						op_over_functions[func_name].append(func_details)
+					else:
+						op_over_functions[func_name]=[func_details]
+		else:
+			continue
+
+source_file = open("test2.txt", "r")
 source = source_file.read()
 source_file.close()
 
@@ -222,12 +268,18 @@ find_func_constr(source)
 find_objects(source)
 # print(objects)
 
-num_func = 0
-for func in functions.keys():
-	if (len(functions[func])>1):
-		num_func+=1
+find_op_overload(source)
+print (op_over_functions)
+# num_func = 0
+# for func in functions.keys():
+# 	if (len(functions[func])>1):
+# 		num_func+=1
 
-output = '1) Objects declaration\t\t\t\t\t\t: '+str(len(objects))+'\n2) Class definition\t\t\t\t\t\t\t: '+str(len(classes.keys())+len(inherited_classes.keys()))+'\n3) Constructor definition\t\t\t\t\t: '+str(len(constructors.keys()))+'\n4) Inherited Class definition\t\t\t\t: '+str(len(inherited_classes.keys()))+'\n5) Operator Overloaded function definition\t: '+str(num_func)
-output_file = open("output.txt", "w")
-output_file.write(output)
-output_file.close()
+# num_constr = 0
+# for constr in constructors.keys():
+# 	num_constr += len(constructors[constr])
+
+# output = '1) Objects declaration\t\t\t\t\t\t: '+str(len(objects))+'\n2) Class definition\t\t\t\t\t\t\t: '+str(len(classes.keys())+len(inherited_classes.keys()))+'\n3) Constructor definition\t\t\t\t\t: '+str(len(constructors.keys()))+'\n4) Inherited Class definition\t\t\t\t: '+str(len(inherited_classes.keys()))+'\n5) Operator Overloaded function definition\t: '+str(num_func)
+# output_file = open("output.txt", "w")
+# output_file.write(output)
+# output_file.close()

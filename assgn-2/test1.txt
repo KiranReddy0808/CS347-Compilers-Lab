@@ -18,6 +18,8 @@ class FourWheeler {
       cout << "This is a 4 wheeler Vehicle" << endl; 
     } 
 }; 
+
+FourWheeler::
   
 // sub class derived from two base classes 
 class Car: public Vehicle, public FourWheeler { 

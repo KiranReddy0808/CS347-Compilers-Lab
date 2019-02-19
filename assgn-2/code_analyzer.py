@@ -10,11 +10,11 @@ objects = []
 
 def find_comments(source):
 	pos = 0
-	match = re.search(r'\/\*[\s\S]*?\*\/|\/\/.*\n', source)
+	match = re.search(r'\/\*[\s\S]*?\*\/|\/\/.*\n|\".*\"', source)
 	while match:
 		comment_spans.append((pos+match.start(), pos+match.end()))
 		pos = pos + match.end()
-		match = re.search(r'\/\*[\s\S]*?\*\/|\/\/.*\n', source[pos:])
+		match = re.search(r'\/\*[\s\S]*?\*\/|\/\/.*\n|\".*\"', source[pos:])
 
 def in_comments(pos):
 	for span in comment_spans:
@@ -248,7 +248,7 @@ def find_op_overload(source):
 		else:
 			continue
 
-source_file = open("input.txt", "r")
+source_file = open("test2.txt", "r")
 source = source_file.read()
 source_file.close()
 

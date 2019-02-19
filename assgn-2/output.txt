@@ -1,4 +1,4 @@
-1) Objects declaration						: 3
+1) Objects declaration						: 5
 2) Class definition							: 2
 3) Constructor definition					: 1
 4) Inherited Class definition				: 0

@@ -1,0 +1,63 @@
+
+#include<iostream> 
+using namespace std; 
+  
+START CLASSclass Complex { 
+private: 
+    int real, imag; 
+public: 
+    CLASS_NAME_IN_CLASSComplexSTART CONSTRUCTOR(int r = 0, int i =0)  START FLOWER{real = r;   imag = i;}END FLOWER 
+    void print() { cout << real << string << imag << endl; } 
+  
+
+
+friend CLASS_NAME_IN_CLASSComplex START OPERATOR_CLoperator + (Complex const &, Complex const &);OPER_SEMI 
+};END CLASS 
+  
+  
+EXTERNAL_CLASS_ENTITYComplex::START OPERATOR_FUNCoperator + (Complex const &c1, Complex const &c2) 
+START FLOWER{ 
+     return START OBJECTComplexNOT OBJECT(c1.real + c2.real, c1.imag + c2.imag); 
+}END FLOWER 
+
+START CLASSclass complx
+{
+	double real,
+		 imag;
+public:
+	CLASS_NAME_IN_CLASScomplxSTART CONSTRUCTOR( double real = 0., double imag = 0.);CONSTR_SEMI 
+	CLASS_NAME_IN_CLASScomplx START OPERATOR_CLoperator+(const complx&) const;OPER_SEMI       
+};END CLASS
+
+
+EXTERNAL_CLASS_ENTITYcomplx::START CONSTRUCTORcomplx( double r, double i )
+START FLOWER{
+	real = r; imag = i;
+}END FLOWER
+
+
+START OBJECTcomplx NOT OBJECT EXTERNAL_CLASS_ENTITYcomplx::START OPERATOR_FUNCoperator+ (const complx& c) const
+START FLOWER{
+	START OBJECTcomplx GOT OBJECT NAMEresult;END OBJECT
+	result.real = (this->real + c.real);
+	result.imag = (this->imag + c.imag);
+	return result;
+}END FLOWER
+
+int main()
+{
+	
+}
+  
+int main() 
+{ 
+	START OBJECTComplex GOT OBJECT NAMEc1START OBJECT_ARGUMENTS(10, 5)END OBJECT_ARGUMENTS;END OBJECT 
+	START OBJECTComplex GOT OBJECT NAMEc2START OBJECT_ARGUMENTS(2, 4)END OBJECT_ARGUMENTS;END OBJECT
+	START OBJECTComplex GOT OBJECT NAMEc3 START OBJECT_EQUATION= c1 + c2;END OBJECT_EQUATION 
+	c3.print();
+	START OBJECTcomplx GOT OBJECT NAMExSTART OBJECT_ARGUMENTS(4,4)END OBJECT_ARGUMENTS;END OBJECT
+	START OBJECTcomplx GOT OBJECT NAMEySTART OBJECT_ARGUMENTS(6,6)END OBJECT_ARGUMENTS;END OBJECT
+	START OBJECTcomplx GOT OBJECT NAMEz START OBJECT_EQUATION= x + y;END OBJECT_EQUATION 
+	return 0; 
+} 
+

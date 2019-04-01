@@ -38,15 +38,52 @@ START FLOWER{
 
 START OBJECTcomplx NOT OBJECT EXTERNAL_CLASS_ENTITYcomplx::START OPERATOR_FUNCoperator+ (const complx& c) const
 START FLOWER{
-	START OBJECTcomplx GOT OBJECT NAMEresult;END OBJECT
+	START OBJECTcomplx GOT OBJECT NAMEresult,
+	 pavan;END OBJECT
 	result.real = (this->real + c.real);
 	result.imag = (this->imag + c.imag);
 	return result;
 }END FLOWER
 
-int main()
-{
-	
+
+  
+
+START CLASSclass Vehicle { 
+  public: 
+    CLASS_NAME_IN_CLASSVehicleSTART CONSTRUCTOR() 
+    START FLOWER{ 
+      cout << string << endl; 
+    }END FLOWER 
+};END CLASS 
+  
+
+START CLASSclass FourWheeler { 
+  public: 
+    CLASS_NAME_IN_CLASSFourWheelerSTART CONSTRUCTOR() 
+    START FLOWER{ 
+      cout << string << endl; 
+    }END FLOWER 
+};END CLASS
+  
+
+START CLASSclass CarSTART INHERITED CLASS: public Vehicle, public FourWheeler { 
+	START OBJECTFourWheeler GOT OBJECT NAMEabcd;END OBJECT
+END INHERITED CLASS}; 
+  
+int EXTERNAL_CLASS_ENTITYCar::saff (int b, int c) {
+
+}
+
+int EXTERNAL_CLASS_ENTITYCar::START CONSTRUCTORCar ()START FLOWER{
+
+}END FLOWER
+
+int main() 
+{    
+    
+    
+    START OBJECTCar GOT OBJECT NAMEobj;END OBJECT 
+    return 0; 
 }
   
 int main() 
@@ -56,8 +93,9 @@ int main()
 	START OBJECTComplex GOT OBJECT NAMEc3 START OBJECT_EQUATION= c1 + c2;END OBJECT_EQUATION 
 	c3.print();
 	START OBJECTcomplx GOT OBJECT NAMExSTART OBJECT_ARGUMENTS(4,4)END OBJECT_ARGUMENTS;END OBJECT
-	START OBJECTcomplx GOT OBJECT NAMEySTART OBJECT_ARGUMENTS(6,6)END OBJECT_ARGUMENTS;END OBJECT
+	START OBJECTcomplx GOT OBJECT NAMEySTART OBJECT_ARGUMENTS(6,6)END OBJECT_ARGUMENTS,z;END OBJECT
 	START OBJECTcomplx GOT OBJECT NAMEz START OBJECT_EQUATION= x + y;END OBJECT_EQUATION 
 	return 0; 
 } 
+
 

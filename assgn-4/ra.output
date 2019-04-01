@@ -1,0 +1,1083 @@
+Terminals unused in grammar
+
+   ERROR
+
+
+Grammar
+
+    0 $accept: Input $end
+
+    1 Input: %empty
+    2      | Input Line
+
+    3 Line: Select
+    4     | Project
+    5     | Product
+    6     | Join
+    7     | error NEWLINE
+    8     | END
+
+    9 Select: SELECT LT Condition GT OPEN_PAR ID CLOSE_PAR NEWLINE
+   10       | SELECT LT Condition GT OPEN_PAR ID CLOSE_PAR END
+
+   11 Project: PROJECT LT Attributes GT OPEN_PAR ID CLOSE_PAR NEWLINE
+   12        | PROJECT LT Attributes GT OPEN_PAR ID CLOSE_PAR END
+
+   13 Product: OPEN_PAR ID CLOSE_PAR PRODUCT OPEN_PAR ID CLOSE_PAR NEWLINE
+   14        | OPEN_PAR ID CLOSE_PAR PRODUCT OPEN_PAR ID CLOSE_PAR END
+
+   15 Join: OPEN_PAR ID CLOSE_PAR JOIN LT Condition GT OPEN_PAR ID CLOSE_PAR NEWLINE
+   16     | OPEN_PAR ID CLOSE_PAR JOIN LT Condition GT OPEN_PAR ID CLOSE_PAR END
+
+   17 Attributes: Attributes COMMA ColumnName
+   18           | ColumnName
+
+   19 ColumnName: ID
+   20           | ID DOT ID
+
+   21 Condition: OPEN_PAR Condition CLOSE_PAR
+   22          | Condition OR Condition
+   23          | Condition AND Condition
+   24          | Expression LT Expression
+   25          | Expression GT Expression
+   26          | Expression LTE Expression
+   27          | Expression GTE Expression
+   28          | Expression EQ Expression
+   29          | Expression NEQ Expression
+
+   30 Expression: NUMBER
+   31           | ColumnName
+   32           | STRING
+   33           | OPEN_PAR Expression CLOSE_PAR
+   34           | Expression PLUS Expression
+   35           | Expression MINUS Expression
+   36           | Expression TIMES Expression
+   37           | Expression DIVIDE Expression
+   38           | MINUS Expression
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256) 7
+SELECT (258) 9 10
+PROJECT (259) 11 12
+PRODUCT (260) 13 14
+JOIN (261) 15 16
+OPEN_PAR (262) 9 10 11 12 13 14 15 16 21 33
+CLOSE_PAR (263) 9 10 11 12 13 14 15 16 21 33
+GT (264) 9 10 11 12 15 16 25
+LT (265) 9 10 11 12 15 16 24
+GTE (266) 27
+LTE (267) 26
+EQ (268) 28
+NEQ (269) 29
+AND (270) 23
+OR (271) 22
+PLUS (272) 34
+MINUS (273) 35 38
+TIMES (274) 36
+DIVIDE (275) 37
+COMMA (276) 17
+DOT (277) 20
+STRING (278) 32
+NUMBER (279) 30
+ID (280) 9 10 11 12 13 14 15 16 19 20
+NEWLINE (281) 7 9 11 13 15
+ERROR (282)
+END (283) 8 10 12 14 16
+NEG (284)
+
+
+Nonterminals, with rules where they appear
+
+$accept (30)
+    on left: 0
+Input (31)
+    on left: 1 2, on right: 0 2
+Line (32)
+    on left: 3 4 5 6 7 8, on right: 2
+Select (33)
+    on left: 9 10, on right: 3
+Project (34)
+    on left: 11 12, on right: 4
+Product (35)
+    on left: 13 14, on right: 5
+Join (36)
+    on left: 15 16, on right: 6
+Attributes (37)
+    on left: 17 18, on right: 11 12 17
+ColumnName (38)
+    on left: 19 20, on right: 17 18 31
+Condition (39)
+    on left: 21 22 23 24 25 26 27 28 29, on right: 9 10 15 16 21 22
+    23
+Expression (40)
+    on left: 30 31 32 33 34 35 36 37 38, on right: 24 25 26 27 28 29
+    33 34 35 36 37 38
+
+
+State 0
+
+    0 $accept: . Input $end
+
+    $default  reduce using rule 1 (Input)
+
+    Input  go to state 1
+
+
+State 1
+
+    0 $accept: Input . $end
+    2 Input: Input . Line
+
+    $end      shift, and go to state 2
+    error     shift, and go to state 3
+    SELECT    shift, and go to state 4
+    PROJECT   shift, and go to state 5
+    OPEN_PAR  shift, and go to state 6
+    END       shift, and go to state 7
+
+    Line     go to state 8
+    Select   go to state 9
+    Project  go to state 10
+    Product  go to state 11
+    Join     go to state 12
+
+
+State 2
+
+    0 $accept: Input $end .
+
+    $default  accept
+
+
+State 3
+
+    7 Line: error . NEWLINE
+
+    NEWLINE  shift, and go to state 13
+
+
+State 4
+
+    9 Select: SELECT . LT Condition GT OPEN_PAR ID CLOSE_PAR NEWLINE
+   10       | SELECT . LT Condition GT OPEN_PAR ID CLOSE_PAR END
+
+    LT  shift, and go to state 14
+
+
+State 5
+
+   11 Project: PROJECT . LT Attributes GT OPEN_PAR ID CLOSE_PAR NEWLINE
+   12        | PROJECT . LT Attributes GT OPEN_PAR ID CLOSE_PAR END
+
+    LT  shift, and go to state 15
+
+
+State 6
+
+   13 Product: OPEN_PAR . ID CLOSE_PAR PRODUCT OPEN_PAR ID CLOSE_PAR NEWLINE
+   14        | OPEN_PAR . ID CLOSE_PAR PRODUCT OPEN_PAR ID CLOSE_PAR END
+   15 Join: OPEN_PAR . ID CLOSE_PAR JOIN LT Condition GT OPEN_PAR ID CLOSE_PAR NEWLINE
+   16     | OPEN_PAR . ID CLOSE_PAR JOIN LT Condition GT OPEN_PAR ID CLOSE_PAR END
+
+    ID  shift, and go to state 16
+
+
+State 7
+
+    8 Line: END .
+
+    $default  reduce using rule 8 (Line)
+
+
+State 8
+
+    2 Input: Input Line .
+
+    $default  reduce using rule 2 (Input)
+
+
+State 9
+
+    3 Line: Select .
+
+    $default  reduce using rule 3 (Line)
+
+
+State 10
+
+    4 Line: Project .
+
+    $default  reduce using rule 4 (Line)
+
+
+State 11
+
+    5 Line: Product .
+
+    $default  reduce using rule 5 (Line)
+
+
+State 12
+
+    6 Line: Join .
+
+    $default  reduce using rule 6 (Line)
+
+
+State 13
+
+    7 Line: error NEWLINE .
+
+    $default  reduce using rule 7 (Line)
+
+
+State 14
+
+    9 Select: SELECT LT . Condition GT OPEN_PAR ID CLOSE_PAR NEWLINE
+   10       | SELECT LT . Condition GT OPEN_PAR ID CLOSE_PAR END
+
+    OPEN_PAR  shift, and go to state 17
+    MINUS     shift, and go to state 18
+    STRING    shift, and go to state 19
+    NUMBER    shift, and go to state 20
+    ID        shift, and go to state 21
+
+    ColumnName  go to state 22
+    Condition   go to state 23
+    Expression  go to state 24
+
+
+State 15
+
+   11 Project: PROJECT LT . Attributes GT OPEN_PAR ID CLOSE_PAR NEWLINE
+   12        | PROJECT LT . Attributes GT OPEN_PAR ID CLOSE_PAR END
+
+    ID  shift, and go to state 21
+
+    Attributes  go to state 25
+    ColumnName  go to state 26
+
+
+State 16
+
+   13 Product: OPEN_PAR ID . CLOSE_PAR PRODUCT OPEN_PAR ID CLOSE_PAR NEWLINE
+   14        | OPEN_PAR ID . CLOSE_PAR PRODUCT OPEN_PAR ID CLOSE_PAR END
+   15 Join: OPEN_PAR ID . CLOSE_PAR JOIN LT Condition GT OPEN_PAR ID CLOSE_PAR NEWLINE
+   16     | OPEN_PAR ID . CLOSE_PAR JOIN LT Condition GT OPEN_PAR ID CLOSE_PAR END
+
+    CLOSE_PAR  shift, and go to state 27
+
+
+State 17
+
+   21 Condition: OPEN_PAR . Condition CLOSE_PAR
+   33 Expression: OPEN_PAR . Expression CLOSE_PAR
+
+    OPEN_PAR  shift, and go to state 17
+    MINUS     shift, and go to state 18
+    STRING    shift, and go to state 19
+    NUMBER    shift, and go to state 20
+    ID        shift, and go to state 21
+
+    ColumnName  go to state 22
+    Condition   go to state 28
+    Expression  go to state 29
+
+
+State 18
+
+   38 Expression: MINUS . Expression
+
+    OPEN_PAR  shift, and go to state 30
+    MINUS     shift, and go to state 18
+    STRING    shift, and go to state 19
+    NUMBER    shift, and go to state 20
+    ID        shift, and go to state 21
+
+    ColumnName  go to state 22
+    Expression  go to state 31
+
+
+State 19
+
+   32 Expression: STRING .
+
+    $default  reduce using rule 32 (Expression)
+
+
+State 20
+
+   30 Expression: NUMBER .
+
+    $default  reduce using rule 30 (Expression)
+
+
+State 21
+
+   19 ColumnName: ID .
+   20           | ID . DOT ID
+
+    DOT  shift, and go to state 32
+
+    $default  reduce using rule 19 (ColumnName)
+
+
+State 22
+
+   31 Expression: ColumnName .
+
+    $default  reduce using rule 31 (Expression)
+
+
+State 23
+
+    9 Select: SELECT LT Condition . GT OPEN_PAR ID CLOSE_PAR NEWLINE
+   10       | SELECT LT Condition . GT OPEN_PAR ID CLOSE_PAR END
+   22 Condition: Condition . OR Condition
+   23          | Condition . AND Condition
+
+    GT   shift, and go to state 33
+    AND  shift, and go to state 34
+    OR   shift, and go to state 35
+
+
+State 24
+
+   24 Condition: Expression . LT Expression
+   25          | Expression . GT Expression
+   26          | Expression . LTE Expression
+   27          | Expression . GTE Expression
+   28          | Expression . EQ Expression
+   29          | Expression . NEQ Expression
+   34 Expression: Expression . PLUS Expression
+   35           | Expression . MINUS Expression
+   36           | Expression . TIMES Expression
+   37           | Expression . DIVIDE Expression
+
+    GT      shift, and go to state 36
+    LT      shift, and go to state 37
+    GTE     shift, and go to state 38
+    LTE     shift, and go to state 39
+    EQ      shift, and go to state 40
+    NEQ     shift, and go to state 41
+    PLUS    shift, and go to state 42
+    MINUS   shift, and go to state 43
+    TIMES   shift, and go to state 44
+    DIVIDE  shift, and go to state 45
+
+
+State 25
+
+   11 Project: PROJECT LT Attributes . GT OPEN_PAR ID CLOSE_PAR NEWLINE
+   12        | PROJECT LT Attributes . GT OPEN_PAR ID CLOSE_PAR END
+   17 Attributes: Attributes . COMMA ColumnName
+
+    GT     shift, and go to state 46
+    COMMA  shift, and go to state 47
+
+
+State 26
+
+   18 Attributes: ColumnName .
+
+    $default  reduce using rule 18 (Attributes)
+
+
+State 27
+
+   13 Product: OPEN_PAR ID CLOSE_PAR . PRODUCT OPEN_PAR ID CLOSE_PAR NEWLINE
+   14        | OPEN_PAR ID CLOSE_PAR . PRODUCT OPEN_PAR ID CLOSE_PAR END
+   15 Join: OPEN_PAR ID CLOSE_PAR . JOIN LT Condition GT OPEN_PAR ID CLOSE_PAR NEWLINE
+   16     | OPEN_PAR ID CLOSE_PAR . JOIN LT Condition GT OPEN_PAR ID CLOSE_PAR END
+
+    PRODUCT  shift, and go to state 48
+    JOIN     shift, and go to state 49
+
+
+State 28
+
+   21 Condition: OPEN_PAR Condition . CLOSE_PAR
+   22          | Condition . OR Condition
+   23          | Condition . AND Condition
+
+    CLOSE_PAR  shift, and go to state 50
+    AND        shift, and go to state 34
+    OR         shift, and go to state 35
+
+
+State 29
+
+   24 Condition: Expression . LT Expression
+   25          | Expression . GT Expression
+   26          | Expression . LTE Expression
+   27          | Expression . GTE Expression
+   28          | Expression . EQ Expression
+   29          | Expression . NEQ Expression
+   33 Expression: OPEN_PAR Expression . CLOSE_PAR
+   34           | Expression . PLUS Expression
+   35           | Expression . MINUS Expression
+   36           | Expression . TIMES Expression
+   37           | Expression . DIVIDE Expression
+
+    CLOSE_PAR  shift, and go to state 51
+    GT         shift, and go to state 36
+    LT         shift, and go to state 37
+    GTE        shift, and go to state 38
+    LTE        shift, and go to state 39
+    EQ         shift, and go to state 40
+    NEQ        shift, and go to state 41
+    PLUS       shift, and go to state 42
+    MINUS      shift, and go to state 43
+    TIMES      shift, and go to state 44
+    DIVIDE     shift, and go to state 45
+
+
+State 30
+
+   33 Expression: OPEN_PAR . Expression CLOSE_PAR
+
+    OPEN_PAR  shift, and go to state 30
+    MINUS     shift, and go to state 18
+    STRING    shift, and go to state 19
+    NUMBER    shift, and go to state 20
+    ID        shift, and go to state 21
+
+    ColumnName  go to state 22
+    Expression  go to state 52
+
+
+State 31
+
+   34 Expression: Expression . PLUS Expression
+   35           | Expression . MINUS Expression
+   36           | Expression . TIMES Expression
+   37           | Expression . DIVIDE Expression
+   38           | MINUS Expression .
+
+    $default  reduce using rule 38 (Expression)
+
+
+State 32
+
+   20 ColumnName: ID DOT . ID
+
+    ID  shift, and go to state 53
+
+
+State 33
+
+    9 Select: SELECT LT Condition GT . OPEN_PAR ID CLOSE_PAR NEWLINE
+   10       | SELECT LT Condition GT . OPEN_PAR ID CLOSE_PAR END
+
+    OPEN_PAR  shift, and go to state 54
+
+
+State 34
+
+   23 Condition: Condition AND . Condition
+
+    OPEN_PAR  shift, and go to state 17
+    MINUS     shift, and go to state 18
+    STRING    shift, and go to state 19
+    NUMBER    shift, and go to state 20
+    ID        shift, and go to state 21
+
+    ColumnName  go to state 22
+    Condition   go to state 55
+    Expression  go to state 24
+
+
+State 35
+
+   22 Condition: Condition OR . Condition
+
+    OPEN_PAR  shift, and go to state 17
+    MINUS     shift, and go to state 18
+    STRING    shift, and go to state 19
+    NUMBER    shift, and go to state 20
+    ID        shift, and go to state 21
+
+    ColumnName  go to state 22
+    Condition   go to state 56
+    Expression  go to state 24
+
+
+State 36
+
+   25 Condition: Expression GT . Expression
+
+    OPEN_PAR  shift, and go to state 30
+    MINUS     shift, and go to state 18
+    STRING    shift, and go to state 19
+    NUMBER    shift, and go to state 20
+    ID        shift, and go to state 21
+
+    ColumnName  go to state 22
+    Expression  go to state 57
+
+
+State 37
+
+   24 Condition: Expression LT . Expression
+
+    OPEN_PAR  shift, and go to state 30
+    MINUS     shift, and go to state 18
+    STRING    shift, and go to state 19
+    NUMBER    shift, and go to state 20
+    ID        shift, and go to state 21
+
+    ColumnName  go to state 22
+    Expression  go to state 58
+
+
+State 38
+
+   27 Condition: Expression GTE . Expression
+
+    OPEN_PAR  shift, and go to state 30
+    MINUS     shift, and go to state 18
+    STRING    shift, and go to state 19
+    NUMBER    shift, and go to state 20
+    ID        shift, and go to state 21
+
+    ColumnName  go to state 22
+    Expression  go to state 59
+
+
+State 39
+
+   26 Condition: Expression LTE . Expression
+
+    OPEN_PAR  shift, and go to state 30
+    MINUS     shift, and go to state 18
+    STRING    shift, and go to state 19
+    NUMBER    shift, and go to state 20
+    ID        shift, and go to state 21
+
+    ColumnName  go to state 22
+    Expression  go to state 60
+
+
+State 40
+
+   28 Condition: Expression EQ . Expression
+
+    OPEN_PAR  shift, and go to state 30
+    MINUS     shift, and go to state 18
+    STRING    shift, and go to state 19
+    NUMBER    shift, and go to state 20
+    ID        shift, and go to state 21
+
+    ColumnName  go to state 22
+    Expression  go to state 61
+
+
+State 41
+
+   29 Condition: Expression NEQ . Expression
+
+    OPEN_PAR  shift, and go to state 30
+    MINUS     shift, and go to state 18
+    STRING    shift, and go to state 19
+    NUMBER    shift, and go to state 20
+    ID        shift, and go to state 21
+
+    ColumnName  go to state 22
+    Expression  go to state 62
+
+
+State 42
+
+   34 Expression: Expression PLUS . Expression
+
+    OPEN_PAR  shift, and go to state 30
+    MINUS     shift, and go to state 18
+    STRING    shift, and go to state 19
+    NUMBER    shift, and go to state 20
+    ID        shift, and go to state 21
+
+    ColumnName  go to state 22
+    Expression  go to state 63
+
+
+State 43
+
+   35 Expression: Expression MINUS . Expression
+
+    OPEN_PAR  shift, and go to state 30
+    MINUS     shift, and go to state 18
+    STRING    shift, and go to state 19
+    NUMBER    shift, and go to state 20
+    ID        shift, and go to state 21
+
+    ColumnName  go to state 22
+    Expression  go to state 64
+
+
+State 44
+
+   36 Expression: Expression TIMES . Expression
+
+    OPEN_PAR  shift, and go to state 30
+    MINUS     shift, and go to state 18
+    STRING    shift, and go to state 19
+    NUMBER    shift, and go to state 20
+    ID        shift, and go to state 21
+
+    ColumnName  go to state 22
+    Expression  go to state 65
+
+
+State 45
+
+   37 Expression: Expression DIVIDE . Expression
+
+    OPEN_PAR  shift, and go to state 30
+    MINUS     shift, and go to state 18
+    STRING    shift, and go to state 19
+    NUMBER    shift, and go to state 20
+    ID        shift, and go to state 21
+
+    ColumnName  go to state 22
+    Expression  go to state 66
+
+
+State 46
+
+   11 Project: PROJECT LT Attributes GT . OPEN_PAR ID CLOSE_PAR NEWLINE
+   12        | PROJECT LT Attributes GT . OPEN_PAR ID CLOSE_PAR END
+
+    OPEN_PAR  shift, and go to state 67
+
+
+State 47
+
+   17 Attributes: Attributes COMMA . ColumnName
+
+    ID  shift, and go to state 21
+
+    ColumnName  go to state 68
+
+
+State 48
+
+   13 Product: OPEN_PAR ID CLOSE_PAR PRODUCT . OPEN_PAR ID CLOSE_PAR NEWLINE
+   14        | OPEN_PAR ID CLOSE_PAR PRODUCT . OPEN_PAR ID CLOSE_PAR END
+
+    OPEN_PAR  shift, and go to state 69
+
+
+State 49
+
+   15 Join: OPEN_PAR ID CLOSE_PAR JOIN . LT Condition GT OPEN_PAR ID CLOSE_PAR NEWLINE
+   16     | OPEN_PAR ID CLOSE_PAR JOIN . LT Condition GT OPEN_PAR ID CLOSE_PAR END
+
+    LT  shift, and go to state 70
+
+
+State 50
+
+   21 Condition: OPEN_PAR Condition CLOSE_PAR .
+
+    $default  reduce using rule 21 (Condition)
+
+
+State 51
+
+   33 Expression: OPEN_PAR Expression CLOSE_PAR .
+
+    $default  reduce using rule 33 (Expression)
+
+
+State 52
+
+   33 Expression: OPEN_PAR Expression . CLOSE_PAR
+   34           | Expression . PLUS Expression
+   35           | Expression . MINUS Expression
+   36           | Expression . TIMES Expression
+   37           | Expression . DIVIDE Expression
+
+    CLOSE_PAR  shift, and go to state 51
+    PLUS       shift, and go to state 42
+    MINUS      shift, and go to state 43
+    TIMES      shift, and go to state 44
+    DIVIDE     shift, and go to state 45
+
+
+State 53
+
+   20 ColumnName: ID DOT ID .
+
+    $default  reduce using rule 20 (ColumnName)
+
+
+State 54
+
+    9 Select: SELECT LT Condition GT OPEN_PAR . ID CLOSE_PAR NEWLINE
+   10       | SELECT LT Condition GT OPEN_PAR . ID CLOSE_PAR END
+
+    ID  shift, and go to state 71
+
+
+State 55
+
+   22 Condition: Condition . OR Condition
+   23          | Condition . AND Condition
+   23          | Condition AND Condition .
+
+    AND  shift, and go to state 34
+    OR   shift, and go to state 35
+
+    $default  reduce using rule 23 (Condition)
+
+
+State 56
+
+   22 Condition: Condition . OR Condition
+   22          | Condition OR Condition .
+   23          | Condition . AND Condition
+
+    AND  shift, and go to state 34
+    OR   shift, and go to state 35
+
+    $default  reduce using rule 22 (Condition)
+
+
+State 57
+
+   25 Condition: Expression GT Expression .
+   34 Expression: Expression . PLUS Expression
+   35           | Expression . MINUS Expression
+   36           | Expression . TIMES Expression
+   37           | Expression . DIVIDE Expression
+
+    PLUS    shift, and go to state 42
+    MINUS   shift, and go to state 43
+    TIMES   shift, and go to state 44
+    DIVIDE  shift, and go to state 45
+
+    $default  reduce using rule 25 (Condition)
+
+
+State 58
+
+   24 Condition: Expression LT Expression .
+   34 Expression: Expression . PLUS Expression
+   35           | Expression . MINUS Expression
+   36           | Expression . TIMES Expression
+   37           | Expression . DIVIDE Expression
+
+    PLUS    shift, and go to state 42
+    MINUS   shift, and go to state 43
+    TIMES   shift, and go to state 44
+    DIVIDE  shift, and go to state 45
+
+    $default  reduce using rule 24 (Condition)
+
+
+State 59
+
+   27 Condition: Expression GTE Expression .
+   34 Expression: Expression . PLUS Expression
+   35           | Expression . MINUS Expression
+   36           | Expression . TIMES Expression
+   37           | Expression . DIVIDE Expression
+
+    PLUS    shift, and go to state 42
+    MINUS   shift, and go to state 43
+    TIMES   shift, and go to state 44
+    DIVIDE  shift, and go to state 45
+
+    $default  reduce using rule 27 (Condition)
+
+
+State 60
+
+   26 Condition: Expression LTE Expression .
+   34 Expression: Expression . PLUS Expression
+   35           | Expression . MINUS Expression
+   36           | Expression . TIMES Expression
+   37           | Expression . DIVIDE Expression
+
+    PLUS    shift, and go to state 42
+    MINUS   shift, and go to state 43
+    TIMES   shift, and go to state 44
+    DIVIDE  shift, and go to state 45
+
+    $default  reduce using rule 26 (Condition)
+
+
+State 61
+
+   28 Condition: Expression EQ Expression .
+   34 Expression: Expression . PLUS Expression
+   35           | Expression . MINUS Expression
+   36           | Expression . TIMES Expression
+   37           | Expression . DIVIDE Expression
+
+    PLUS    shift, and go to state 42
+    MINUS   shift, and go to state 43
+    TIMES   shift, and go to state 44
+    DIVIDE  shift, and go to state 45
+
+    $default  reduce using rule 28 (Condition)
+
+
+State 62
+
+   29 Condition: Expression NEQ Expression .
+   34 Expression: Expression . PLUS Expression
+   35           | Expression . MINUS Expression
+   36           | Expression . TIMES Expression
+   37           | Expression . DIVIDE Expression
+
+    PLUS    shift, and go to state 42
+    MINUS   shift, and go to state 43
+    TIMES   shift, and go to state 44
+    DIVIDE  shift, and go to state 45
+
+    $default  reduce using rule 29 (Condition)
+
+
+State 63
+
+   34 Expression: Expression . PLUS Expression
+   34           | Expression PLUS Expression .
+   35           | Expression . MINUS Expression
+   36           | Expression . TIMES Expression
+   37           | Expression . DIVIDE Expression
+
+    TIMES   shift, and go to state 44
+    DIVIDE  shift, and go to state 45
+
+    $default  reduce using rule 34 (Expression)
+
+
+State 64
+
+   34 Expression: Expression . PLUS Expression
+   35           | Expression . MINUS Expression
+   35           | Expression MINUS Expression .
+   36           | Expression . TIMES Expression
+   37           | Expression . DIVIDE Expression
+
+    TIMES   shift, and go to state 44
+    DIVIDE  shift, and go to state 45
+
+    $default  reduce using rule 35 (Expression)
+
+
+State 65
+
+   34 Expression: Expression . PLUS Expression
+   35           | Expression . MINUS Expression
+   36           | Expression . TIMES Expression
+   36           | Expression TIMES Expression .
+   37           | Expression . DIVIDE Expression
+
+    $default  reduce using rule 36 (Expression)
+
+
+State 66
+
+   34 Expression: Expression . PLUS Expression
+   35           | Expression . MINUS Expression
+   36           | Expression . TIMES Expression
+   37           | Expression . DIVIDE Expression
+   37           | Expression DIVIDE Expression .
+
+    $default  reduce using rule 37 (Expression)
+
+
+State 67
+
+   11 Project: PROJECT LT Attributes GT OPEN_PAR . ID CLOSE_PAR NEWLINE
+   12        | PROJECT LT Attributes GT OPEN_PAR . ID CLOSE_PAR END
+
+    ID  shift, and go to state 72
+
+
+State 68
+
+   17 Attributes: Attributes COMMA ColumnName .
+
+    $default  reduce using rule 17 (Attributes)
+
+
+State 69
+
+   13 Product: OPEN_PAR ID CLOSE_PAR PRODUCT OPEN_PAR . ID CLOSE_PAR NEWLINE
+   14        | OPEN_PAR ID CLOSE_PAR PRODUCT OPEN_PAR . ID CLOSE_PAR END
+
+    ID  shift, and go to state 73
+
+
+State 70
+
+   15 Join: OPEN_PAR ID CLOSE_PAR JOIN LT . Condition GT OPEN_PAR ID CLOSE_PAR NEWLINE
+   16     | OPEN_PAR ID CLOSE_PAR JOIN LT . Condition GT OPEN_PAR ID CLOSE_PAR END
+
+    OPEN_PAR  shift, and go to state 17
+    MINUS     shift, and go to state 18
+    STRING    shift, and go to state 19
+    NUMBER    shift, and go to state 20
+    ID        shift, and go to state 21
+
+    ColumnName  go to state 22
+    Condition   go to state 74
+    Expression  go to state 24
+
+
+State 71
+
+    9 Select: SELECT LT Condition GT OPEN_PAR ID . CLOSE_PAR NEWLINE
+   10       | SELECT LT Condition GT OPEN_PAR ID . CLOSE_PAR END
+
+    CLOSE_PAR  shift, and go to state 75
+
+
+State 72
+
+   11 Project: PROJECT LT Attributes GT OPEN_PAR ID . CLOSE_PAR NEWLINE
+   12        | PROJECT LT Attributes GT OPEN_PAR ID . CLOSE_PAR END
+
+    CLOSE_PAR  shift, and go to state 76
+
+
+State 73
+
+   13 Product: OPEN_PAR ID CLOSE_PAR PRODUCT OPEN_PAR ID . CLOSE_PAR NEWLINE
+   14        | OPEN_PAR ID CLOSE_PAR PRODUCT OPEN_PAR ID . CLOSE_PAR END
+
+    CLOSE_PAR  shift, and go to state 77
+
+
+State 74
+
+   15 Join: OPEN_PAR ID CLOSE_PAR JOIN LT Condition . GT OPEN_PAR ID CLOSE_PAR NEWLINE
+   16     | OPEN_PAR ID CLOSE_PAR JOIN LT Condition . GT OPEN_PAR ID CLOSE_PAR END
+   22 Condition: Condition . OR Condition
+   23          | Condition . AND Condition
+
+    GT   shift, and go to state 78
+    AND  shift, and go to state 34
+    OR   shift, and go to state 35
+
+
+State 75
+
+    9 Select: SELECT LT Condition GT OPEN_PAR ID CLOSE_PAR . NEWLINE
+   10       | SELECT LT Condition GT OPEN_PAR ID CLOSE_PAR . END
+
+    NEWLINE  shift, and go to state 79
+    END      shift, and go to state 80
+
+
+State 76
+
+   11 Project: PROJECT LT Attributes GT OPEN_PAR ID CLOSE_PAR . NEWLINE
+   12        | PROJECT LT Attributes GT OPEN_PAR ID CLOSE_PAR . END
+
+    NEWLINE  shift, and go to state 81
+    END      shift, and go to state 82
+
+
+State 77
+
+   13 Product: OPEN_PAR ID CLOSE_PAR PRODUCT OPEN_PAR ID CLOSE_PAR . NEWLINE
+   14        | OPEN_PAR ID CLOSE_PAR PRODUCT OPEN_PAR ID CLOSE_PAR . END
+
+    NEWLINE  shift, and go to state 83
+    END      shift, and go to state 84
+
+
+State 78
+
+   15 Join: OPEN_PAR ID CLOSE_PAR JOIN LT Condition GT . OPEN_PAR ID CLOSE_PAR NEWLINE
+   16     | OPEN_PAR ID CLOSE_PAR JOIN LT Condition GT . OPEN_PAR ID CLOSE_PAR END
+
+    OPEN_PAR  shift, and go to state 85
+
+
+State 79
+
+    9 Select: SELECT LT Condition GT OPEN_PAR ID CLOSE_PAR NEWLINE .
+
+    $default  reduce using rule 9 (Select)
+
+
+State 80
+
+   10 Select: SELECT LT Condition GT OPEN_PAR ID CLOSE_PAR END .
+
+    $default  reduce using rule 10 (Select)
+
+
+State 81
+
+   11 Project: PROJECT LT Attributes GT OPEN_PAR ID CLOSE_PAR NEWLINE .
+
+    $default  reduce using rule 11 (Project)
+
+
+State 82
+
+   12 Project: PROJECT LT Attributes GT OPEN_PAR ID CLOSE_PAR END .
+
+    $default  reduce using rule 12 (Project)
+
+
+State 83
+
+   13 Product: OPEN_PAR ID CLOSE_PAR PRODUCT OPEN_PAR ID CLOSE_PAR NEWLINE .
+
+    $default  reduce using rule 13 (Product)
+
+
+State 84
+
+   14 Product: OPEN_PAR ID CLOSE_PAR PRODUCT OPEN_PAR ID CLOSE_PAR END .
+
+    $default  reduce using rule 14 (Product)
+
+
+State 85
+
+   15 Join: OPEN_PAR ID CLOSE_PAR JOIN LT Condition GT OPEN_PAR . ID CLOSE_PAR NEWLINE
+   16     | OPEN_PAR ID CLOSE_PAR JOIN LT Condition GT OPEN_PAR . ID CLOSE_PAR END
+
+    ID  shift, and go to state 86
+
+
+State 86
+
+   15 Join: OPEN_PAR ID CLOSE_PAR JOIN LT Condition GT OPEN_PAR ID . CLOSE_PAR NEWLINE
+   16     | OPEN_PAR ID CLOSE_PAR JOIN LT Condition GT OPEN_PAR ID . CLOSE_PAR END
+
+    CLOSE_PAR  shift, and go to state 87
+
+
+State 87
+
+   15 Join: OPEN_PAR ID CLOSE_PAR JOIN LT Condition GT OPEN_PAR ID CLOSE_PAR . NEWLINE
+   16     | OPEN_PAR ID CLOSE_PAR JOIN LT Condition GT OPEN_PAR ID CLOSE_PAR . END
+
+    NEWLINE  shift, and go to state 88
+    END      shift, and go to state 89
+
+
+State 88
+
+   15 Join: OPEN_PAR ID CLOSE_PAR JOIN LT Condition GT OPEN_PAR ID CLOSE_PAR NEWLINE .
+
+    $default  reduce using rule 15 (Join)
+
+
+State 89
+
+   16 Join: OPEN_PAR ID CLOSE_PAR JOIN LT Condition GT OPEN_PAR ID CLOSE_PAR END .
+
+    $default  reduce using rule 16 (Join)

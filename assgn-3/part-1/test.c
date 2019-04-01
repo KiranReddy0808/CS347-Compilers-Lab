@@ -38,15 +38,52 @@ complx::complx( double r, double i )
 // define overloaded + (plus) operator
 complx complx::operator+ (const complx& c) const
 {
-	complx result;
+	complx result,
+	 pavan;
 	result.real = (this->real + c.real);
 	result.imag = (this->imag + c.imag);
 	return result;
 }
 
-int main()
-{
-	
+
+  
+// first base class 
+class Vehicle { 
+  public: 
+    Vehicle() 
+    { 
+      cout << "This is a Vehicle" << endl; 
+    } 
+}; 
+  
+// second base class 
+class FourWheeler { 
+  public: 
+    FourWheeler() 
+    { 
+      cout << "This is a 4 wheeler Vehicle" << endl; 
+    } 
+};
+  
+// sub class derived from two base classes 
+class Car: public Vehicle, public FourWheeler { 
+	FourWheeler abcd;
+}; 
+  
+int Car::saff (int b, int c) {
+
+}
+
+int Car::Car (){
+
+}
+// main function 
+int main() 
+{    
+    // creating object of sub class will 
+    // invoke the constructor of base classes 
+    Car obj; 
+    return 0; 
 }
   
 int main() 
@@ -56,8 +93,9 @@ int main()
 	Complex c3 = c1 + c2; // An example call to "operator+" 
 	c3.print();
 	complx x(4,4);
-	complx y(6,6);
+	complx y(6,6),z;
 	complx z = x + y; // calls complx::operator+()
 	return 0; 
 } 
+
 

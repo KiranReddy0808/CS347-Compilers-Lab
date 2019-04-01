@@ -43,6 +43,7 @@ Line:
 	| Project END			{printf("Valid Syntax\n"); YYABORT;}
 	| Product END			{printf("Valid Syntax\n"); YYABORT;}
 	| Join END				{printf("Valid Syntax\n"); YYABORT;}
+	| END			{YYABORT;}
 ;
 
 Select:

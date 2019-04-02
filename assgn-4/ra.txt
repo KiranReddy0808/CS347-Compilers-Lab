@@ -1,18 +1,1 @@
-SELECT < Salary<200 > (Employee)
-SELECT < Name="John" AND Salary<200 > (Employee)
-SELECT (Employee) < salary<200 >
-PROJECT < Salary> (Employee)
-PROJECT < Name, Salary> (Employee)
-PROJECT (Employee) <salary, name>
-(Employee) CARTESIAN_PRODUCT (Department)
-CARTESIAN_PRODUCT (Employee) (Department)
-(Employee) CARTESIAN_PRODUCT
-(Employee) EQUI_JOIN <Employee.Id = Department.Id>(Department)
-(Employee) EQUI_JOIN (Department)
-EQUI_JOIN (Employee) <Employee.Id = Department.Id>(Department)
-bdfksbjng $
-SELECT < salary<200 > (Employee)
-0
-(Employee)
-SELECT < salary>200 > (Employee)
-(Employee)
+(Employee) EQUI_JOIN <Department.Id=Employee.Id AND Department.Name=Employee.Name> (Department)

@@ -21,22 +21,22 @@ Table::Table(string tableName)
         while (getline(s, entry, ',')) {
             this->columns.push_back(new Column((void *)this, entry));
         }
-        this->numRows = 0;
         if (getline(tableFile, row)){
             stringstream s(row);
             int col = 0;
             while (getline(s, entry, ',')) {
-                if (isFloat(entry)){
+                if (entry=="num"){
                     this->columns[col]->dataType = dt_num;
-                    this->columns[col]->addData(entry);
+                }
+                else if(entry=="string"){
+                    this->columns[col]->dataType = dt_string;
                 }
                 else{
-                    this->columns[col]->dataType = dt_string;
-                    this->columns[col]->addData(entry);
+                    throw std::runtime_error(tableName+"."+this->columns[col]->columnName+" has wrong datatype");
                 }
                 col++;
             }
-            this->numRows++;
+            this->numRows = 0;
             while(getline(tableFile, row)){
                 stringstream s(row);
                 int col = 0;

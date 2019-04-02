@@ -29,7 +29,7 @@ Grammar
    15 Join: OPEN_PAR ID CLOSE_PAR JOIN LT Condition GT OPEN_PAR ID CLOSE_PAR NEWLINE
    16     | OPEN_PAR ID CLOSE_PAR JOIN LT Condition GT OPEN_PAR ID CLOSE_PAR END
 
-   17 Attributes: Attributes COMMA ColumnName
+   17 Attributes: ColumnName COMMA Attributes
    18           | ColumnName
 
    19 ColumnName: ID
@@ -373,15 +373,16 @@ State 25
 
    11 Project: PROJECT LT Attributes . GT OPEN_PAR ID CLOSE_PAR NEWLINE
    12        | PROJECT LT Attributes . GT OPEN_PAR ID CLOSE_PAR END
-   17 Attributes: Attributes . COMMA ColumnName
 
-    GT     shift, and go to state 46
-    COMMA  shift, and go to state 47
+    GT  shift, and go to state 46
 
 
 State 26
 
-   18 Attributes: ColumnName .
+   17 Attributes: ColumnName . COMMA Attributes
+   18           | ColumnName .
+
+    COMMA  shift, and go to state 47
 
     $default  reduce using rule 18 (Attributes)
 
@@ -655,11 +656,12 @@ State 46
 
 State 47
 
-   17 Attributes: Attributes COMMA . ColumnName
+   17 Attributes: ColumnName COMMA . Attributes
 
     ID  shift, and go to state 21
 
-    ColumnName  go to state 68
+    Attributes  go to state 68
+    ColumnName  go to state 26
 
 
 State 48
@@ -902,7 +904,7 @@ State 67
 
 State 68
 
-   17 Attributes: Attributes COMMA ColumnName .
+   17 Attributes: ColumnName COMMA Attributes .
 
     $default  reduce using rule 17 (Attributes)
 

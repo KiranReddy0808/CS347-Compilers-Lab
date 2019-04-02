@@ -1,4 +1,5 @@
 Id,Name,Salary
+num,string,num
 1,John,400
 2,Jill,30
 3,Jack,400

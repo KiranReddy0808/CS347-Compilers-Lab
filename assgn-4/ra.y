@@ -75,7 +75,7 @@ Join:
 ;
 
 Attributes:
-	Attributes COMMA ColumnName		{$$ = new Node; $$->dataType = dt_attr; $$->child1 = $1; $$->child2 = $3;}
+	ColumnName COMMA Attributes		{$$ = new Node; $$->dataType = dt_attr; $$->child1 = $3; $$->child2 = $1;}
 	| ColumnName					{$$ = new Node; $$->dataType = dt_attr; $$->child1 = NULL; $$->child2 = $1;}
 ;
 

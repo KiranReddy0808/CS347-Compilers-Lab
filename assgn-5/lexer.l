@@ -5,46 +5,62 @@
 #include "parser.tab.h"
 #include "compiler.h"
 using namespace std;
+
 %}
 
+%option yylineno
+%option noyywrap
+
+
 ID      [a-zA-Z][a-zA-Z0-9_]*
-SPACE   [ \t]+
-DIGIT [0-9]
-INTEGER {DIGIT}+
-EXPONENT [eE][+-]?{INTEGER}
-REAL {INTEGER}("."{INTEGER})?{EXPONENT}?
+SPACE   [ \n\t]+
+INT_NUMBER [0-9]+
+FLOAT_NUMBER   INT_NUMBER\.INT_NUMBER
 STRING  \'[^\'\n]*\'|\"[^\"\n]*\"
 
 %%
 
-"SELECT"                return SELECT;
-"PROJECT"               return PROJECT;
-"CARTESIAN_PRODUCT"     return PRODUCT;
-"EQUI_JOIN"             return JOIN;
 ">="                    return GTE;
 "<="                    return LTE;
 "<"                     return LT;
 ">"                     return GT;
 "!="                    return NEQ;
-"="                     return EQ;
-"AND"                   return AND;
-"OR"                    return OR;
+"=="                    return EQ;
+"="                     return ASGN;
+"&&"                    return AND;
+"||"                    return OR;
+"!"                     return NOT;
 "+"                     return PLUS;
 "-"                     return MINUS;
 "*"                     return TIMES;
 "/"                     return DIVIDE;
+"%"                     return MODULO;
 "("                     return OPEN_PAR;
 ")"                     return CLOSE_PAR;
+"{"                     return OPEN_CURLY;
+"}"                     return CLOSE_CURLY;
+"["                     return OPEN_BRAC;
+"]"                     return CLOSE_BRAC;
 ","                     return COMMA;
-{REAL}                  { yylval.node = new Node; yylval.node->dataType=dt_num; yylval.node->num=stof(yytext); return NUMBER;}
-{STRING}                { yylval.node = new Node; yylval.node->dataType=dt_string; yylval.node->str=yytext; return STRING;}
-{ID}                    { yylval.node = new Node; yylval.node->dataType=dt_id; yylval.node->str=yytext; return ID; }
-"."                     return DOT;
-"\n"                    return NEWLINE;
+";"                     return SEMI;
+":"                     return COLON;
+"for"                   return FOR;
+"while"                 return WHILE;
+"if"                    return IF;
+"else"                  return ELSE;
+"switch"                return SWITCH;
+"case"                  return CASE;
+"default"               return DEFAULT;
+"int"                   return INT;
+"float"                 return FLOAT;
+"void"                  return VOID;
+"main"                  return MAIN;
+{FLOAT_NUMBER}          
+{INT_NUMBER}            
+{ID}                    
 {SPACE}                 ;
 <<EOF>>                 return END;
 .                       return ERROR;
-
 
 
 %%

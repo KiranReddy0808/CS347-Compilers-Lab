@@ -35,6 +35,8 @@ STRING  \'[^\'\n]*\'|\"[^\"\n]*\"
 "*"                     return TIMES;
 "/"                     return DIVIDE;
 "%"                     return MODULO;
+"++"                    return INCREMENT;
+"--"                    return DECREMENT;
 "("                     return OPEN_PAR;
 ")"                     return CLOSE_PAR;
 "{"                     return OPEN_CURLY;
@@ -51,13 +53,15 @@ STRING  \'[^\'\n]*\'|\"[^\"\n]*\"
 "switch"                return SWITCH;
 "case"                  return CASE;
 "default"               return DEFAULT;
+"break"                 return BREAK;
+"continue"              return CONTINUE;
 "int"                   return INT;
 "float"                 return FLOAT;
 "void"                  return VOID;
 "main"                  return MAIN;
-{FLOAT_NUMBER}          
-{INT_NUMBER}            
-{ID}                    
+{INT_NUMBER}            return INT_NUMBER;
+{FLOAT_NUMBER}          return FLOAT_NUMBER;
+{ID}                    return ID;
 {SPACE}                 ;
 <<EOF>>                 return END;
 .                       return ERROR;

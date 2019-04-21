@@ -64,8 +64,8 @@ STRING  \'[^\'\n]*\'|\"[^\"\n]*\"
 "float"                 return FLOAT;
 "void"                  return VOID;
 "return"                return RETURN;
-{REAL}                  return REAL;
-{ID}                    return ID;
+{REAL}                  return REAL;    { yyval.node = new Node()}
+{ID}                    return ID;      { yylval.node = new Node()}
 {SPACE}                 ;
 <<EOF>>                 return END;
 .                       return ERROR;

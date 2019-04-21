@@ -14,8 +14,10 @@ using namespace std;
 
 ID      [a-zA-Z][a-zA-Z0-9_]*
 SPACE   [ \n\t]+
-INT_NUMBER [0-9]+
-FLOAT_NUMBER   INT_NUMBER\.INT_NUMBER
+DIGIT [0-9]
+INTEGER {DIGIT}+
+EXPONENT [eE][+-]?{INTEGER}
+REAL {INTEGER}("."{INTEGER})?{EXPONENT}?
 STRING  \'[^\'\n]*\'|\"[^\"\n]*\"
 
 %%
@@ -55,12 +57,14 @@ STRING  \'[^\'\n]*\'|\"[^\"\n]*\"
 "default"               return DEFAULT;
 "break"                 return BREAK;
 "continue"              return CONTINUE;
+"const"                 return CONST;
+"static"                return STATIC;
+"extern"                return EXTERN;
 "int"                   return INT;
 "float"                 return FLOAT;
 "void"                  return VOID;
-"main"                  return MAIN;
-{INT_NUMBER}            return INT_NUMBER;
-{FLOAT_NUMBER}          return FLOAT_NUMBER;
+"return"                return RETURN;
+{REAL}                  return REAL;
 {ID}                    return ID;
 {SPACE}                 ;
 <<EOF>>                 return END;

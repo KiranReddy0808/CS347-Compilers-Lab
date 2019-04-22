@@ -6,10 +6,10 @@ using namespace std;
 extern int yylex();
 extern int yyparse();
 extern FILE* yyin;
-void yyerror(string s){
-	return;	
-}
-
+void yyerror(string s);
+bool syntax_error = false;
+Node* parseTree = NULL;
+extern int yylineno;
 %}
 
 %union
@@ -41,18 +41,19 @@ void yyerror(string s){
 
 %start Input
 
+%define parse.error verbose
+
 %%
 
 Input:
 	Global_Statement Input	{  }
-	| error END				{ cout<<"Invalid Syntax\n"<<endl; YYABORT; }
 	| END					{ YYABORT; }
 ;
 
 Global_Statement:
-	Var_Decl				{ cout<<"\n\n$$Var_Decl$$\n\n"; printTree($1); }
-	| Func_Decl SEMI		{ cout<<"\n\n$$Func_Decl$$\n\n"; printTree($1); }
-	| Func_Defn				{ cout<<"\n\n$$Func_Defn$$\n\n"; printTree($1); }
+	Var_Decl				{ parseTree = $1; }
+	| Func_Decl SEMI		{ parseTree = $1; }
+	| Func_Defn				{ parseTree = $1; }
 ;
 
 Var_Decl:
@@ -146,10 +147,10 @@ Non_Conditional_Statement:
 	Block									{ $$ = new Node("non_condl", "block");  $$->childs.push_back($1);  }
 	| Loop_Block							{ $$ = new Node("non_condl", "loop");  $$->childs.push_back($1);  }
 	| Var_Decl								{ $$ = new Node("non_condl", "var_decl");  $$->childs.push_back($1);  }
-	| Expression SEMI						{ $$ = new Node("non_condl", "expr_semi");  $$->childs.push_back($1); }
-	| BREAK SEMI							{ $$ = new Node("non_condl", "brk_semi"); }
-	| CONTINUE SEMI							{ $$ = new Node("non_condl", "cont_semi");}
-	| RETURN Expression SEMI				{ $$ = new Node("non_condl", "ret_semi");  $$->childs.push_back($2);  }
+	| Expression SEMI						{ $$ = new Node("non_condl", "expr_stmt");  $$->childs.push_back($1); }
+	| BREAK SEMI							{ $$ = new Node("non_condl", "brk_stmt"); }
+	| CONTINUE SEMI							{ $$ = new Node("non_condl", "cont_stmt");}
+	| RETURN Expression SEMI				{ $$ = new Node("non_condl", "ret_stmt");  $$->childs.push_back($2);  }
 	| SEMI									{ $$ = new Node("non_condl", "semi"); }
 ;
 
@@ -236,8 +237,17 @@ Expression:
 
 %%
 
- int main(int argc, char *argv[]){
+void yyerror(string s){
+	cout<<"Syntax Error in:\nLine Number " << yylineno <<" : "<<s<<endl;
+	syntax_error = true;
+}
+
+int main(int argc, char *argv[]){
+	bool semantic_check = false; 
 	yyin = fopen(argv[1], "r");
 	yyparse();
+	if(!syntax_error){
+		semantic_check=SemanticAnalysis(parseTree);
+	}
 	fclose(yyin);
  }

@@ -1,11 +1,11 @@
 %option noyywrap
+%option yylineno
 
 %{
 #include <bits/stdc++.h>
 #include "compiler.h"
 #include "parser.tab.h"
 using namespace std;
-
 %}
 
 

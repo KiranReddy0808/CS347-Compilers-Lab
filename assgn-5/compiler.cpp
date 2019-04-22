@@ -30,3 +30,7 @@ void printTree(Node *root)
         }
     }
 }
+
+bool SemanticAnalysis(Node *root){
+    return true;
+}

@@ -8,190 +8,189 @@ Grammar
     0 $accept: Input $end
 
     1 Input: Global_Statement Input
-    2      | error END
-    3      | END
+    2      | END
 
-    4 Global_Statement: Var_Decl
-    5                 | Func_Decl SEMI
-    6                 | Func_Defn
+    3 Global_Statement: Var_Decl
+    4                 | Func_Decl SEMI
+    5                 | Func_Defn
 
-    7 Var_Decl: INT Var_List SEMI
-    8         | FLOAT Var_List SEMI
-    9         | CONST INT Var_List SEMI
-   10         | CONST FLOAT Var_List SEMI
-   11         | STATIC INT Var_List SEMI
-   12         | STATIC FLOAT Var_List SEMI
-   13         | EXTERN INT Var_List SEMI
-   14         | EXTERN FLOAT Var_List SEMI
+    6 Var_Decl: INT Var_List SEMI
+    7         | FLOAT Var_List SEMI
+    8         | CONST INT Var_List SEMI
+    9         | CONST FLOAT Var_List SEMI
+   10         | STATIC INT Var_List SEMI
+   11         | STATIC FLOAT Var_List SEMI
+   12         | EXTERN INT Var_List SEMI
+   13         | EXTERN FLOAT Var_List SEMI
 
-   15 Var_List: Var COMMA Var_List
-   16         | Var_Asgn COMMA Var_List
-   17         | Var
-   18         | Var_Asgn
+   14 Var_List: Var COMMA Var_List
+   15         | Var_Asgn COMMA Var_List
+   16         | Var
+   17         | Var_Asgn
 
-   19 Var: ID
-   20    | ID OPEN_BRAC Expression COMMA Dim_List CLOSE_BRAC
-   21    | ID Brac_Dim_List
+   18 Var: ID
+   19    | ID OPEN_BRAC Expression COMMA Dim_List CLOSE_BRAC
+   20    | ID Brac_Dim_List
 
-   22 Var_Asgn: Var ASGN Expression
+   21 Var_Asgn: Var ASGN Expression
 
-   23 Dim_List: Expression COMMA Dim_List
-   24         | Expression
+   22 Dim_List: Expression COMMA Dim_List
+   23         | Expression
 
-   25 Brac_Dim_List: OPEN_BRAC Expression CLOSE_BRAC Brac_Dim_List
-   26              | OPEN_BRAC Expression CLOSE_BRAC
+   24 Brac_Dim_List: OPEN_BRAC Expression CLOSE_BRAC Brac_Dim_List
+   25              | OPEN_BRAC Expression CLOSE_BRAC
 
-   27 Func_Decl: INT ID OPEN_PAR Decl_Param_List CLOSE_PAR
-   28          | FLOAT ID OPEN_PAR Decl_Param_List CLOSE_PAR
-   29          | VOID ID OPEN_PAR Decl_Param_List CLOSE_PAR
-   30          | INT ID OPEN_PAR CLOSE_PAR
-   31          | FLOAT ID OPEN_PAR CLOSE_PAR
-   32          | VOID ID OPEN_PAR CLOSE_PAR
+   26 Func_Decl: INT ID OPEN_PAR Decl_Param_List CLOSE_PAR
+   27          | FLOAT ID OPEN_PAR Decl_Param_List CLOSE_PAR
+   28          | VOID ID OPEN_PAR Decl_Param_List CLOSE_PAR
+   29          | INT ID OPEN_PAR CLOSE_PAR
+   30          | FLOAT ID OPEN_PAR CLOSE_PAR
+   31          | VOID ID OPEN_PAR CLOSE_PAR
 
-   33 Decl_Param_List: Decl_Param COMMA Decl_Param_List
-   34                | Defn_Param COMMA Decl_Param_List
-   35                | Decl_Param
-   36                | Defn_Param
+   32 Decl_Param_List: Decl_Param COMMA Decl_Param_List
+   33                | Defn_Param COMMA Decl_Param_List
+   34                | Decl_Param
+   35                | Defn_Param
 
-   37 Func_Call: ID OPEN_PAR Param_List CLOSE_PAR
+   36 Func_Call: ID OPEN_PAR Param_List CLOSE_PAR
 
-   38 Param_List: Expression COMMA Param_List
-   39           | Expression
+   37 Param_List: Expression COMMA Param_List
+   38           | Expression
 
-   40 Func_Defn: Func_Decl Block
+   39 Func_Defn: Func_Decl Block
 
-   41 Decl_Param: INT
-   42           | FLOAT
+   40 Decl_Param: INT
+   41           | FLOAT
 
-   43 Defn_Param: INT ID
-   44           | FLOAT ID
+   42 Defn_Param: INT ID
+   43           | FLOAT ID
 
-   45 Statements: Statement Statements
-   46           | Statement
+   44 Statements: Statement Statements
+   45           | Statement
 
-   47 Statement: Non_Conditional_Statement
-   48          | Conditional_Block
+   46 Statement: Non_Conditional_Statement
+   47          | Conditional_Block
 
-   49 Non_Conditional_Statement: Block
-   50                          | Loop_Block
-   51                          | Var_Decl
-   52                          | Expression SEMI
-   53                          | BREAK SEMI
-   54                          | CONTINUE SEMI
-   55                          | RETURN Expression SEMI
-   56                          | SEMI
+   48 Non_Conditional_Statement: Block
+   49                          | Loop_Block
+   50                          | Var_Decl
+   51                          | Expression SEMI
+   52                          | BREAK SEMI
+   53                          | CONTINUE SEMI
+   54                          | RETURN Expression SEMI
+   55                          | SEMI
 
-   57 Block: OPEN_CURLY Statements CLOSE_CURLY
+   56 Block: OPEN_CURLY Statements CLOSE_CURLY
 
-   58 Loop_Block: FOR OPEN_PAR For_Control CLOSE_PAR Statement
-   59           | WHILE OPEN_PAR Condition CLOSE_PAR Statement
+   57 Loop_Block: FOR OPEN_PAR For_Control CLOSE_PAR Statement
+   58           | WHILE OPEN_PAR Condition CLOSE_PAR Statement
 
-   60 For_Control: Init_Statement Condition SEMI Expression
-   61            | Init_Statement SEMI Expression
+   59 For_Control: Init_Statement Condition SEMI Expression
+   60            | Init_Statement SEMI Expression
 
-   62 Init_Statement: Expression SEMI
-   63               | SEMI
+   61 Init_Statement: Expression SEMI
+   62               | SEMI
 
-   64 Conditional_Block: If_Else_Block
-   65                  | Switch_Block
+   63 Conditional_Block: If_Else_Block
+   64                  | Switch_Block
 
-   66 If_Else_Block: IF OPEN_PAR Condition CLOSE_PAR Statement
-   67              | IF OPEN_PAR Condition CLOSE_PAR Statement ELSE Statement
+   65 If_Else_Block: IF OPEN_PAR Condition CLOSE_PAR Statement
+   66              | IF OPEN_PAR Condition CLOSE_PAR Statement ELSE Statement
 
-   68 Switch_Block: SWITCH OPEN_PAR Constant_Expression CLOSE_PAR OPEN_CURLY Switch_Body CLOSE_CURLY
-   69             | SWITCH OPEN_PAR Var CLOSE_PAR OPEN_CURLY Switch_Body CLOSE_CURLY
+   67 Switch_Block: SWITCH OPEN_PAR Constant_Expression CLOSE_PAR OPEN_CURLY Switch_Body CLOSE_CURLY
+   68             | SWITCH OPEN_PAR Var CLOSE_PAR OPEN_CURLY Switch_Body CLOSE_CURLY
 
-   70 Switch_Body: CASE Constant_Expression COLON Statements
-   71            | DEFAULT COLON Statements
+   69 Switch_Body: CASE Constant_Expression COLON Statements
+   70            | DEFAULT COLON Statements
 
-   72 Condition: OPEN_PAR Condition CLOSE_PAR
-   73          | NOT Condition
-   74          | Condition OR Condition
-   75          | Condition AND Condition
-   76          | Expression LT Expression
-   77          | Expression GT Expression
-   78          | Expression LTE Expression
-   79          | Expression GTE Expression
-   80          | Expression EQ Expression
-   81          | Expression NEQ Expression
+   71 Condition: OPEN_PAR Condition CLOSE_PAR
+   72          | NOT Condition
+   73          | Condition OR Condition
+   74          | Condition AND Condition
+   75          | Expression LT Expression
+   76          | Expression GT Expression
+   77          | Expression LTE Expression
+   78          | Expression GTE Expression
+   79          | Expression EQ Expression
+   80          | Expression NEQ Expression
 
-   82 Constant_Expression: REAL
-   83                    | OPEN_PAR Constant_Expression CLOSE_PAR
-   84                    | Constant_Expression PLUS Constant_Expression
-   85                    | Constant_Expression MINUS Constant_Expression
-   86                    | Constant_Expression TIMES Constant_Expression
-   87                    | Constant_Expression DIVIDE Constant_Expression
-   88                    | Constant_Expression MODULO Constant_Expression
-   89                    | MINUS Constant_Expression
+   81 Constant_Expression: REAL
+   82                    | OPEN_PAR Constant_Expression CLOSE_PAR
+   83                    | Constant_Expression PLUS Constant_Expression
+   84                    | Constant_Expression MINUS Constant_Expression
+   85                    | Constant_Expression TIMES Constant_Expression
+   86                    | Constant_Expression DIVIDE Constant_Expression
+   87                    | Constant_Expression MODULO Constant_Expression
+   88                    | MINUS Constant_Expression
 
-   90 Expression: REAL
-   91           | Var
-   92           | Var_Asgn
-   93           | Func_Call
-   94           | Var INCREMENT
-   95           | Var DECREMENT
-   96           | INCREMENT Var
-   97           | DECREMENT Var
-   98           | OPEN_PAR Expression CLOSE_PAR
-   99           | Expression PLUS Expression
-  100           | Expression MINUS Expression
-  101           | Expression TIMES Expression
-  102           | Expression DIVIDE Expression
-  103           | Expression MODULO Expression
-  104           | MINUS Expression
+   89 Expression: REAL
+   90           | Var
+   91           | Var_Asgn
+   92           | Func_Call
+   93           | Var INCREMENT
+   94           | Var DECREMENT
+   95           | INCREMENT Var
+   96           | DECREMENT Var
+   97           | OPEN_PAR Expression CLOSE_PAR
+   98           | Expression PLUS Expression
+   99           | Expression MINUS Expression
+  100           | Expression TIMES Expression
+  101           | Expression DIVIDE Expression
+  102           | Expression MODULO Expression
+  103           | MINUS Expression
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
-error (256) 2
-GTE (258) 79
-LTE (259) 78
-LT (260) 76
-GT (261) 77
-NEQ (262) 81
-EQ (263) 80
-ASGN (264) 22
-AND (265) 75
-OR (266) 74
-NOT (267) 73
-PLUS (268) 84 99
-MINUS (269) 85 89 100 104
-TIMES (270) 86 101
-DIVIDE (271) 87 102
-MODULO (272) 88 103
-INCREMENT (273) 94 96
-DECREMENT (274) 95 97
-IF (275) 66 67
-ELSE (276) 67
-SWITCH (277) 68 69
-CASE (278) 70
-DEFAULT (279) 71
-BREAK (280) 53
-CONTINUE (281) 54
+error (256)
+GTE (258) 78
+LTE (259) 77
+LT (260) 75
+GT (261) 76
+NEQ (262) 80
+EQ (263) 79
+ASGN (264) 21
+AND (265) 74
+OR (266) 73
+NOT (267) 72
+PLUS (268) 83 98
+MINUS (269) 84 88 99 103
+TIMES (270) 85 100
+DIVIDE (271) 86 101
+MODULO (272) 87 102
+INCREMENT (273) 93 95
+DECREMENT (274) 94 96
+IF (275) 65 66
+ELSE (276) 66
+SWITCH (277) 67 68
+CASE (278) 69
+DEFAULT (279) 70
+BREAK (280) 52
+CONTINUE (281) 53
 THEN (282)
-WHILE (283) 59
-FOR (284) 58
-OPEN_PAR (285) 27 28 29 30 31 32 37 58 59 66 67 68 69 72 83 98
-OPEN_CURLY (286) 57 68 69
-CLOSE_PAR (287) 27 28 29 30 31 32 37 58 59 66 67 68 69 72 83 98
-CLOSE_CURLY (288) 57 68 69
-COMMA (289) 15 16 20 23 33 34 38
-SEMI (290) 5 7 8 9 10 11 12 13 14 52 53 54 55 56 60 61 62 63
-OPEN_BRAC (291) 20 25 26
-CLOSE_BRAC (292) 20 25 26
-COLON (293) 70 71
-INT (294) 7 9 11 13 27 30 41 43
-FLOAT (295) 8 10 12 14 28 31 42 44
-VOID (296) 29 32
-RETURN (297) 55
-CONST (298) 9 10
-EXTERN (299) 13 14
-STATIC (300) 11 12
-REAL <node> (301) 82 90
-ID <node> (302) 19 20 21 27 28 29 30 31 32 37 43 44
+WHILE (283) 58
+FOR (284) 57
+OPEN_PAR (285) 26 27 28 29 30 31 36 57 58 65 66 67 68 71 82 97
+OPEN_CURLY (286) 56 67 68
+CLOSE_PAR (287) 26 27 28 29 30 31 36 57 58 65 66 67 68 71 82 97
+CLOSE_CURLY (288) 56 67 68
+COMMA (289) 14 15 19 22 32 33 37
+SEMI (290) 4 6 7 8 9 10 11 12 13 51 52 53 54 55 59 60 61 62
+OPEN_BRAC (291) 19 24 25
+CLOSE_BRAC (292) 19 24 25
+COLON (293) 69 70
+INT (294) 6 8 10 12 26 29 40 42
+FLOAT (295) 7 9 11 13 27 30 41 43
+VOID (296) 28 31
+RETURN (297) 54
+CONST (298) 8 9
+EXTERN (299) 12 13
+STATIC (300) 10 11
+REAL <node> (301) 81 89
+ID <node> (302) 18 19 20 26 27 28 29 30 31 36 42 43
 ERROR (303)
-END (304) 2 3
+END (304) 2
 NEG (305)
 
 
@@ -200,134 +199,135 @@ Nonterminals, with rules where they appear
 $accept (51)
     on left: 0
 Input (52)
-    on left: 1 2 3, on right: 0 1
+    on left: 1 2, on right: 0 1
 Global_Statement (53)
-    on left: 4 5 6, on right: 1
+    on left: 3 4 5, on right: 1
 Var_Decl <node> (54)
-    on left: 7 8 9 10 11 12 13 14, on right: 4 51
+    on left: 6 7 8 9 10 11 12 13, on right: 3 50
 Var_List <node> (55)
-    on left: 15 16 17 18, on right: 7 8 9 10 11 12 13 14 15 16
+    on left: 14 15 16 17, on right: 6 7 8 9 10 11 12 13 14 15
 Var <node> (56)
-    on left: 19 20 21, on right: 15 17 22 69 91 94 95 96 97
+    on left: 18 19 20, on right: 14 16 21 68 90 93 94 95 96
 Var_Asgn <node> (57)
-    on left: 22, on right: 16 18 92
+    on left: 21, on right: 15 17 91
 Dim_List <node> (58)
-    on left: 23 24, on right: 20 23
+    on left: 22 23, on right: 19 22
 Brac_Dim_List <node> (59)
-    on left: 25 26, on right: 21 25
+    on left: 24 25, on right: 20 24
 Func_Decl <node> (60)
-    on left: 27 28 29 30 31 32, on right: 5 40
+    on left: 26 27 28 29 30 31, on right: 4 39
 Decl_Param_List <node> (61)
-    on left: 33 34 35 36, on right: 27 28 29 33 34
+    on left: 32 33 34 35, on right: 26 27 28 32 33
 Func_Call <node> (62)
-    on left: 37, on right: 93
+    on left: 36, on right: 92
 Param_List <node> (63)
-    on left: 38 39, on right: 37 38
+    on left: 37 38, on right: 36 37
 Func_Defn <node> (64)
-    on left: 40, on right: 6
+    on left: 39, on right: 5
 Decl_Param <node> (65)
-    on left: 41 42, on right: 33 35
+    on left: 40 41, on right: 32 34
 Defn_Param <node> (66)
-    on left: 43 44, on right: 34 36
+    on left: 42 43, on right: 33 35
 Statements <node> (67)
-    on left: 45 46, on right: 45 57 70 71
+    on left: 44 45, on right: 44 56 69 70
 Statement <node> (68)
-    on left: 47 48, on right: 45 46 58 59 66 67
+    on left: 46 47, on right: 44 45 57 58 65 66
 Non_Conditional_Statement <node> (69)
-    on left: 49 50 51 52 53 54 55 56, on right: 47
+    on left: 48 49 50 51 52 53 54 55, on right: 46
 Block <node> (70)
-    on left: 57, on right: 40 49
+    on left: 56, on right: 39 48
 Loop_Block <node> (71)
-    on left: 58 59, on right: 50
+    on left: 57 58, on right: 49
 For_Control <node> (72)
-    on left: 60 61, on right: 58
+    on left: 59 60, on right: 57
 Init_Statement <node> (73)
-    on left: 62 63, on right: 60 61
+    on left: 61 62, on right: 59 60
 Conditional_Block <node> (74)
-    on left: 64 65, on right: 48
+    on left: 63 64, on right: 47
 If_Else_Block <node> (75)
-    on left: 66 67, on right: 64
+    on left: 65 66, on right: 63
 Switch_Block <node> (76)
-    on left: 68 69, on right: 65
+    on left: 67 68, on right: 64
 Switch_Body <node> (77)
-    on left: 70 71, on right: 68 69
+    on left: 69 70, on right: 67 68
 Condition <node> (78)
-    on left: 72 73 74 75 76 77 78 79 80 81, on right: 59 60 66 67 72
-    73 74 75
+    on left: 71 72 73 74 75 76 77 78 79 80, on right: 58 59 65 66 71
+    72 73 74
 Constant_Expression <node> (79)
-    on left: 82 83 84 85 86 87 88 89, on right: 68 70 83 84 85 86 87
-    88 89
+    on left: 81 82 83 84 85 86 87 88, on right: 67 69 82 83 84 85 86
+    87 88
 Expression <node> (80)
-    on left: 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104, on right:
-    20 22 23 24 25 26 38 39 52 55 60 61 62 76 77 78 79 80 81 98 99
-    100 101 102 103 104
+    on left: 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103, on right:
+    19 21 22 23 24 25 37 38 51 54 59 60 61 75 76 77 78 79 80 97 98
+    99 100 101 102 103
 
 
 State 0
 
     0 $accept: . Input $end
 
-    error   shift, and go to state 1
-    INT     shift, and go to state 2
-    FLOAT   shift, and go to state 3
-    VOID    shift, and go to state 4
-    CONST   shift, and go to state 5
-    EXTERN  shift, and go to state 6
-    STATIC  shift, and go to state 7
-    END     shift, and go to state 8
+    INT     shift, and go to state 1
+    FLOAT   shift, and go to state 2
+    VOID    shift, and go to state 3
+    CONST   shift, and go to state 4
+    EXTERN  shift, and go to state 5
+    STATIC  shift, and go to state 6
+    END     shift, and go to state 7
 
-    Input             go to state 9
-    Global_Statement  go to state 10
-    Var_Decl          go to state 11
-    Func_Decl         go to state 12
-    Func_Defn         go to state 13
+    Input             go to state 8
+    Global_Statement  go to state 9
+    Var_Decl          go to state 10
+    Func_Decl         go to state 11
+    Func_Defn         go to state 12
 
 
 State 1
 
-    2 Input: error . END
+    6 Var_Decl: INT . Var_List SEMI
+   26 Func_Decl: INT . ID OPEN_PAR Decl_Param_List CLOSE_PAR
+   29          | INT . ID OPEN_PAR CLOSE_PAR
 
-    END  shift, and go to state 14
+    ID  shift, and go to state 13
+
+    Var_List  go to state 14
+    Var       go to state 15
+    Var_Asgn  go to state 16
 
 
 State 2
 
-    7 Var_Decl: INT . Var_List SEMI
-   27 Func_Decl: INT . ID OPEN_PAR Decl_Param_List CLOSE_PAR
-   30          | INT . ID OPEN_PAR CLOSE_PAR
+    7 Var_Decl: FLOAT . Var_List SEMI
+   27 Func_Decl: FLOAT . ID OPEN_PAR Decl_Param_List CLOSE_PAR
+   30          | FLOAT . ID OPEN_PAR CLOSE_PAR
 
-    ID  shift, and go to state 15
+    ID  shift, and go to state 17
 
-    Var_List  go to state 16
-    Var       go to state 17
-    Var_Asgn  go to state 18
+    Var_List  go to state 18
+    Var       go to state 15
+    Var_Asgn  go to state 16
 
 
 State 3
 
-    8 Var_Decl: FLOAT . Var_List SEMI
-   28 Func_Decl: FLOAT . ID OPEN_PAR Decl_Param_List CLOSE_PAR
-   31          | FLOAT . ID OPEN_PAR CLOSE_PAR
+   28 Func_Decl: VOID . ID OPEN_PAR Decl_Param_List CLOSE_PAR
+   31          | VOID . ID OPEN_PAR CLOSE_PAR
 
     ID  shift, and go to state 19
-
-    Var_List  go to state 20
-    Var       go to state 17
-    Var_Asgn  go to state 18
 
 
 State 4
 
-   29 Func_Decl: VOID . ID OPEN_PAR Decl_Param_List CLOSE_PAR
-   32          | VOID . ID OPEN_PAR CLOSE_PAR
+    8 Var_Decl: CONST . INT Var_List SEMI
+    9         | CONST . FLOAT Var_List SEMI
 
-    ID  shift, and go to state 21
+    INT    shift, and go to state 20
+    FLOAT  shift, and go to state 21
 
 
 State 5
 
-    9 Var_Decl: CONST . INT Var_List SEMI
-   10         | CONST . FLOAT Var_List SEMI
+   12 Var_Decl: EXTERN . INT Var_List SEMI
+   13         | EXTERN . FLOAT Var_List SEMI
 
     INT    shift, and go to state 22
     FLOAT  shift, and go to state 23
@@ -335,8 +335,8 @@ State 5
 
 State 6
 
-   13 Var_Decl: EXTERN . INT Var_List SEMI
-   14         | EXTERN . FLOAT Var_List SEMI
+   10 Var_Decl: STATIC . INT Var_List SEMI
+   11         | STATIC . FLOAT Var_List SEMI
 
     INT    shift, and go to state 24
     FLOAT  shift, and go to state 25
@@ -344,2731 +344,2714 @@ State 6
 
 State 7
 
-   11 Var_Decl: STATIC . INT Var_List SEMI
-   12         | STATIC . FLOAT Var_List SEMI
-
-    INT    shift, and go to state 26
-    FLOAT  shift, and go to state 27
-
-
-State 8
-
-    3 Input: END .
-
-    $default  reduce using rule 3 (Input)
-
-
-State 9
-
-    0 $accept: Input . $end
-
-    $end  shift, and go to state 28
-
-
-State 10
-
-    1 Input: Global_Statement . Input
-
-    error   shift, and go to state 1
-    INT     shift, and go to state 2
-    FLOAT   shift, and go to state 3
-    VOID    shift, and go to state 4
-    CONST   shift, and go to state 5
-    EXTERN  shift, and go to state 6
-    STATIC  shift, and go to state 7
-    END     shift, and go to state 8
-
-    Input             go to state 29
-    Global_Statement  go to state 10
-    Var_Decl          go to state 11
-    Func_Decl         go to state 12
-    Func_Defn         go to state 13
-
-
-State 11
-
-    4 Global_Statement: Var_Decl .
-
-    $default  reduce using rule 4 (Global_Statement)
-
-
-State 12
-
-    5 Global_Statement: Func_Decl . SEMI
-   40 Func_Defn: Func_Decl . Block
-
-    OPEN_CURLY  shift, and go to state 30
-    SEMI        shift, and go to state 31
-
-    Block  go to state 32
-
-
-State 13
-
-    6 Global_Statement: Func_Defn .
-
-    $default  reduce using rule 6 (Global_Statement)
-
-
-State 14
-
-    2 Input: error END .
+    2 Input: END .
 
     $default  reduce using rule 2 (Input)
 
 
+State 8
+
+    0 $accept: Input . $end
+
+    $end  shift, and go to state 26
+
+
+State 9
+
+    1 Input: Global_Statement . Input
+
+    INT     shift, and go to state 1
+    FLOAT   shift, and go to state 2
+    VOID    shift, and go to state 3
+    CONST   shift, and go to state 4
+    EXTERN  shift, and go to state 5
+    STATIC  shift, and go to state 6
+    END     shift, and go to state 7
+
+    Input             go to state 27
+    Global_Statement  go to state 9
+    Var_Decl          go to state 10
+    Func_Decl         go to state 11
+    Func_Defn         go to state 12
+
+
+State 10
+
+    3 Global_Statement: Var_Decl .
+
+    $default  reduce using rule 3 (Global_Statement)
+
+
+State 11
+
+    4 Global_Statement: Func_Decl . SEMI
+   39 Func_Defn: Func_Decl . Block
+
+    OPEN_CURLY  shift, and go to state 28
+    SEMI        shift, and go to state 29
+
+    Block  go to state 30
+
+
+State 12
+
+    5 Global_Statement: Func_Defn .
+
+    $default  reduce using rule 5 (Global_Statement)
+
+
+State 13
+
+   18 Var: ID .
+   19    | ID . OPEN_BRAC Expression COMMA Dim_List CLOSE_BRAC
+   20    | ID . Brac_Dim_List
+   26 Func_Decl: INT ID . OPEN_PAR Decl_Param_List CLOSE_PAR
+   29          | INT ID . OPEN_PAR CLOSE_PAR
+
+    OPEN_PAR   shift, and go to state 31
+    OPEN_BRAC  shift, and go to state 32
+
+    $default  reduce using rule 18 (Var)
+
+    Brac_Dim_List  go to state 33
+
+
+State 14
+
+    6 Var_Decl: INT Var_List . SEMI
+
+    SEMI  shift, and go to state 34
+
+
 State 15
 
-   19 Var: ID .
-   20    | ID . OPEN_BRAC Expression COMMA Dim_List CLOSE_BRAC
-   21    | ID . Brac_Dim_List
-   27 Func_Decl: INT ID . OPEN_PAR Decl_Param_List CLOSE_PAR
-   30          | INT ID . OPEN_PAR CLOSE_PAR
+   14 Var_List: Var . COMMA Var_List
+   16         | Var .
+   21 Var_Asgn: Var . ASGN Expression
 
-    OPEN_PAR   shift, and go to state 33
-    OPEN_BRAC  shift, and go to state 34
+    ASGN   shift, and go to state 35
+    COMMA  shift, and go to state 36
 
-    $default  reduce using rule 19 (Var)
-
-    Brac_Dim_List  go to state 35
+    $default  reduce using rule 16 (Var_List)
 
 
 State 16
 
-    7 Var_Decl: INT Var_List . SEMI
+   15 Var_List: Var_Asgn . COMMA Var_List
+   17         | Var_Asgn .
 
-    SEMI  shift, and go to state 36
-
-
-State 17
-
-   15 Var_List: Var . COMMA Var_List
-   17         | Var .
-   22 Var_Asgn: Var . ASGN Expression
-
-    ASGN   shift, and go to state 37
-    COMMA  shift, and go to state 38
+    COMMA  shift, and go to state 37
 
     $default  reduce using rule 17 (Var_List)
 
 
+State 17
+
+   18 Var: ID .
+   19    | ID . OPEN_BRAC Expression COMMA Dim_List CLOSE_BRAC
+   20    | ID . Brac_Dim_List
+   27 Func_Decl: FLOAT ID . OPEN_PAR Decl_Param_List CLOSE_PAR
+   30          | FLOAT ID . OPEN_PAR CLOSE_PAR
+
+    OPEN_PAR   shift, and go to state 38
+    OPEN_BRAC  shift, and go to state 32
+
+    $default  reduce using rule 18 (Var)
+
+    Brac_Dim_List  go to state 33
+
+
 State 18
 
-   16 Var_List: Var_Asgn . COMMA Var_List
-   18         | Var_Asgn .
+    7 Var_Decl: FLOAT Var_List . SEMI
 
-    COMMA  shift, and go to state 39
-
-    $default  reduce using rule 18 (Var_List)
+    SEMI  shift, and go to state 39
 
 
 State 19
 
-   19 Var: ID .
-   20    | ID . OPEN_BRAC Expression COMMA Dim_List CLOSE_BRAC
-   21    | ID . Brac_Dim_List
-   28 Func_Decl: FLOAT ID . OPEN_PAR Decl_Param_List CLOSE_PAR
-   31          | FLOAT ID . OPEN_PAR CLOSE_PAR
+   28 Func_Decl: VOID ID . OPEN_PAR Decl_Param_List CLOSE_PAR
+   31          | VOID ID . OPEN_PAR CLOSE_PAR
 
-    OPEN_PAR   shift, and go to state 40
-    OPEN_BRAC  shift, and go to state 34
-
-    $default  reduce using rule 19 (Var)
-
-    Brac_Dim_List  go to state 35
+    OPEN_PAR  shift, and go to state 40
 
 
 State 20
 
-    8 Var_Decl: FLOAT Var_List . SEMI
+    8 Var_Decl: CONST INT . Var_List SEMI
 
-    SEMI  shift, and go to state 41
+    ID  shift, and go to state 41
+
+    Var_List  go to state 42
+    Var       go to state 15
+    Var_Asgn  go to state 16
 
 
 State 21
 
-   29 Func_Decl: VOID ID . OPEN_PAR Decl_Param_List CLOSE_PAR
-   32          | VOID ID . OPEN_PAR CLOSE_PAR
+    9 Var_Decl: CONST FLOAT . Var_List SEMI
 
-    OPEN_PAR  shift, and go to state 42
+    ID  shift, and go to state 41
+
+    Var_List  go to state 43
+    Var       go to state 15
+    Var_Asgn  go to state 16
 
 
 State 22
 
-    9 Var_Decl: CONST INT . Var_List SEMI
+   12 Var_Decl: EXTERN INT . Var_List SEMI
 
-    ID  shift, and go to state 43
+    ID  shift, and go to state 41
 
     Var_List  go to state 44
-    Var       go to state 17
-    Var_Asgn  go to state 18
+    Var       go to state 15
+    Var_Asgn  go to state 16
 
 
 State 23
 
-   10 Var_Decl: CONST FLOAT . Var_List SEMI
+   13 Var_Decl: EXTERN FLOAT . Var_List SEMI
 
-    ID  shift, and go to state 43
+    ID  shift, and go to state 41
 
     Var_List  go to state 45
-    Var       go to state 17
-    Var_Asgn  go to state 18
+    Var       go to state 15
+    Var_Asgn  go to state 16
 
 
 State 24
 
-   13 Var_Decl: EXTERN INT . Var_List SEMI
+   10 Var_Decl: STATIC INT . Var_List SEMI
 
-    ID  shift, and go to state 43
+    ID  shift, and go to state 41
 
     Var_List  go to state 46
-    Var       go to state 17
-    Var_Asgn  go to state 18
+    Var       go to state 15
+    Var_Asgn  go to state 16
 
 
 State 25
 
-   14 Var_Decl: EXTERN FLOAT . Var_List SEMI
+   11 Var_Decl: STATIC FLOAT . Var_List SEMI
 
-    ID  shift, and go to state 43
+    ID  shift, and go to state 41
 
     Var_List  go to state 47
-    Var       go to state 17
-    Var_Asgn  go to state 18
+    Var       go to state 15
+    Var_Asgn  go to state 16
 
 
 State 26
-
-   11 Var_Decl: STATIC INT . Var_List SEMI
-
-    ID  shift, and go to state 43
-
-    Var_List  go to state 48
-    Var       go to state 17
-    Var_Asgn  go to state 18
-
-
-State 27
-
-   12 Var_Decl: STATIC FLOAT . Var_List SEMI
-
-    ID  shift, and go to state 43
-
-    Var_List  go to state 49
-    Var       go to state 17
-    Var_Asgn  go to state 18
-
-
-State 28
 
     0 $accept: Input $end .
 
     $default  accept
 
 
-State 29
+State 27
 
     1 Input: Global_Statement Input .
 
     $default  reduce using rule 1 (Input)
 
 
+State 28
+
+   56 Block: OPEN_CURLY . Statements CLOSE_CURLY
+
+    MINUS       shift, and go to state 48
+    INCREMENT   shift, and go to state 49
+    DECREMENT   shift, and go to state 50
+    IF          shift, and go to state 51
+    SWITCH      shift, and go to state 52
+    BREAK       shift, and go to state 53
+    CONTINUE    shift, and go to state 54
+    WHILE       shift, and go to state 55
+    FOR         shift, and go to state 56
+    OPEN_PAR    shift, and go to state 57
+    OPEN_CURLY  shift, and go to state 28
+    SEMI        shift, and go to state 58
+    INT         shift, and go to state 59
+    FLOAT       shift, and go to state 60
+    RETURN      shift, and go to state 61
+    CONST       shift, and go to state 4
+    EXTERN      shift, and go to state 5
+    STATIC      shift, and go to state 6
+    REAL        shift, and go to state 62
+    ID          shift, and go to state 63
+
+    Var_Decl                   go to state 64
+    Var                        go to state 65
+    Var_Asgn                   go to state 66
+    Func_Call                  go to state 67
+    Statements                 go to state 68
+    Statement                  go to state 69
+    Non_Conditional_Statement  go to state 70
+    Block                      go to state 71
+    Loop_Block                 go to state 72
+    Conditional_Block          go to state 73
+    If_Else_Block              go to state 74
+    Switch_Block               go to state 75
+    Expression                 go to state 76
+
+
+State 29
+
+    4 Global_Statement: Func_Decl SEMI .
+
+    $default  reduce using rule 4 (Global_Statement)
+
+
 State 30
 
-   57 Block: OPEN_CURLY . Statements CLOSE_CURLY
+   39 Func_Defn: Func_Decl Block .
 
-    MINUS       shift, and go to state 50
-    INCREMENT   shift, and go to state 51
-    DECREMENT   shift, and go to state 52
-    IF          shift, and go to state 53
-    SWITCH      shift, and go to state 54
-    BREAK       shift, and go to state 55
-    CONTINUE    shift, and go to state 56
-    WHILE       shift, and go to state 57
-    FOR         shift, and go to state 58
-    OPEN_PAR    shift, and go to state 59
-    OPEN_CURLY  shift, and go to state 30
-    SEMI        shift, and go to state 60
-    INT         shift, and go to state 61
-    FLOAT       shift, and go to state 62
-    RETURN      shift, and go to state 63
-    CONST       shift, and go to state 5
-    EXTERN      shift, and go to state 6
-    STATIC      shift, and go to state 7
-    REAL        shift, and go to state 64
-    ID          shift, and go to state 65
-
-    Var_Decl                   go to state 66
-    Var                        go to state 67
-    Var_Asgn                   go to state 68
-    Func_Call                  go to state 69
-    Statements                 go to state 70
-    Statement                  go to state 71
-    Non_Conditional_Statement  go to state 72
-    Block                      go to state 73
-    Loop_Block                 go to state 74
-    Conditional_Block          go to state 75
-    If_Else_Block              go to state 76
-    Switch_Block               go to state 77
-    Expression                 go to state 78
+    $default  reduce using rule 39 (Func_Defn)
 
 
 State 31
 
-    5 Global_Statement: Func_Decl SEMI .
+   26 Func_Decl: INT ID OPEN_PAR . Decl_Param_List CLOSE_PAR
+   29          | INT ID OPEN_PAR . CLOSE_PAR
 
-    $default  reduce using rule 5 (Global_Statement)
+    CLOSE_PAR  shift, and go to state 77
+    INT        shift, and go to state 78
+    FLOAT      shift, and go to state 79
+
+    Decl_Param_List  go to state 80
+    Decl_Param       go to state 81
+    Defn_Param       go to state 82
 
 
 State 32
 
-   40 Func_Defn: Func_Decl Block .
+   19 Var: ID OPEN_BRAC . Expression COMMA Dim_List CLOSE_BRAC
+   24 Brac_Dim_List: OPEN_BRAC . Expression CLOSE_BRAC Brac_Dim_List
+   25              | OPEN_BRAC . Expression CLOSE_BRAC
 
-    $default  reduce using rule 40 (Func_Defn)
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
+
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
+    Expression  go to state 83
 
 
 State 33
 
-   27 Func_Decl: INT ID OPEN_PAR . Decl_Param_List CLOSE_PAR
-   30          | INT ID OPEN_PAR . CLOSE_PAR
+   20 Var: ID Brac_Dim_List .
 
-    CLOSE_PAR  shift, and go to state 79
-    INT        shift, and go to state 80
-    FLOAT      shift, and go to state 81
-
-    Decl_Param_List  go to state 82
-    Decl_Param       go to state 83
-    Defn_Param       go to state 84
+    $default  reduce using rule 20 (Var)
 
 
 State 34
 
-   20 Var: ID OPEN_BRAC . Expression COMMA Dim_List CLOSE_BRAC
-   25 Brac_Dim_List: OPEN_BRAC . Expression CLOSE_BRAC Brac_Dim_List
-   26              | OPEN_BRAC . Expression CLOSE_BRAC
+    6 Var_Decl: INT Var_List SEMI .
 
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
-
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
-    Expression  go to state 85
+    $default  reduce using rule 6 (Var_Decl)
 
 
 State 35
 
-   21 Var: ID Brac_Dim_List .
+   21 Var_Asgn: Var ASGN . Expression
 
-    $default  reduce using rule 21 (Var)
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
+
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
+    Expression  go to state 84
 
 
 State 36
 
-    7 Var_Decl: INT Var_List SEMI .
+   14 Var_List: Var COMMA . Var_List
 
-    $default  reduce using rule 7 (Var_Decl)
+    ID  shift, and go to state 41
+
+    Var_List  go to state 85
+    Var       go to state 15
+    Var_Asgn  go to state 16
 
 
 State 37
 
-   22 Var_Asgn: Var ASGN . Expression
+   15 Var_List: Var_Asgn COMMA . Var_List
 
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
+    ID  shift, and go to state 41
 
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
-    Expression  go to state 86
+    Var_List  go to state 86
+    Var       go to state 15
+    Var_Asgn  go to state 16
 
 
 State 38
 
-   15 Var_List: Var COMMA . Var_List
+   27 Func_Decl: FLOAT ID OPEN_PAR . Decl_Param_List CLOSE_PAR
+   30          | FLOAT ID OPEN_PAR . CLOSE_PAR
 
-    ID  shift, and go to state 43
+    CLOSE_PAR  shift, and go to state 87
+    INT        shift, and go to state 78
+    FLOAT      shift, and go to state 79
 
-    Var_List  go to state 87
-    Var       go to state 17
-    Var_Asgn  go to state 18
+    Decl_Param_List  go to state 88
+    Decl_Param       go to state 81
+    Defn_Param       go to state 82
 
 
 State 39
 
-   16 Var_List: Var_Asgn COMMA . Var_List
+    7 Var_Decl: FLOAT Var_List SEMI .
 
-    ID  shift, and go to state 43
-
-    Var_List  go to state 88
-    Var       go to state 17
-    Var_Asgn  go to state 18
+    $default  reduce using rule 7 (Var_Decl)
 
 
 State 40
 
-   28 Func_Decl: FLOAT ID OPEN_PAR . Decl_Param_List CLOSE_PAR
-   31          | FLOAT ID OPEN_PAR . CLOSE_PAR
+   28 Func_Decl: VOID ID OPEN_PAR . Decl_Param_List CLOSE_PAR
+   31          | VOID ID OPEN_PAR . CLOSE_PAR
 
     CLOSE_PAR  shift, and go to state 89
-    INT        shift, and go to state 80
-    FLOAT      shift, and go to state 81
+    INT        shift, and go to state 78
+    FLOAT      shift, and go to state 79
 
     Decl_Param_List  go to state 90
-    Decl_Param       go to state 83
-    Defn_Param       go to state 84
+    Decl_Param       go to state 81
+    Defn_Param       go to state 82
 
 
 State 41
 
-    8 Var_Decl: FLOAT Var_List SEMI .
+   18 Var: ID .
+   19    | ID . OPEN_BRAC Expression COMMA Dim_List CLOSE_BRAC
+   20    | ID . Brac_Dim_List
 
-    $default  reduce using rule 8 (Var_Decl)
+    OPEN_BRAC  shift, and go to state 32
+
+    $default  reduce using rule 18 (Var)
+
+    Brac_Dim_List  go to state 33
 
 
 State 42
 
-   29 Func_Decl: VOID ID OPEN_PAR . Decl_Param_List CLOSE_PAR
-   32          | VOID ID OPEN_PAR . CLOSE_PAR
+    8 Var_Decl: CONST INT Var_List . SEMI
 
-    CLOSE_PAR  shift, and go to state 91
-    INT        shift, and go to state 80
-    FLOAT      shift, and go to state 81
-
-    Decl_Param_List  go to state 92
-    Decl_Param       go to state 83
-    Defn_Param       go to state 84
+    SEMI  shift, and go to state 91
 
 
 State 43
 
-   19 Var: ID .
-   20    | ID . OPEN_BRAC Expression COMMA Dim_List CLOSE_BRAC
-   21    | ID . Brac_Dim_List
+    9 Var_Decl: CONST FLOAT Var_List . SEMI
 
-    OPEN_BRAC  shift, and go to state 34
-
-    $default  reduce using rule 19 (Var)
-
-    Brac_Dim_List  go to state 35
+    SEMI  shift, and go to state 92
 
 
 State 44
 
-    9 Var_Decl: CONST INT Var_List . SEMI
+   12 Var_Decl: EXTERN INT Var_List . SEMI
 
     SEMI  shift, and go to state 93
 
 
 State 45
 
-   10 Var_Decl: CONST FLOAT Var_List . SEMI
+   13 Var_Decl: EXTERN FLOAT Var_List . SEMI
 
     SEMI  shift, and go to state 94
 
 
 State 46
 
-   13 Var_Decl: EXTERN INT Var_List . SEMI
+   10 Var_Decl: STATIC INT Var_List . SEMI
 
     SEMI  shift, and go to state 95
 
 
 State 47
 
-   14 Var_Decl: EXTERN FLOAT Var_List . SEMI
+   11 Var_Decl: STATIC FLOAT Var_List . SEMI
 
     SEMI  shift, and go to state 96
 
 
 State 48
 
-   11 Var_Decl: STATIC INT Var_List . SEMI
+  103 Expression: MINUS . Expression
 
-    SEMI  shift, and go to state 97
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
+
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
+    Expression  go to state 97
 
 
 State 49
 
-   12 Var_Decl: STATIC FLOAT Var_List . SEMI
+   95 Expression: INCREMENT . Var
 
-    SEMI  shift, and go to state 98
+    ID  shift, and go to state 41
+
+    Var  go to state 98
 
 
 State 50
 
-  104 Expression: MINUS . Expression
+   96 Expression: DECREMENT . Var
 
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
+    ID  shift, and go to state 41
 
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
-    Expression  go to state 99
+    Var  go to state 99
 
 
 State 51
 
-   96 Expression: INCREMENT . Var
+   65 If_Else_Block: IF . OPEN_PAR Condition CLOSE_PAR Statement
+   66              | IF . OPEN_PAR Condition CLOSE_PAR Statement ELSE Statement
 
-    ID  shift, and go to state 43
-
-    Var  go to state 100
+    OPEN_PAR  shift, and go to state 100
 
 
 State 52
 
-   97 Expression: DECREMENT . Var
+   67 Switch_Block: SWITCH . OPEN_PAR Constant_Expression CLOSE_PAR OPEN_CURLY Switch_Body CLOSE_CURLY
+   68             | SWITCH . OPEN_PAR Var CLOSE_PAR OPEN_CURLY Switch_Body CLOSE_CURLY
 
-    ID  shift, and go to state 43
-
-    Var  go to state 101
+    OPEN_PAR  shift, and go to state 101
 
 
 State 53
 
-   66 If_Else_Block: IF . OPEN_PAR Condition CLOSE_PAR Statement
-   67              | IF . OPEN_PAR Condition CLOSE_PAR Statement ELSE Statement
+   52 Non_Conditional_Statement: BREAK . SEMI
 
-    OPEN_PAR  shift, and go to state 102
+    SEMI  shift, and go to state 102
 
 
 State 54
 
-   68 Switch_Block: SWITCH . OPEN_PAR Constant_Expression CLOSE_PAR OPEN_CURLY Switch_Body CLOSE_CURLY
-   69             | SWITCH . OPEN_PAR Var CLOSE_PAR OPEN_CURLY Switch_Body CLOSE_CURLY
+   53 Non_Conditional_Statement: CONTINUE . SEMI
 
-    OPEN_PAR  shift, and go to state 103
+    SEMI  shift, and go to state 103
 
 
 State 55
 
-   53 Non_Conditional_Statement: BREAK . SEMI
+   58 Loop_Block: WHILE . OPEN_PAR Condition CLOSE_PAR Statement
 
-    SEMI  shift, and go to state 104
+    OPEN_PAR  shift, and go to state 104
 
 
 State 56
 
-   54 Non_Conditional_Statement: CONTINUE . SEMI
+   57 Loop_Block: FOR . OPEN_PAR For_Control CLOSE_PAR Statement
 
-    SEMI  shift, and go to state 105
+    OPEN_PAR  shift, and go to state 105
 
 
 State 57
 
-   59 Loop_Block: WHILE . OPEN_PAR Condition CLOSE_PAR Statement
+   97 Expression: OPEN_PAR . Expression CLOSE_PAR
 
-    OPEN_PAR  shift, and go to state 106
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
+
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
+    Expression  go to state 106
 
 
 State 58
 
-   58 Loop_Block: FOR . OPEN_PAR For_Control CLOSE_PAR Statement
+   55 Non_Conditional_Statement: SEMI .
 
-    OPEN_PAR  shift, and go to state 107
+    $default  reduce using rule 55 (Non_Conditional_Statement)
 
 
 State 59
 
-   98 Expression: OPEN_PAR . Expression CLOSE_PAR
+    6 Var_Decl: INT . Var_List SEMI
 
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
+    ID  shift, and go to state 41
 
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
-    Expression  go to state 108
+    Var_List  go to state 14
+    Var       go to state 15
+    Var_Asgn  go to state 16
 
 
 State 60
 
-   56 Non_Conditional_Statement: SEMI .
+    7 Var_Decl: FLOAT . Var_List SEMI
 
-    $default  reduce using rule 56 (Non_Conditional_Statement)
+    ID  shift, and go to state 41
+
+    Var_List  go to state 18
+    Var       go to state 15
+    Var_Asgn  go to state 16
 
 
 State 61
 
-    7 Var_Decl: INT . Var_List SEMI
+   54 Non_Conditional_Statement: RETURN . Expression SEMI
 
-    ID  shift, and go to state 43
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
 
-    Var_List  go to state 16
-    Var       go to state 17
-    Var_Asgn  go to state 18
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
+    Expression  go to state 107
 
 
 State 62
 
-    8 Var_Decl: FLOAT . Var_List SEMI
+   89 Expression: REAL .
 
-    ID  shift, and go to state 43
-
-    Var_List  go to state 20
-    Var       go to state 17
-    Var_Asgn  go to state 18
+    $default  reduce using rule 89 (Expression)
 
 
 State 63
 
-   55 Non_Conditional_Statement: RETURN . Expression SEMI
+   18 Var: ID .
+   19    | ID . OPEN_BRAC Expression COMMA Dim_List CLOSE_BRAC
+   20    | ID . Brac_Dim_List
+   36 Func_Call: ID . OPEN_PAR Param_List CLOSE_PAR
 
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
+    OPEN_PAR   shift, and go to state 108
+    OPEN_BRAC  shift, and go to state 32
 
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
-    Expression  go to state 109
+    $default  reduce using rule 18 (Var)
+
+    Brac_Dim_List  go to state 33
 
 
 State 64
 
-   90 Expression: REAL .
-
-    $default  reduce using rule 90 (Expression)
-
-
-State 65
-
-   19 Var: ID .
-   20    | ID . OPEN_BRAC Expression COMMA Dim_List CLOSE_BRAC
-   21    | ID . Brac_Dim_List
-   37 Func_Call: ID . OPEN_PAR Param_List CLOSE_PAR
-
-    OPEN_PAR   shift, and go to state 110
-    OPEN_BRAC  shift, and go to state 34
-
-    $default  reduce using rule 19 (Var)
-
-    Brac_Dim_List  go to state 35
-
-
-State 66
-
-   51 Non_Conditional_Statement: Var_Decl .
-
-    $default  reduce using rule 51 (Non_Conditional_Statement)
-
-
-State 67
-
-   22 Var_Asgn: Var . ASGN Expression
-   91 Expression: Var .
-   94           | Var . INCREMENT
-   95           | Var . DECREMENT
-
-    ASGN       shift, and go to state 37
-    INCREMENT  shift, and go to state 111
-    DECREMENT  shift, and go to state 112
-
-    $default  reduce using rule 91 (Expression)
-
-
-State 68
-
-   92 Expression: Var_Asgn .
-
-    $default  reduce using rule 92 (Expression)
-
-
-State 69
-
-   93 Expression: Func_Call .
-
-    $default  reduce using rule 93 (Expression)
-
-
-State 70
-
-   57 Block: OPEN_CURLY Statements . CLOSE_CURLY
-
-    CLOSE_CURLY  shift, and go to state 113
-
-
-State 71
-
-   45 Statements: Statement . Statements
-   46           | Statement .
-
-    MINUS       shift, and go to state 50
-    INCREMENT   shift, and go to state 51
-    DECREMENT   shift, and go to state 52
-    IF          shift, and go to state 53
-    SWITCH      shift, and go to state 54
-    BREAK       shift, and go to state 55
-    CONTINUE    shift, and go to state 56
-    WHILE       shift, and go to state 57
-    FOR         shift, and go to state 58
-    OPEN_PAR    shift, and go to state 59
-    OPEN_CURLY  shift, and go to state 30
-    SEMI        shift, and go to state 60
-    INT         shift, and go to state 61
-    FLOAT       shift, and go to state 62
-    RETURN      shift, and go to state 63
-    CONST       shift, and go to state 5
-    EXTERN      shift, and go to state 6
-    STATIC      shift, and go to state 7
-    REAL        shift, and go to state 64
-    ID          shift, and go to state 65
-
-    $default  reduce using rule 46 (Statements)
-
-    Var_Decl                   go to state 66
-    Var                        go to state 67
-    Var_Asgn                   go to state 68
-    Func_Call                  go to state 69
-    Statements                 go to state 114
-    Statement                  go to state 71
-    Non_Conditional_Statement  go to state 72
-    Block                      go to state 73
-    Loop_Block                 go to state 74
-    Conditional_Block          go to state 75
-    If_Else_Block              go to state 76
-    Switch_Block               go to state 77
-    Expression                 go to state 78
-
-
-State 72
-
-   47 Statement: Non_Conditional_Statement .
-
-    $default  reduce using rule 47 (Statement)
-
-
-State 73
-
-   49 Non_Conditional_Statement: Block .
-
-    $default  reduce using rule 49 (Non_Conditional_Statement)
-
-
-State 74
-
-   50 Non_Conditional_Statement: Loop_Block .
+   50 Non_Conditional_Statement: Var_Decl .
 
     $default  reduce using rule 50 (Non_Conditional_Statement)
 
 
+State 65
+
+   21 Var_Asgn: Var . ASGN Expression
+   90 Expression: Var .
+   93           | Var . INCREMENT
+   94           | Var . DECREMENT
+
+    ASGN       shift, and go to state 35
+    INCREMENT  shift, and go to state 109
+    DECREMENT  shift, and go to state 110
+
+    $default  reduce using rule 90 (Expression)
+
+
+State 66
+
+   91 Expression: Var_Asgn .
+
+    $default  reduce using rule 91 (Expression)
+
+
+State 67
+
+   92 Expression: Func_Call .
+
+    $default  reduce using rule 92 (Expression)
+
+
+State 68
+
+   56 Block: OPEN_CURLY Statements . CLOSE_CURLY
+
+    CLOSE_CURLY  shift, and go to state 111
+
+
+State 69
+
+   44 Statements: Statement . Statements
+   45           | Statement .
+
+    MINUS       shift, and go to state 48
+    INCREMENT   shift, and go to state 49
+    DECREMENT   shift, and go to state 50
+    IF          shift, and go to state 51
+    SWITCH      shift, and go to state 52
+    BREAK       shift, and go to state 53
+    CONTINUE    shift, and go to state 54
+    WHILE       shift, and go to state 55
+    FOR         shift, and go to state 56
+    OPEN_PAR    shift, and go to state 57
+    OPEN_CURLY  shift, and go to state 28
+    SEMI        shift, and go to state 58
+    INT         shift, and go to state 59
+    FLOAT       shift, and go to state 60
+    RETURN      shift, and go to state 61
+    CONST       shift, and go to state 4
+    EXTERN      shift, and go to state 5
+    STATIC      shift, and go to state 6
+    REAL        shift, and go to state 62
+    ID          shift, and go to state 63
+
+    $default  reduce using rule 45 (Statements)
+
+    Var_Decl                   go to state 64
+    Var                        go to state 65
+    Var_Asgn                   go to state 66
+    Func_Call                  go to state 67
+    Statements                 go to state 112
+    Statement                  go to state 69
+    Non_Conditional_Statement  go to state 70
+    Block                      go to state 71
+    Loop_Block                 go to state 72
+    Conditional_Block          go to state 73
+    If_Else_Block              go to state 74
+    Switch_Block               go to state 75
+    Expression                 go to state 76
+
+
+State 70
+
+   46 Statement: Non_Conditional_Statement .
+
+    $default  reduce using rule 46 (Statement)
+
+
+State 71
+
+   48 Non_Conditional_Statement: Block .
+
+    $default  reduce using rule 48 (Non_Conditional_Statement)
+
+
+State 72
+
+   49 Non_Conditional_Statement: Loop_Block .
+
+    $default  reduce using rule 49 (Non_Conditional_Statement)
+
+
+State 73
+
+   47 Statement: Conditional_Block .
+
+    $default  reduce using rule 47 (Statement)
+
+
+State 74
+
+   63 Conditional_Block: If_Else_Block .
+
+    $default  reduce using rule 63 (Conditional_Block)
+
+
 State 75
 
-   48 Statement: Conditional_Block .
-
-    $default  reduce using rule 48 (Statement)
-
-
-State 76
-
-   64 Conditional_Block: If_Else_Block .
+   64 Conditional_Block: Switch_Block .
 
     $default  reduce using rule 64 (Conditional_Block)
 
 
+State 76
+
+   51 Non_Conditional_Statement: Expression . SEMI
+   98 Expression: Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
+
+    PLUS    shift, and go to state 113
+    MINUS   shift, and go to state 114
+    TIMES   shift, and go to state 115
+    DIVIDE  shift, and go to state 116
+    MODULO  shift, and go to state 117
+    SEMI    shift, and go to state 118
+
+
 State 77
 
-   65 Conditional_Block: Switch_Block .
+   29 Func_Decl: INT ID OPEN_PAR CLOSE_PAR .
 
-    $default  reduce using rule 65 (Conditional_Block)
+    $default  reduce using rule 29 (Func_Decl)
 
 
 State 78
 
-   52 Non_Conditional_Statement: Expression . SEMI
-   99 Expression: Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
+   40 Decl_Param: INT .
+   42 Defn_Param: INT . ID
 
-    PLUS    shift, and go to state 115
-    MINUS   shift, and go to state 116
-    TIMES   shift, and go to state 117
-    DIVIDE  shift, and go to state 118
-    MODULO  shift, and go to state 119
-    SEMI    shift, and go to state 120
+    ID  shift, and go to state 119
+
+    $default  reduce using rule 40 (Decl_Param)
 
 
 State 79
 
-   30 Func_Decl: INT ID OPEN_PAR CLOSE_PAR .
+   41 Decl_Param: FLOAT .
+   43 Defn_Param: FLOAT . ID
 
-    $default  reduce using rule 30 (Func_Decl)
-
-
-State 80
-
-   41 Decl_Param: INT .
-   43 Defn_Param: INT . ID
-
-    ID  shift, and go to state 121
+    ID  shift, and go to state 120
 
     $default  reduce using rule 41 (Decl_Param)
 
 
+State 80
+
+   26 Func_Decl: INT ID OPEN_PAR Decl_Param_List . CLOSE_PAR
+
+    CLOSE_PAR  shift, and go to state 121
+
+
 State 81
 
-   42 Decl_Param: FLOAT .
-   44 Defn_Param: FLOAT . ID
+   32 Decl_Param_List: Decl_Param . COMMA Decl_Param_List
+   34                | Decl_Param .
 
-    ID  shift, and go to state 122
+    COMMA  shift, and go to state 122
 
-    $default  reduce using rule 42 (Decl_Param)
+    $default  reduce using rule 34 (Decl_Param_List)
 
 
 State 82
 
-   27 Func_Decl: INT ID OPEN_PAR Decl_Param_List . CLOSE_PAR
+   33 Decl_Param_List: Defn_Param . COMMA Decl_Param_List
+   35                | Defn_Param .
 
-    CLOSE_PAR  shift, and go to state 123
-
-
-State 83
-
-   33 Decl_Param_List: Decl_Param . COMMA Decl_Param_List
-   35                | Decl_Param .
-
-    COMMA  shift, and go to state 124
+    COMMA  shift, and go to state 123
 
     $default  reduce using rule 35 (Decl_Param_List)
 
 
+State 83
+
+   19 Var: ID OPEN_BRAC Expression . COMMA Dim_List CLOSE_BRAC
+   24 Brac_Dim_List: OPEN_BRAC Expression . CLOSE_BRAC Brac_Dim_List
+   25              | OPEN_BRAC Expression . CLOSE_BRAC
+   98 Expression: Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
+
+    PLUS        shift, and go to state 113
+    MINUS       shift, and go to state 114
+    TIMES       shift, and go to state 115
+    DIVIDE      shift, and go to state 116
+    MODULO      shift, and go to state 117
+    COMMA       shift, and go to state 124
+    CLOSE_BRAC  shift, and go to state 125
+
+
 State 84
 
-   34 Decl_Param_List: Defn_Param . COMMA Decl_Param_List
-   36                | Defn_Param .
+   21 Var_Asgn: Var ASGN Expression .
+   98 Expression: Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
 
-    COMMA  shift, and go to state 125
+    PLUS    shift, and go to state 113
+    MINUS   shift, and go to state 114
+    TIMES   shift, and go to state 115
+    DIVIDE  shift, and go to state 116
+    MODULO  shift, and go to state 117
 
-    $default  reduce using rule 36 (Decl_Param_List)
+    $default  reduce using rule 21 (Var_Asgn)
 
 
 State 85
 
-   20 Var: ID OPEN_BRAC Expression . COMMA Dim_List CLOSE_BRAC
-   25 Brac_Dim_List: OPEN_BRAC Expression . CLOSE_BRAC Brac_Dim_List
-   26              | OPEN_BRAC Expression . CLOSE_BRAC
-   99 Expression: Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
+   14 Var_List: Var COMMA Var_List .
 
-    PLUS        shift, and go to state 115
-    MINUS       shift, and go to state 116
-    TIMES       shift, and go to state 117
-    DIVIDE      shift, and go to state 118
-    MODULO      shift, and go to state 119
-    COMMA       shift, and go to state 126
-    CLOSE_BRAC  shift, and go to state 127
+    $default  reduce using rule 14 (Var_List)
 
 
 State 86
 
-   22 Var_Asgn: Var ASGN Expression .
-   99 Expression: Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
-
-    PLUS    shift, and go to state 115
-    MINUS   shift, and go to state 116
-    TIMES   shift, and go to state 117
-    DIVIDE  shift, and go to state 118
-    MODULO  shift, and go to state 119
-
-    $default  reduce using rule 22 (Var_Asgn)
-
-
-State 87
-
-   15 Var_List: Var COMMA Var_List .
+   15 Var_List: Var_Asgn COMMA Var_List .
 
     $default  reduce using rule 15 (Var_List)
 
 
+State 87
+
+   30 Func_Decl: FLOAT ID OPEN_PAR CLOSE_PAR .
+
+    $default  reduce using rule 30 (Func_Decl)
+
+
 State 88
 
-   16 Var_List: Var_Asgn COMMA Var_List .
+   27 Func_Decl: FLOAT ID OPEN_PAR Decl_Param_List . CLOSE_PAR
 
-    $default  reduce using rule 16 (Var_List)
+    CLOSE_PAR  shift, and go to state 126
 
 
 State 89
 
-   31 Func_Decl: FLOAT ID OPEN_PAR CLOSE_PAR .
+   31 Func_Decl: VOID ID OPEN_PAR CLOSE_PAR .
 
     $default  reduce using rule 31 (Func_Decl)
 
 
 State 90
 
-   28 Func_Decl: FLOAT ID OPEN_PAR Decl_Param_List . CLOSE_PAR
+   28 Func_Decl: VOID ID OPEN_PAR Decl_Param_List . CLOSE_PAR
 
-    CLOSE_PAR  shift, and go to state 128
+    CLOSE_PAR  shift, and go to state 127
 
 
 State 91
 
-   32 Func_Decl: VOID ID OPEN_PAR CLOSE_PAR .
+    8 Var_Decl: CONST INT Var_List SEMI .
 
-    $default  reduce using rule 32 (Func_Decl)
+    $default  reduce using rule 8 (Var_Decl)
 
 
 State 92
 
-   29 Func_Decl: VOID ID OPEN_PAR Decl_Param_List . CLOSE_PAR
-
-    CLOSE_PAR  shift, and go to state 129
-
-
-State 93
-
-    9 Var_Decl: CONST INT Var_List SEMI .
+    9 Var_Decl: CONST FLOAT Var_List SEMI .
 
     $default  reduce using rule 9 (Var_Decl)
 
 
-State 94
+State 93
 
-   10 Var_Decl: CONST FLOAT Var_List SEMI .
-
-    $default  reduce using rule 10 (Var_Decl)
-
-
-State 95
-
-   13 Var_Decl: EXTERN INT Var_List SEMI .
-
-    $default  reduce using rule 13 (Var_Decl)
-
-
-State 96
-
-   14 Var_Decl: EXTERN FLOAT Var_List SEMI .
-
-    $default  reduce using rule 14 (Var_Decl)
-
-
-State 97
-
-   11 Var_Decl: STATIC INT Var_List SEMI .
-
-    $default  reduce using rule 11 (Var_Decl)
-
-
-State 98
-
-   12 Var_Decl: STATIC FLOAT Var_List SEMI .
+   12 Var_Decl: EXTERN INT Var_List SEMI .
 
     $default  reduce using rule 12 (Var_Decl)
 
 
-State 99
+State 94
 
-   99 Expression: Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
-  104           | MINUS Expression .
+   13 Var_Decl: EXTERN FLOAT Var_List SEMI .
 
-    $default  reduce using rule 104 (Expression)
+    $default  reduce using rule 13 (Var_Decl)
 
 
-State 100
+State 95
 
-   96 Expression: INCREMENT Var .
+   10 Var_Decl: STATIC INT Var_List SEMI .
 
-    $default  reduce using rule 96 (Expression)
-
-
-State 101
-
-   97 Expression: DECREMENT Var .
-
-    $default  reduce using rule 97 (Expression)
+    $default  reduce using rule 10 (Var_Decl)
 
 
-State 102
+State 96
 
-   66 If_Else_Block: IF OPEN_PAR . Condition CLOSE_PAR Statement
-   67              | IF OPEN_PAR . Condition CLOSE_PAR Statement ELSE Statement
+   11 Var_Decl: STATIC FLOAT Var_List SEMI .
 
-    NOT        shift, and go to state 130
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 131
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
-
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
-    Condition   go to state 132
-    Expression  go to state 133
+    $default  reduce using rule 11 (Var_Decl)
 
 
-State 103
+State 97
 
-   68 Switch_Block: SWITCH OPEN_PAR . Constant_Expression CLOSE_PAR OPEN_CURLY Switch_Body CLOSE_CURLY
-   69             | SWITCH OPEN_PAR . Var CLOSE_PAR OPEN_CURLY Switch_Body CLOSE_CURLY
+   98 Expression: Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
+  103           | MINUS Expression .
 
-    MINUS     shift, and go to state 134
-    OPEN_PAR  shift, and go to state 135
-    REAL      shift, and go to state 136
-    ID        shift, and go to state 43
-
-    Var                  go to state 137
-    Constant_Expression  go to state 138
+    $default  reduce using rule 103 (Expression)
 
 
-State 104
+State 98
 
-   53 Non_Conditional_Statement: BREAK SEMI .
-
-    $default  reduce using rule 53 (Non_Conditional_Statement)
-
-
-State 105
-
-   54 Non_Conditional_Statement: CONTINUE SEMI .
-
-    $default  reduce using rule 54 (Non_Conditional_Statement)
-
-
-State 106
-
-   59 Loop_Block: WHILE OPEN_PAR . Condition CLOSE_PAR Statement
-
-    NOT        shift, and go to state 130
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 131
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
-
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
-    Condition   go to state 139
-    Expression  go to state 133
-
-
-State 107
-
-   58 Loop_Block: FOR OPEN_PAR . For_Control CLOSE_PAR Statement
-
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    SEMI       shift, and go to state 140
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
-
-    Var             go to state 67
-    Var_Asgn        go to state 68
-    Func_Call       go to state 69
-    For_Control     go to state 141
-    Init_Statement  go to state 142
-    Expression      go to state 143
-
-
-State 108
-
-   98 Expression: OPEN_PAR Expression . CLOSE_PAR
-   99           | Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
-
-    PLUS       shift, and go to state 115
-    MINUS      shift, and go to state 116
-    TIMES      shift, and go to state 117
-    DIVIDE     shift, and go to state 118
-    MODULO     shift, and go to state 119
-    CLOSE_PAR  shift, and go to state 144
-
-
-State 109
-
-   55 Non_Conditional_Statement: RETURN Expression . SEMI
-   99 Expression: Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
-
-    PLUS    shift, and go to state 115
-    MINUS   shift, and go to state 116
-    TIMES   shift, and go to state 117
-    DIVIDE  shift, and go to state 118
-    MODULO  shift, and go to state 119
-    SEMI    shift, and go to state 145
-
-
-State 110
-
-   37 Func_Call: ID OPEN_PAR . Param_List CLOSE_PAR
-
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
-
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
-    Param_List  go to state 146
-    Expression  go to state 147
-
-
-State 111
-
-   94 Expression: Var INCREMENT .
-
-    $default  reduce using rule 94 (Expression)
-
-
-State 112
-
-   95 Expression: Var DECREMENT .
+   95 Expression: INCREMENT Var .
 
     $default  reduce using rule 95 (Expression)
 
 
+State 99
+
+   96 Expression: DECREMENT Var .
+
+    $default  reduce using rule 96 (Expression)
+
+
+State 100
+
+   65 If_Else_Block: IF OPEN_PAR . Condition CLOSE_PAR Statement
+   66              | IF OPEN_PAR . Condition CLOSE_PAR Statement ELSE Statement
+
+    NOT        shift, and go to state 128
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 129
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
+
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
+    Condition   go to state 130
+    Expression  go to state 131
+
+
+State 101
+
+   67 Switch_Block: SWITCH OPEN_PAR . Constant_Expression CLOSE_PAR OPEN_CURLY Switch_Body CLOSE_CURLY
+   68             | SWITCH OPEN_PAR . Var CLOSE_PAR OPEN_CURLY Switch_Body CLOSE_CURLY
+
+    MINUS     shift, and go to state 132
+    OPEN_PAR  shift, and go to state 133
+    REAL      shift, and go to state 134
+    ID        shift, and go to state 41
+
+    Var                  go to state 135
+    Constant_Expression  go to state 136
+
+
+State 102
+
+   52 Non_Conditional_Statement: BREAK SEMI .
+
+    $default  reduce using rule 52 (Non_Conditional_Statement)
+
+
+State 103
+
+   53 Non_Conditional_Statement: CONTINUE SEMI .
+
+    $default  reduce using rule 53 (Non_Conditional_Statement)
+
+
+State 104
+
+   58 Loop_Block: WHILE OPEN_PAR . Condition CLOSE_PAR Statement
+
+    NOT        shift, and go to state 128
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 129
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
+
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
+    Condition   go to state 137
+    Expression  go to state 131
+
+
+State 105
+
+   57 Loop_Block: FOR OPEN_PAR . For_Control CLOSE_PAR Statement
+
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    SEMI       shift, and go to state 138
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
+
+    Var             go to state 65
+    Var_Asgn        go to state 66
+    Func_Call       go to state 67
+    For_Control     go to state 139
+    Init_Statement  go to state 140
+    Expression      go to state 141
+
+
+State 106
+
+   97 Expression: OPEN_PAR Expression . CLOSE_PAR
+   98           | Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
+
+    PLUS       shift, and go to state 113
+    MINUS      shift, and go to state 114
+    TIMES      shift, and go to state 115
+    DIVIDE     shift, and go to state 116
+    MODULO     shift, and go to state 117
+    CLOSE_PAR  shift, and go to state 142
+
+
+State 107
+
+   54 Non_Conditional_Statement: RETURN Expression . SEMI
+   98 Expression: Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
+
+    PLUS    shift, and go to state 113
+    MINUS   shift, and go to state 114
+    TIMES   shift, and go to state 115
+    DIVIDE  shift, and go to state 116
+    MODULO  shift, and go to state 117
+    SEMI    shift, and go to state 143
+
+
+State 108
+
+   36 Func_Call: ID OPEN_PAR . Param_List CLOSE_PAR
+
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
+
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
+    Param_List  go to state 144
+    Expression  go to state 145
+
+
+State 109
+
+   93 Expression: Var INCREMENT .
+
+    $default  reduce using rule 93 (Expression)
+
+
+State 110
+
+   94 Expression: Var DECREMENT .
+
+    $default  reduce using rule 94 (Expression)
+
+
+State 111
+
+   56 Block: OPEN_CURLY Statements CLOSE_CURLY .
+
+    $default  reduce using rule 56 (Block)
+
+
+State 112
+
+   44 Statements: Statement Statements .
+
+    $default  reduce using rule 44 (Statements)
+
+
 State 113
 
-   57 Block: OPEN_CURLY Statements CLOSE_CURLY .
+   98 Expression: Expression PLUS . Expression
 
-    $default  reduce using rule 57 (Block)
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
+
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
+    Expression  go to state 146
 
 
 State 114
 
-   45 Statements: Statement Statements .
+   99 Expression: Expression MINUS . Expression
 
-    $default  reduce using rule 45 (Statements)
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
+
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
+    Expression  go to state 147
 
 
 State 115
 
-   99 Expression: Expression PLUS . Expression
+  100 Expression: Expression TIMES . Expression
 
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
 
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
     Expression  go to state 148
 
 
 State 116
 
-  100 Expression: Expression MINUS . Expression
+  101 Expression: Expression DIVIDE . Expression
 
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
 
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
     Expression  go to state 149
 
 
 State 117
 
-  101 Expression: Expression TIMES . Expression
+  102 Expression: Expression MODULO . Expression
 
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
 
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
     Expression  go to state 150
 
 
 State 118
 
-  102 Expression: Expression DIVIDE . Expression
+   51 Non_Conditional_Statement: Expression SEMI .
 
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
-
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
-    Expression  go to state 151
+    $default  reduce using rule 51 (Non_Conditional_Statement)
 
 
 State 119
 
-  103 Expression: Expression MODULO . Expression
+   42 Defn_Param: INT ID .
 
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
-
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
-    Expression  go to state 152
+    $default  reduce using rule 42 (Defn_Param)
 
 
 State 120
 
-   52 Non_Conditional_Statement: Expression SEMI .
-
-    $default  reduce using rule 52 (Non_Conditional_Statement)
-
-
-State 121
-
-   43 Defn_Param: INT ID .
+   43 Defn_Param: FLOAT ID .
 
     $default  reduce using rule 43 (Defn_Param)
 
 
+State 121
+
+   26 Func_Decl: INT ID OPEN_PAR Decl_Param_List CLOSE_PAR .
+
+    $default  reduce using rule 26 (Func_Decl)
+
+
 State 122
 
-   44 Defn_Param: FLOAT ID .
+   32 Decl_Param_List: Decl_Param COMMA . Decl_Param_List
 
-    $default  reduce using rule 44 (Defn_Param)
+    INT    shift, and go to state 78
+    FLOAT  shift, and go to state 79
+
+    Decl_Param_List  go to state 151
+    Decl_Param       go to state 81
+    Defn_Param       go to state 82
 
 
 State 123
 
-   27 Func_Decl: INT ID OPEN_PAR Decl_Param_List CLOSE_PAR .
+   33 Decl_Param_List: Defn_Param COMMA . Decl_Param_List
 
-    $default  reduce using rule 27 (Func_Decl)
+    INT    shift, and go to state 78
+    FLOAT  shift, and go to state 79
+
+    Decl_Param_List  go to state 152
+    Decl_Param       go to state 81
+    Defn_Param       go to state 82
 
 
 State 124
 
-   33 Decl_Param_List: Decl_Param COMMA . Decl_Param_List
+   19 Var: ID OPEN_BRAC Expression COMMA . Dim_List CLOSE_BRAC
 
-    INT    shift, and go to state 80
-    FLOAT  shift, and go to state 81
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
 
-    Decl_Param_List  go to state 153
-    Decl_Param       go to state 83
-    Defn_Param       go to state 84
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Dim_List    go to state 153
+    Func_Call   go to state 67
+    Expression  go to state 154
 
 
 State 125
 
-   34 Decl_Param_List: Defn_Param COMMA . Decl_Param_List
+   24 Brac_Dim_List: OPEN_BRAC Expression CLOSE_BRAC . Brac_Dim_List
+   25              | OPEN_BRAC Expression CLOSE_BRAC .
 
-    INT    shift, and go to state 80
-    FLOAT  shift, and go to state 81
+    OPEN_BRAC  shift, and go to state 155
 
-    Decl_Param_List  go to state 154
-    Decl_Param       go to state 83
-    Defn_Param       go to state 84
+    $default  reduce using rule 25 (Brac_Dim_List)
+
+    Brac_Dim_List  go to state 156
 
 
 State 126
 
-   20 Var: ID OPEN_BRAC Expression COMMA . Dim_List CLOSE_BRAC
+   27 Func_Decl: FLOAT ID OPEN_PAR Decl_Param_List CLOSE_PAR .
 
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
-
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Dim_List    go to state 155
-    Func_Call   go to state 69
-    Expression  go to state 156
+    $default  reduce using rule 27 (Func_Decl)
 
 
 State 127
 
-   25 Brac_Dim_List: OPEN_BRAC Expression CLOSE_BRAC . Brac_Dim_List
-   26              | OPEN_BRAC Expression CLOSE_BRAC .
-
-    OPEN_BRAC  shift, and go to state 157
-
-    $default  reduce using rule 26 (Brac_Dim_List)
-
-    Brac_Dim_List  go to state 158
-
-
-State 128
-
-   28 Func_Decl: FLOAT ID OPEN_PAR Decl_Param_List CLOSE_PAR .
+   28 Func_Decl: VOID ID OPEN_PAR Decl_Param_List CLOSE_PAR .
 
     $default  reduce using rule 28 (Func_Decl)
 
 
+State 128
+
+   72 Condition: NOT . Condition
+
+    NOT        shift, and go to state 128
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 129
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
+
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
+    Condition   go to state 157
+    Expression  go to state 131
+
+
 State 129
 
-   29 Func_Decl: VOID ID OPEN_PAR Decl_Param_List CLOSE_PAR .
+   71 Condition: OPEN_PAR . Condition CLOSE_PAR
+   97 Expression: OPEN_PAR . Expression CLOSE_PAR
 
-    $default  reduce using rule 29 (Func_Decl)
+    NOT        shift, and go to state 128
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 129
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
+
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
+    Condition   go to state 158
+    Expression  go to state 159
 
 
 State 130
 
-   73 Condition: NOT . Condition
+   65 If_Else_Block: IF OPEN_PAR Condition . CLOSE_PAR Statement
+   66              | IF OPEN_PAR Condition . CLOSE_PAR Statement ELSE Statement
+   73 Condition: Condition . OR Condition
+   74          | Condition . AND Condition
 
-    NOT        shift, and go to state 130
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 131
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
-
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
-    Condition   go to state 159
-    Expression  go to state 133
+    AND        shift, and go to state 160
+    OR         shift, and go to state 161
+    CLOSE_PAR  shift, and go to state 162
 
 
 State 131
 
-   72 Condition: OPEN_PAR . Condition CLOSE_PAR
-   98 Expression: OPEN_PAR . Expression CLOSE_PAR
+   75 Condition: Expression . LT Expression
+   76          | Expression . GT Expression
+   77          | Expression . LTE Expression
+   78          | Expression . GTE Expression
+   79          | Expression . EQ Expression
+   80          | Expression . NEQ Expression
+   98 Expression: Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
 
-    NOT        shift, and go to state 130
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 131
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
-
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
-    Condition   go to state 160
-    Expression  go to state 161
+    GTE     shift, and go to state 163
+    LTE     shift, and go to state 164
+    LT      shift, and go to state 165
+    GT      shift, and go to state 166
+    NEQ     shift, and go to state 167
+    EQ      shift, and go to state 168
+    PLUS    shift, and go to state 113
+    MINUS   shift, and go to state 114
+    TIMES   shift, and go to state 115
+    DIVIDE  shift, and go to state 116
+    MODULO  shift, and go to state 117
 
 
 State 132
 
-   66 If_Else_Block: IF OPEN_PAR Condition . CLOSE_PAR Statement
-   67              | IF OPEN_PAR Condition . CLOSE_PAR Statement ELSE Statement
-   74 Condition: Condition . OR Condition
-   75          | Condition . AND Condition
+   88 Constant_Expression: MINUS . Constant_Expression
 
-    AND        shift, and go to state 162
-    OR         shift, and go to state 163
-    CLOSE_PAR  shift, and go to state 164
+    MINUS     shift, and go to state 132
+    OPEN_PAR  shift, and go to state 133
+    REAL      shift, and go to state 134
+
+    Constant_Expression  go to state 169
 
 
 State 133
 
-   76 Condition: Expression . LT Expression
-   77          | Expression . GT Expression
-   78          | Expression . LTE Expression
-   79          | Expression . GTE Expression
-   80          | Expression . EQ Expression
-   81          | Expression . NEQ Expression
-   99 Expression: Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
+   82 Constant_Expression: OPEN_PAR . Constant_Expression CLOSE_PAR
 
-    GTE     shift, and go to state 165
-    LTE     shift, and go to state 166
-    LT      shift, and go to state 167
-    GT      shift, and go to state 168
-    NEQ     shift, and go to state 169
-    EQ      shift, and go to state 170
-    PLUS    shift, and go to state 115
-    MINUS   shift, and go to state 116
-    TIMES   shift, and go to state 117
-    DIVIDE  shift, and go to state 118
-    MODULO  shift, and go to state 119
+    MINUS     shift, and go to state 132
+    OPEN_PAR  shift, and go to state 133
+    REAL      shift, and go to state 134
+
+    Constant_Expression  go to state 170
 
 
 State 134
 
-   89 Constant_Expression: MINUS . Constant_Expression
+   81 Constant_Expression: REAL .
 
-    MINUS     shift, and go to state 134
-    OPEN_PAR  shift, and go to state 135
-    REAL      shift, and go to state 136
-
-    Constant_Expression  go to state 171
+    $default  reduce using rule 81 (Constant_Expression)
 
 
 State 135
 
-   83 Constant_Expression: OPEN_PAR . Constant_Expression CLOSE_PAR
+   68 Switch_Block: SWITCH OPEN_PAR Var . CLOSE_PAR OPEN_CURLY Switch_Body CLOSE_CURLY
 
-    MINUS     shift, and go to state 134
-    OPEN_PAR  shift, and go to state 135
-    REAL      shift, and go to state 136
-
-    Constant_Expression  go to state 172
+    CLOSE_PAR  shift, and go to state 171
 
 
 State 136
 
-   82 Constant_Expression: REAL .
+   67 Switch_Block: SWITCH OPEN_PAR Constant_Expression . CLOSE_PAR OPEN_CURLY Switch_Body CLOSE_CURLY
+   83 Constant_Expression: Constant_Expression . PLUS Constant_Expression
+   84                    | Constant_Expression . MINUS Constant_Expression
+   85                    | Constant_Expression . TIMES Constant_Expression
+   86                    | Constant_Expression . DIVIDE Constant_Expression
+   87                    | Constant_Expression . MODULO Constant_Expression
 
-    $default  reduce using rule 82 (Constant_Expression)
+    PLUS       shift, and go to state 172
+    MINUS      shift, and go to state 173
+    TIMES      shift, and go to state 174
+    DIVIDE     shift, and go to state 175
+    MODULO     shift, and go to state 176
+    CLOSE_PAR  shift, and go to state 177
 
 
 State 137
 
-   69 Switch_Block: SWITCH OPEN_PAR Var . CLOSE_PAR OPEN_CURLY Switch_Body CLOSE_CURLY
+   58 Loop_Block: WHILE OPEN_PAR Condition . CLOSE_PAR Statement
+   73 Condition: Condition . OR Condition
+   74          | Condition . AND Condition
 
-    CLOSE_PAR  shift, and go to state 173
+    AND        shift, and go to state 160
+    OR         shift, and go to state 161
+    CLOSE_PAR  shift, and go to state 178
 
 
 State 138
 
-   68 Switch_Block: SWITCH OPEN_PAR Constant_Expression . CLOSE_PAR OPEN_CURLY Switch_Body CLOSE_CURLY
-   84 Constant_Expression: Constant_Expression . PLUS Constant_Expression
-   85                    | Constant_Expression . MINUS Constant_Expression
-   86                    | Constant_Expression . TIMES Constant_Expression
-   87                    | Constant_Expression . DIVIDE Constant_Expression
-   88                    | Constant_Expression . MODULO Constant_Expression
+   62 Init_Statement: SEMI .
 
-    PLUS       shift, and go to state 174
-    MINUS      shift, and go to state 175
-    TIMES      shift, and go to state 176
-    DIVIDE     shift, and go to state 177
-    MODULO     shift, and go to state 178
-    CLOSE_PAR  shift, and go to state 179
+    $default  reduce using rule 62 (Init_Statement)
 
 
 State 139
 
-   59 Loop_Block: WHILE OPEN_PAR Condition . CLOSE_PAR Statement
-   74 Condition: Condition . OR Condition
-   75          | Condition . AND Condition
+   57 Loop_Block: FOR OPEN_PAR For_Control . CLOSE_PAR Statement
 
-    AND        shift, and go to state 162
-    OR         shift, and go to state 163
-    CLOSE_PAR  shift, and go to state 180
+    CLOSE_PAR  shift, and go to state 179
 
 
 State 140
 
-   63 Init_Statement: SEMI .
+   59 For_Control: Init_Statement . Condition SEMI Expression
+   60            | Init_Statement . SEMI Expression
 
-    $default  reduce using rule 63 (Init_Statement)
+    NOT        shift, and go to state 128
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 129
+    SEMI       shift, and go to state 180
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
+
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
+    Condition   go to state 181
+    Expression  go to state 131
 
 
 State 141
 
-   58 Loop_Block: FOR OPEN_PAR For_Control . CLOSE_PAR Statement
+   61 Init_Statement: Expression . SEMI
+   98 Expression: Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
 
-    CLOSE_PAR  shift, and go to state 181
+    PLUS    shift, and go to state 113
+    MINUS   shift, and go to state 114
+    TIMES   shift, and go to state 115
+    DIVIDE  shift, and go to state 116
+    MODULO  shift, and go to state 117
+    SEMI    shift, and go to state 182
 
 
 State 142
 
-   60 For_Control: Init_Statement . Condition SEMI Expression
-   61            | Init_Statement . SEMI Expression
+   97 Expression: OPEN_PAR Expression CLOSE_PAR .
 
-    NOT        shift, and go to state 130
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 131
-    SEMI       shift, and go to state 182
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
-
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
-    Condition   go to state 183
-    Expression  go to state 133
+    $default  reduce using rule 97 (Expression)
 
 
 State 143
 
-   62 Init_Statement: Expression . SEMI
-   99 Expression: Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
+   54 Non_Conditional_Statement: RETURN Expression SEMI .
 
-    PLUS    shift, and go to state 115
-    MINUS   shift, and go to state 116
-    TIMES   shift, and go to state 117
-    DIVIDE  shift, and go to state 118
-    MODULO  shift, and go to state 119
-    SEMI    shift, and go to state 184
+    $default  reduce using rule 54 (Non_Conditional_Statement)
 
 
 State 144
 
-   98 Expression: OPEN_PAR Expression CLOSE_PAR .
+   36 Func_Call: ID OPEN_PAR Param_List . CLOSE_PAR
 
-    $default  reduce using rule 98 (Expression)
+    CLOSE_PAR  shift, and go to state 183
 
 
 State 145
 
-   55 Non_Conditional_Statement: RETURN Expression SEMI .
+   37 Param_List: Expression . COMMA Param_List
+   38           | Expression .
+   98 Expression: Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
 
-    $default  reduce using rule 55 (Non_Conditional_Statement)
+    PLUS    shift, and go to state 113
+    MINUS   shift, and go to state 114
+    TIMES   shift, and go to state 115
+    DIVIDE  shift, and go to state 116
+    MODULO  shift, and go to state 117
+    COMMA   shift, and go to state 184
+
+    $default  reduce using rule 38 (Param_List)
 
 
 State 146
 
-   37 Func_Call: ID OPEN_PAR Param_List . CLOSE_PAR
+   98 Expression: Expression . PLUS Expression
+   98           | Expression PLUS Expression .
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
 
-    CLOSE_PAR  shift, and go to state 185
+    TIMES   shift, and go to state 115
+    DIVIDE  shift, and go to state 116
+    MODULO  shift, and go to state 117
+
+    $default  reduce using rule 98 (Expression)
 
 
 State 147
 
-   38 Param_List: Expression . COMMA Param_List
-   39           | Expression .
-   99 Expression: Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
+   98 Expression: Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+   99           | Expression MINUS Expression .
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
 
-    PLUS    shift, and go to state 115
-    MINUS   shift, and go to state 116
-    TIMES   shift, and go to state 117
-    DIVIDE  shift, and go to state 118
-    MODULO  shift, and go to state 119
-    COMMA   shift, and go to state 186
-
-    $default  reduce using rule 39 (Param_List)
-
-
-State 148
-
-   99 Expression: Expression . PLUS Expression
-   99           | Expression PLUS Expression .
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
-
-    TIMES   shift, and go to state 117
-    DIVIDE  shift, and go to state 118
-    MODULO  shift, and go to state 119
+    PLUS    shift, and go to state 113
+    TIMES   shift, and go to state 115
+    DIVIDE  shift, and go to state 116
+    MODULO  shift, and go to state 117
 
     $default  reduce using rule 99 (Expression)
 
 
-State 149
+State 148
 
-   99 Expression: Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  100           | Expression MINUS Expression .
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
+   98 Expression: Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  100           | Expression TIMES Expression .
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
 
-    PLUS    shift, and go to state 115
-    TIMES   shift, and go to state 117
-    DIVIDE  shift, and go to state 118
-    MODULO  shift, and go to state 119
+    DIVIDE  shift, and go to state 116
+    MODULO  shift, and go to state 117
 
     $default  reduce using rule 100 (Expression)
 
 
-State 150
+State 149
 
-   99 Expression: Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  101           | Expression TIMES Expression .
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
-
-    DIVIDE  shift, and go to state 118
-    MODULO  shift, and go to state 119
+   98 Expression: Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  101           | Expression DIVIDE Expression .
+  102           | Expression . MODULO Expression
 
     $default  reduce using rule 101 (Expression)
 
 
-State 151
+State 150
 
-   99 Expression: Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  102           | Expression DIVIDE Expression .
-  103           | Expression . MODULO Expression
+   98 Expression: Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
+  102           | Expression MODULO Expression .
 
     $default  reduce using rule 102 (Expression)
 
 
+State 151
+
+   32 Decl_Param_List: Decl_Param COMMA Decl_Param_List .
+
+    $default  reduce using rule 32 (Decl_Param_List)
+
+
 State 152
 
-   99 Expression: Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
-  103           | Expression MODULO Expression .
-
-    $default  reduce using rule 103 (Expression)
-
-
-State 153
-
-   33 Decl_Param_List: Decl_Param COMMA Decl_Param_List .
+   33 Decl_Param_List: Defn_Param COMMA Decl_Param_List .
 
     $default  reduce using rule 33 (Decl_Param_List)
 
 
+State 153
+
+   19 Var: ID OPEN_BRAC Expression COMMA Dim_List . CLOSE_BRAC
+
+    CLOSE_BRAC  shift, and go to state 185
+
+
 State 154
 
-   34 Decl_Param_List: Defn_Param COMMA Decl_Param_List .
+   22 Dim_List: Expression . COMMA Dim_List
+   23         | Expression .
+   98 Expression: Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
 
-    $default  reduce using rule 34 (Decl_Param_List)
+    PLUS    shift, and go to state 113
+    MINUS   shift, and go to state 114
+    TIMES   shift, and go to state 115
+    DIVIDE  shift, and go to state 116
+    MODULO  shift, and go to state 117
+    COMMA   shift, and go to state 186
+
+    $default  reduce using rule 23 (Dim_List)
 
 
 State 155
 
-   20 Var: ID OPEN_BRAC Expression COMMA Dim_List . CLOSE_BRAC
+   24 Brac_Dim_List: OPEN_BRAC . Expression CLOSE_BRAC Brac_Dim_List
+   25              | OPEN_BRAC . Expression CLOSE_BRAC
 
-    CLOSE_BRAC  shift, and go to state 187
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
+
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
+    Expression  go to state 187
 
 
 State 156
 
-   23 Dim_List: Expression . COMMA Dim_List
-   24         | Expression .
-   99 Expression: Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
+   24 Brac_Dim_List: OPEN_BRAC Expression CLOSE_BRAC Brac_Dim_List .
 
-    PLUS    shift, and go to state 115
-    MINUS   shift, and go to state 116
-    TIMES   shift, and go to state 117
-    DIVIDE  shift, and go to state 118
-    MODULO  shift, and go to state 119
-    COMMA   shift, and go to state 188
-
-    $default  reduce using rule 24 (Dim_List)
+    $default  reduce using rule 24 (Brac_Dim_List)
 
 
 State 157
 
-   25 Brac_Dim_List: OPEN_BRAC . Expression CLOSE_BRAC Brac_Dim_List
-   26              | OPEN_BRAC . Expression CLOSE_BRAC
+   72 Condition: NOT Condition .
+   73          | Condition . OR Condition
+   74          | Condition . AND Condition
 
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
-
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
-    Expression  go to state 189
+    $default  reduce using rule 72 (Condition)
 
 
 State 158
 
-   25 Brac_Dim_List: OPEN_BRAC Expression CLOSE_BRAC Brac_Dim_List .
+   71 Condition: OPEN_PAR Condition . CLOSE_PAR
+   73          | Condition . OR Condition
+   74          | Condition . AND Condition
 
-    $default  reduce using rule 25 (Brac_Dim_List)
+    AND        shift, and go to state 160
+    OR         shift, and go to state 161
+    CLOSE_PAR  shift, and go to state 188
 
 
 State 159
 
-   73 Condition: NOT Condition .
-   74          | Condition . OR Condition
-   75          | Condition . AND Condition
+   75 Condition: Expression . LT Expression
+   76          | Expression . GT Expression
+   77          | Expression . LTE Expression
+   78          | Expression . GTE Expression
+   79          | Expression . EQ Expression
+   80          | Expression . NEQ Expression
+   97 Expression: OPEN_PAR Expression . CLOSE_PAR
+   98           | Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
 
-    $default  reduce using rule 73 (Condition)
+    GTE        shift, and go to state 163
+    LTE        shift, and go to state 164
+    LT         shift, and go to state 165
+    GT         shift, and go to state 166
+    NEQ        shift, and go to state 167
+    EQ         shift, and go to state 168
+    PLUS       shift, and go to state 113
+    MINUS      shift, and go to state 114
+    TIMES      shift, and go to state 115
+    DIVIDE     shift, and go to state 116
+    MODULO     shift, and go to state 117
+    CLOSE_PAR  shift, and go to state 142
 
 
 State 160
 
-   72 Condition: OPEN_PAR Condition . CLOSE_PAR
-   74          | Condition . OR Condition
-   75          | Condition . AND Condition
+   74 Condition: Condition AND . Condition
 
-    AND        shift, and go to state 162
-    OR         shift, and go to state 163
-    CLOSE_PAR  shift, and go to state 190
+    NOT        shift, and go to state 128
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 129
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
+
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
+    Condition   go to state 189
+    Expression  go to state 131
 
 
 State 161
 
-   76 Condition: Expression . LT Expression
-   77          | Expression . GT Expression
-   78          | Expression . LTE Expression
-   79          | Expression . GTE Expression
-   80          | Expression . EQ Expression
-   81          | Expression . NEQ Expression
-   98 Expression: OPEN_PAR Expression . CLOSE_PAR
-   99           | Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
+   73 Condition: Condition OR . Condition
 
-    GTE        shift, and go to state 165
-    LTE        shift, and go to state 166
-    LT         shift, and go to state 167
-    GT         shift, and go to state 168
-    NEQ        shift, and go to state 169
-    EQ         shift, and go to state 170
-    PLUS       shift, and go to state 115
-    MINUS      shift, and go to state 116
-    TIMES      shift, and go to state 117
-    DIVIDE     shift, and go to state 118
-    MODULO     shift, and go to state 119
-    CLOSE_PAR  shift, and go to state 144
+    NOT        shift, and go to state 128
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 129
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
+
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
+    Condition   go to state 190
+    Expression  go to state 131
 
 
 State 162
 
-   75 Condition: Condition AND . Condition
+   65 If_Else_Block: IF OPEN_PAR Condition CLOSE_PAR . Statement
+   66              | IF OPEN_PAR Condition CLOSE_PAR . Statement ELSE Statement
 
-    NOT        shift, and go to state 130
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 131
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
+    MINUS       shift, and go to state 48
+    INCREMENT   shift, and go to state 49
+    DECREMENT   shift, and go to state 50
+    IF          shift, and go to state 51
+    SWITCH      shift, and go to state 52
+    BREAK       shift, and go to state 53
+    CONTINUE    shift, and go to state 54
+    WHILE       shift, and go to state 55
+    FOR         shift, and go to state 56
+    OPEN_PAR    shift, and go to state 57
+    OPEN_CURLY  shift, and go to state 28
+    SEMI        shift, and go to state 58
+    INT         shift, and go to state 59
+    FLOAT       shift, and go to state 60
+    RETURN      shift, and go to state 61
+    CONST       shift, and go to state 4
+    EXTERN      shift, and go to state 5
+    STATIC      shift, and go to state 6
+    REAL        shift, and go to state 62
+    ID          shift, and go to state 63
 
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
-    Condition   go to state 191
-    Expression  go to state 133
+    Var_Decl                   go to state 64
+    Var                        go to state 65
+    Var_Asgn                   go to state 66
+    Func_Call                  go to state 67
+    Statement                  go to state 191
+    Non_Conditional_Statement  go to state 70
+    Block                      go to state 71
+    Loop_Block                 go to state 72
+    Conditional_Block          go to state 73
+    If_Else_Block              go to state 74
+    Switch_Block               go to state 75
+    Expression                 go to state 76
 
 
 State 163
 
-   74 Condition: Condition OR . Condition
+   78 Condition: Expression GTE . Expression
 
-    NOT        shift, and go to state 130
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 131
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
 
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
-    Condition   go to state 192
-    Expression  go to state 133
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
+    Expression  go to state 192
 
 
 State 164
 
-   66 If_Else_Block: IF OPEN_PAR Condition CLOSE_PAR . Statement
-   67              | IF OPEN_PAR Condition CLOSE_PAR . Statement ELSE Statement
+   77 Condition: Expression LTE . Expression
 
-    MINUS       shift, and go to state 50
-    INCREMENT   shift, and go to state 51
-    DECREMENT   shift, and go to state 52
-    IF          shift, and go to state 53
-    SWITCH      shift, and go to state 54
-    BREAK       shift, and go to state 55
-    CONTINUE    shift, and go to state 56
-    WHILE       shift, and go to state 57
-    FOR         shift, and go to state 58
-    OPEN_PAR    shift, and go to state 59
-    OPEN_CURLY  shift, and go to state 30
-    SEMI        shift, and go to state 60
-    INT         shift, and go to state 61
-    FLOAT       shift, and go to state 62
-    RETURN      shift, and go to state 63
-    CONST       shift, and go to state 5
-    EXTERN      shift, and go to state 6
-    STATIC      shift, and go to state 7
-    REAL        shift, and go to state 64
-    ID          shift, and go to state 65
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
 
-    Var_Decl                   go to state 66
-    Var                        go to state 67
-    Var_Asgn                   go to state 68
-    Func_Call                  go to state 69
-    Statement                  go to state 193
-    Non_Conditional_Statement  go to state 72
-    Block                      go to state 73
-    Loop_Block                 go to state 74
-    Conditional_Block          go to state 75
-    If_Else_Block              go to state 76
-    Switch_Block               go to state 77
-    Expression                 go to state 78
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
+    Expression  go to state 193
 
 
 State 165
 
-   79 Condition: Expression GTE . Expression
+   75 Condition: Expression LT . Expression
 
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
 
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
     Expression  go to state 194
 
 
 State 166
 
-   78 Condition: Expression LTE . Expression
+   76 Condition: Expression GT . Expression
 
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
 
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
     Expression  go to state 195
 
 
 State 167
 
-   76 Condition: Expression LT . Expression
+   80 Condition: Expression NEQ . Expression
 
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
 
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
     Expression  go to state 196
 
 
 State 168
 
-   77 Condition: Expression GT . Expression
+   79 Condition: Expression EQ . Expression
 
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
 
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
     Expression  go to state 197
 
 
 State 169
 
-   81 Condition: Expression NEQ . Expression
+   83 Constant_Expression: Constant_Expression . PLUS Constant_Expression
+   84                    | Constant_Expression . MINUS Constant_Expression
+   85                    | Constant_Expression . TIMES Constant_Expression
+   86                    | Constant_Expression . DIVIDE Constant_Expression
+   87                    | Constant_Expression . MODULO Constant_Expression
+   88                    | MINUS Constant_Expression .
 
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
-
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
-    Expression  go to state 198
+    $default  reduce using rule 88 (Constant_Expression)
 
 
 State 170
 
-   80 Condition: Expression EQ . Expression
+   82 Constant_Expression: OPEN_PAR Constant_Expression . CLOSE_PAR
+   83                    | Constant_Expression . PLUS Constant_Expression
+   84                    | Constant_Expression . MINUS Constant_Expression
+   85                    | Constant_Expression . TIMES Constant_Expression
+   86                    | Constant_Expression . DIVIDE Constant_Expression
+   87                    | Constant_Expression . MODULO Constant_Expression
 
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
-
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
-    Expression  go to state 199
+    PLUS       shift, and go to state 172
+    MINUS      shift, and go to state 173
+    TIMES      shift, and go to state 174
+    DIVIDE     shift, and go to state 175
+    MODULO     shift, and go to state 176
+    CLOSE_PAR  shift, and go to state 198
 
 
 State 171
 
-   84 Constant_Expression: Constant_Expression . PLUS Constant_Expression
-   85                    | Constant_Expression . MINUS Constant_Expression
-   86                    | Constant_Expression . TIMES Constant_Expression
-   87                    | Constant_Expression . DIVIDE Constant_Expression
-   88                    | Constant_Expression . MODULO Constant_Expression
-   89                    | MINUS Constant_Expression .
+   68 Switch_Block: SWITCH OPEN_PAR Var CLOSE_PAR . OPEN_CURLY Switch_Body CLOSE_CURLY
 
-    $default  reduce using rule 89 (Constant_Expression)
+    OPEN_CURLY  shift, and go to state 199
 
 
 State 172
 
-   83 Constant_Expression: OPEN_PAR Constant_Expression . CLOSE_PAR
-   84                    | Constant_Expression . PLUS Constant_Expression
-   85                    | Constant_Expression . MINUS Constant_Expression
-   86                    | Constant_Expression . TIMES Constant_Expression
-   87                    | Constant_Expression . DIVIDE Constant_Expression
-   88                    | Constant_Expression . MODULO Constant_Expression
+   83 Constant_Expression: Constant_Expression PLUS . Constant_Expression
 
-    PLUS       shift, and go to state 174
-    MINUS      shift, and go to state 175
-    TIMES      shift, and go to state 176
-    DIVIDE     shift, and go to state 177
-    MODULO     shift, and go to state 178
-    CLOSE_PAR  shift, and go to state 200
+    MINUS     shift, and go to state 132
+    OPEN_PAR  shift, and go to state 133
+    REAL      shift, and go to state 134
+
+    Constant_Expression  go to state 200
 
 
 State 173
 
-   69 Switch_Block: SWITCH OPEN_PAR Var CLOSE_PAR . OPEN_CURLY Switch_Body CLOSE_CURLY
+   84 Constant_Expression: Constant_Expression MINUS . Constant_Expression
 
-    OPEN_CURLY  shift, and go to state 201
+    MINUS     shift, and go to state 132
+    OPEN_PAR  shift, and go to state 133
+    REAL      shift, and go to state 134
+
+    Constant_Expression  go to state 201
 
 
 State 174
 
-   84 Constant_Expression: Constant_Expression PLUS . Constant_Expression
+   85 Constant_Expression: Constant_Expression TIMES . Constant_Expression
 
-    MINUS     shift, and go to state 134
-    OPEN_PAR  shift, and go to state 135
-    REAL      shift, and go to state 136
+    MINUS     shift, and go to state 132
+    OPEN_PAR  shift, and go to state 133
+    REAL      shift, and go to state 134
 
     Constant_Expression  go to state 202
 
 
 State 175
 
-   85 Constant_Expression: Constant_Expression MINUS . Constant_Expression
+   86 Constant_Expression: Constant_Expression DIVIDE . Constant_Expression
 
-    MINUS     shift, and go to state 134
-    OPEN_PAR  shift, and go to state 135
-    REAL      shift, and go to state 136
+    MINUS     shift, and go to state 132
+    OPEN_PAR  shift, and go to state 133
+    REAL      shift, and go to state 134
 
     Constant_Expression  go to state 203
 
 
 State 176
 
-   86 Constant_Expression: Constant_Expression TIMES . Constant_Expression
+   87 Constant_Expression: Constant_Expression MODULO . Constant_Expression
 
-    MINUS     shift, and go to state 134
-    OPEN_PAR  shift, and go to state 135
-    REAL      shift, and go to state 136
+    MINUS     shift, and go to state 132
+    OPEN_PAR  shift, and go to state 133
+    REAL      shift, and go to state 134
 
     Constant_Expression  go to state 204
 
 
 State 177
 
-   87 Constant_Expression: Constant_Expression DIVIDE . Constant_Expression
+   67 Switch_Block: SWITCH OPEN_PAR Constant_Expression CLOSE_PAR . OPEN_CURLY Switch_Body CLOSE_CURLY
 
-    MINUS     shift, and go to state 134
-    OPEN_PAR  shift, and go to state 135
-    REAL      shift, and go to state 136
-
-    Constant_Expression  go to state 205
+    OPEN_CURLY  shift, and go to state 205
 
 
 State 178
 
-   88 Constant_Expression: Constant_Expression MODULO . Constant_Expression
+   58 Loop_Block: WHILE OPEN_PAR Condition CLOSE_PAR . Statement
 
-    MINUS     shift, and go to state 134
-    OPEN_PAR  shift, and go to state 135
-    REAL      shift, and go to state 136
+    MINUS       shift, and go to state 48
+    INCREMENT   shift, and go to state 49
+    DECREMENT   shift, and go to state 50
+    IF          shift, and go to state 51
+    SWITCH      shift, and go to state 52
+    BREAK       shift, and go to state 53
+    CONTINUE    shift, and go to state 54
+    WHILE       shift, and go to state 55
+    FOR         shift, and go to state 56
+    OPEN_PAR    shift, and go to state 57
+    OPEN_CURLY  shift, and go to state 28
+    SEMI        shift, and go to state 58
+    INT         shift, and go to state 59
+    FLOAT       shift, and go to state 60
+    RETURN      shift, and go to state 61
+    CONST       shift, and go to state 4
+    EXTERN      shift, and go to state 5
+    STATIC      shift, and go to state 6
+    REAL        shift, and go to state 62
+    ID          shift, and go to state 63
 
-    Constant_Expression  go to state 206
+    Var_Decl                   go to state 64
+    Var                        go to state 65
+    Var_Asgn                   go to state 66
+    Func_Call                  go to state 67
+    Statement                  go to state 206
+    Non_Conditional_Statement  go to state 70
+    Block                      go to state 71
+    Loop_Block                 go to state 72
+    Conditional_Block          go to state 73
+    If_Else_Block              go to state 74
+    Switch_Block               go to state 75
+    Expression                 go to state 76
 
 
 State 179
 
-   68 Switch_Block: SWITCH OPEN_PAR Constant_Expression CLOSE_PAR . OPEN_CURLY Switch_Body CLOSE_CURLY
+   57 Loop_Block: FOR OPEN_PAR For_Control CLOSE_PAR . Statement
 
-    OPEN_CURLY  shift, and go to state 207
+    MINUS       shift, and go to state 48
+    INCREMENT   shift, and go to state 49
+    DECREMENT   shift, and go to state 50
+    IF          shift, and go to state 51
+    SWITCH      shift, and go to state 52
+    BREAK       shift, and go to state 53
+    CONTINUE    shift, and go to state 54
+    WHILE       shift, and go to state 55
+    FOR         shift, and go to state 56
+    OPEN_PAR    shift, and go to state 57
+    OPEN_CURLY  shift, and go to state 28
+    SEMI        shift, and go to state 58
+    INT         shift, and go to state 59
+    FLOAT       shift, and go to state 60
+    RETURN      shift, and go to state 61
+    CONST       shift, and go to state 4
+    EXTERN      shift, and go to state 5
+    STATIC      shift, and go to state 6
+    REAL        shift, and go to state 62
+    ID          shift, and go to state 63
+
+    Var_Decl                   go to state 64
+    Var                        go to state 65
+    Var_Asgn                   go to state 66
+    Func_Call                  go to state 67
+    Statement                  go to state 207
+    Non_Conditional_Statement  go to state 70
+    Block                      go to state 71
+    Loop_Block                 go to state 72
+    Conditional_Block          go to state 73
+    If_Else_Block              go to state 74
+    Switch_Block               go to state 75
+    Expression                 go to state 76
 
 
 State 180
 
-   59 Loop_Block: WHILE OPEN_PAR Condition CLOSE_PAR . Statement
+   60 For_Control: Init_Statement SEMI . Expression
 
-    MINUS       shift, and go to state 50
-    INCREMENT   shift, and go to state 51
-    DECREMENT   shift, and go to state 52
-    IF          shift, and go to state 53
-    SWITCH      shift, and go to state 54
-    BREAK       shift, and go to state 55
-    CONTINUE    shift, and go to state 56
-    WHILE       shift, and go to state 57
-    FOR         shift, and go to state 58
-    OPEN_PAR    shift, and go to state 59
-    OPEN_CURLY  shift, and go to state 30
-    SEMI        shift, and go to state 60
-    INT         shift, and go to state 61
-    FLOAT       shift, and go to state 62
-    RETURN      shift, and go to state 63
-    CONST       shift, and go to state 5
-    EXTERN      shift, and go to state 6
-    STATIC      shift, and go to state 7
-    REAL        shift, and go to state 64
-    ID          shift, and go to state 65
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
 
-    Var_Decl                   go to state 66
-    Var                        go to state 67
-    Var_Asgn                   go to state 68
-    Func_Call                  go to state 69
-    Statement                  go to state 208
-    Non_Conditional_Statement  go to state 72
-    Block                      go to state 73
-    Loop_Block                 go to state 74
-    Conditional_Block          go to state 75
-    If_Else_Block              go to state 76
-    Switch_Block               go to state 77
-    Expression                 go to state 78
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
+    Expression  go to state 208
 
 
 State 181
 
-   58 Loop_Block: FOR OPEN_PAR For_Control CLOSE_PAR . Statement
+   59 For_Control: Init_Statement Condition . SEMI Expression
+   73 Condition: Condition . OR Condition
+   74          | Condition . AND Condition
 
-    MINUS       shift, and go to state 50
-    INCREMENT   shift, and go to state 51
-    DECREMENT   shift, and go to state 52
-    IF          shift, and go to state 53
-    SWITCH      shift, and go to state 54
-    BREAK       shift, and go to state 55
-    CONTINUE    shift, and go to state 56
-    WHILE       shift, and go to state 57
-    FOR         shift, and go to state 58
-    OPEN_PAR    shift, and go to state 59
-    OPEN_CURLY  shift, and go to state 30
-    SEMI        shift, and go to state 60
-    INT         shift, and go to state 61
-    FLOAT       shift, and go to state 62
-    RETURN      shift, and go to state 63
-    CONST       shift, and go to state 5
-    EXTERN      shift, and go to state 6
-    STATIC      shift, and go to state 7
-    REAL        shift, and go to state 64
-    ID          shift, and go to state 65
-
-    Var_Decl                   go to state 66
-    Var                        go to state 67
-    Var_Asgn                   go to state 68
-    Func_Call                  go to state 69
-    Statement                  go to state 209
-    Non_Conditional_Statement  go to state 72
-    Block                      go to state 73
-    Loop_Block                 go to state 74
-    Conditional_Block          go to state 75
-    If_Else_Block              go to state 76
-    Switch_Block               go to state 77
-    Expression                 go to state 78
+    AND   shift, and go to state 160
+    OR    shift, and go to state 161
+    SEMI  shift, and go to state 209
 
 
 State 182
 
-   61 For_Control: Init_Statement SEMI . Expression
+   61 Init_Statement: Expression SEMI .
 
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
-
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
-    Expression  go to state 210
+    $default  reduce using rule 61 (Init_Statement)
 
 
 State 183
 
-   60 For_Control: Init_Statement Condition . SEMI Expression
-   74 Condition: Condition . OR Condition
-   75          | Condition . AND Condition
+   36 Func_Call: ID OPEN_PAR Param_List CLOSE_PAR .
 
-    AND   shift, and go to state 162
-    OR    shift, and go to state 163
-    SEMI  shift, and go to state 211
+    $default  reduce using rule 36 (Func_Call)
 
 
 State 184
 
-   62 Init_Statement: Expression SEMI .
+   37 Param_List: Expression COMMA . Param_List
 
-    $default  reduce using rule 62 (Init_Statement)
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
+
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
+    Param_List  go to state 210
+    Expression  go to state 145
 
 
 State 185
 
-   37 Func_Call: ID OPEN_PAR Param_List CLOSE_PAR .
+   19 Var: ID OPEN_BRAC Expression COMMA Dim_List CLOSE_BRAC .
 
-    $default  reduce using rule 37 (Func_Call)
+    $default  reduce using rule 19 (Var)
 
 
 State 186
 
-   38 Param_List: Expression COMMA . Param_List
+   22 Dim_List: Expression COMMA . Dim_List
 
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
 
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
-    Param_List  go to state 212
-    Expression  go to state 147
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Dim_List    go to state 211
+    Func_Call   go to state 67
+    Expression  go to state 154
 
 
 State 187
 
-   20 Var: ID OPEN_BRAC Expression COMMA Dim_List CLOSE_BRAC .
+   24 Brac_Dim_List: OPEN_BRAC Expression . CLOSE_BRAC Brac_Dim_List
+   25              | OPEN_BRAC Expression . CLOSE_BRAC
+   98 Expression: Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
 
-    $default  reduce using rule 20 (Var)
+    PLUS        shift, and go to state 113
+    MINUS       shift, and go to state 114
+    TIMES       shift, and go to state 115
+    DIVIDE      shift, and go to state 116
+    MODULO      shift, and go to state 117
+    CLOSE_BRAC  shift, and go to state 125
 
 
 State 188
 
-   23 Dim_List: Expression COMMA . Dim_List
+   71 Condition: OPEN_PAR Condition CLOSE_PAR .
 
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
-
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Dim_List    go to state 213
-    Func_Call   go to state 69
-    Expression  go to state 156
+    $default  reduce using rule 71 (Condition)
 
 
 State 189
 
-   25 Brac_Dim_List: OPEN_BRAC Expression . CLOSE_BRAC Brac_Dim_List
-   26              | OPEN_BRAC Expression . CLOSE_BRAC
-   99 Expression: Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
+   73 Condition: Condition . OR Condition
+   74          | Condition . AND Condition
+   74          | Condition AND Condition .
 
-    PLUS        shift, and go to state 115
-    MINUS       shift, and go to state 116
-    TIMES       shift, and go to state 117
-    DIVIDE      shift, and go to state 118
-    MODULO      shift, and go to state 119
-    CLOSE_BRAC  shift, and go to state 127
-
-
-State 190
-
-   72 Condition: OPEN_PAR Condition CLOSE_PAR .
-
-    $default  reduce using rule 72 (Condition)
-
-
-State 191
-
-   74 Condition: Condition . OR Condition
-   75          | Condition . AND Condition
-   75          | Condition AND Condition .
-
-    AND  shift, and go to state 162
-    OR   shift, and go to state 163
-
-    $default  reduce using rule 75 (Condition)
-
-
-State 192
-
-   74 Condition: Condition . OR Condition
-   74          | Condition OR Condition .
-   75          | Condition . AND Condition
-
-    AND  shift, and go to state 162
-    OR   shift, and go to state 163
+    AND  shift, and go to state 160
+    OR   shift, and go to state 161
 
     $default  reduce using rule 74 (Condition)
 
 
-State 193
+State 190
 
-   66 If_Else_Block: IF OPEN_PAR Condition CLOSE_PAR Statement .
-   67              | IF OPEN_PAR Condition CLOSE_PAR Statement . ELSE Statement
+   73 Condition: Condition . OR Condition
+   73          | Condition OR Condition .
+   74          | Condition . AND Condition
 
-    ELSE  shift, and go to state 214
+    AND  shift, and go to state 160
+    OR   shift, and go to state 161
 
-    $default  reduce using rule 66 (If_Else_Block)
-
-
-State 194
-
-   79 Condition: Expression GTE Expression .
-   99 Expression: Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
-
-    PLUS    shift, and go to state 115
-    MINUS   shift, and go to state 116
-    TIMES   shift, and go to state 117
-    DIVIDE  shift, and go to state 118
-    MODULO  shift, and go to state 119
-
-    $default  reduce using rule 79 (Condition)
+    $default  reduce using rule 73 (Condition)
 
 
-State 195
+State 191
 
-   78 Condition: Expression LTE Expression .
-   99 Expression: Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
+   65 If_Else_Block: IF OPEN_PAR Condition CLOSE_PAR Statement .
+   66              | IF OPEN_PAR Condition CLOSE_PAR Statement . ELSE Statement
 
-    PLUS    shift, and go to state 115
-    MINUS   shift, and go to state 116
-    TIMES   shift, and go to state 117
-    DIVIDE  shift, and go to state 118
-    MODULO  shift, and go to state 119
+    ELSE  shift, and go to state 212
+
+    $default  reduce using rule 65 (If_Else_Block)
+
+
+State 192
+
+   78 Condition: Expression GTE Expression .
+   98 Expression: Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
+
+    PLUS    shift, and go to state 113
+    MINUS   shift, and go to state 114
+    TIMES   shift, and go to state 115
+    DIVIDE  shift, and go to state 116
+    MODULO  shift, and go to state 117
 
     $default  reduce using rule 78 (Condition)
 
 
-State 196
+State 193
 
-   76 Condition: Expression LT Expression .
-   99 Expression: Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
+   77 Condition: Expression LTE Expression .
+   98 Expression: Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
 
-    PLUS    shift, and go to state 115
-    MINUS   shift, and go to state 116
-    TIMES   shift, and go to state 117
-    DIVIDE  shift, and go to state 118
-    MODULO  shift, and go to state 119
-
-    $default  reduce using rule 76 (Condition)
-
-
-State 197
-
-   77 Condition: Expression GT Expression .
-   99 Expression: Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
-
-    PLUS    shift, and go to state 115
-    MINUS   shift, and go to state 116
-    TIMES   shift, and go to state 117
-    DIVIDE  shift, and go to state 118
-    MODULO  shift, and go to state 119
+    PLUS    shift, and go to state 113
+    MINUS   shift, and go to state 114
+    TIMES   shift, and go to state 115
+    DIVIDE  shift, and go to state 116
+    MODULO  shift, and go to state 117
 
     $default  reduce using rule 77 (Condition)
 
 
-State 198
+State 194
 
-   81 Condition: Expression NEQ Expression .
-   99 Expression: Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
+   75 Condition: Expression LT Expression .
+   98 Expression: Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
 
-    PLUS    shift, and go to state 115
-    MINUS   shift, and go to state 116
-    TIMES   shift, and go to state 117
-    DIVIDE  shift, and go to state 118
-    MODULO  shift, and go to state 119
+    PLUS    shift, and go to state 113
+    MINUS   shift, and go to state 114
+    TIMES   shift, and go to state 115
+    DIVIDE  shift, and go to state 116
+    MODULO  shift, and go to state 117
 
-    $default  reduce using rule 81 (Condition)
+    $default  reduce using rule 75 (Condition)
 
 
-State 199
+State 195
 
-   80 Condition: Expression EQ Expression .
-   99 Expression: Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
+   76 Condition: Expression GT Expression .
+   98 Expression: Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
 
-    PLUS    shift, and go to state 115
-    MINUS   shift, and go to state 116
-    TIMES   shift, and go to state 117
-    DIVIDE  shift, and go to state 118
-    MODULO  shift, and go to state 119
+    PLUS    shift, and go to state 113
+    MINUS   shift, and go to state 114
+    TIMES   shift, and go to state 115
+    DIVIDE  shift, and go to state 116
+    MODULO  shift, and go to state 117
+
+    $default  reduce using rule 76 (Condition)
+
+
+State 196
+
+   80 Condition: Expression NEQ Expression .
+   98 Expression: Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
+
+    PLUS    shift, and go to state 113
+    MINUS   shift, and go to state 114
+    TIMES   shift, and go to state 115
+    DIVIDE  shift, and go to state 116
+    MODULO  shift, and go to state 117
 
     $default  reduce using rule 80 (Condition)
 
 
+State 197
+
+   79 Condition: Expression EQ Expression .
+   98 Expression: Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
+
+    PLUS    shift, and go to state 113
+    MINUS   shift, and go to state 114
+    TIMES   shift, and go to state 115
+    DIVIDE  shift, and go to state 116
+    MODULO  shift, and go to state 117
+
+    $default  reduce using rule 79 (Condition)
+
+
+State 198
+
+   82 Constant_Expression: OPEN_PAR Constant_Expression CLOSE_PAR .
+
+    $default  reduce using rule 82 (Constant_Expression)
+
+
+State 199
+
+   68 Switch_Block: SWITCH OPEN_PAR Var CLOSE_PAR OPEN_CURLY . Switch_Body CLOSE_CURLY
+
+    CASE     shift, and go to state 213
+    DEFAULT  shift, and go to state 214
+
+    Switch_Body  go to state 215
+
+
 State 200
 
-   83 Constant_Expression: OPEN_PAR Constant_Expression CLOSE_PAR .
+   83 Constant_Expression: Constant_Expression . PLUS Constant_Expression
+   83                    | Constant_Expression PLUS Constant_Expression .
+   84                    | Constant_Expression . MINUS Constant_Expression
+   85                    | Constant_Expression . TIMES Constant_Expression
+   86                    | Constant_Expression . DIVIDE Constant_Expression
+   87                    | Constant_Expression . MODULO Constant_Expression
+
+    TIMES   shift, and go to state 174
+    DIVIDE  shift, and go to state 175
+    MODULO  shift, and go to state 176
 
     $default  reduce using rule 83 (Constant_Expression)
 
 
 State 201
 
-   69 Switch_Block: SWITCH OPEN_PAR Var CLOSE_PAR OPEN_CURLY . Switch_Body CLOSE_CURLY
+   83 Constant_Expression: Constant_Expression . PLUS Constant_Expression
+   84                    | Constant_Expression . MINUS Constant_Expression
+   84                    | Constant_Expression MINUS Constant_Expression .
+   85                    | Constant_Expression . TIMES Constant_Expression
+   86                    | Constant_Expression . DIVIDE Constant_Expression
+   87                    | Constant_Expression . MODULO Constant_Expression
 
-    CASE     shift, and go to state 215
-    DEFAULT  shift, and go to state 216
-
-    Switch_Body  go to state 217
-
-
-State 202
-
-   84 Constant_Expression: Constant_Expression . PLUS Constant_Expression
-   84                    | Constant_Expression PLUS Constant_Expression .
-   85                    | Constant_Expression . MINUS Constant_Expression
-   86                    | Constant_Expression . TIMES Constant_Expression
-   87                    | Constant_Expression . DIVIDE Constant_Expression
-   88                    | Constant_Expression . MODULO Constant_Expression
-
-    TIMES   shift, and go to state 176
-    DIVIDE  shift, and go to state 177
-    MODULO  shift, and go to state 178
+    PLUS    shift, and go to state 172
+    TIMES   shift, and go to state 174
+    DIVIDE  shift, and go to state 175
+    MODULO  shift, and go to state 176
 
     $default  reduce using rule 84 (Constant_Expression)
 
 
-State 203
+State 202
 
-   84 Constant_Expression: Constant_Expression . PLUS Constant_Expression
-   85                    | Constant_Expression . MINUS Constant_Expression
-   85                    | Constant_Expression MINUS Constant_Expression .
-   86                    | Constant_Expression . TIMES Constant_Expression
-   87                    | Constant_Expression . DIVIDE Constant_Expression
-   88                    | Constant_Expression . MODULO Constant_Expression
+   83 Constant_Expression: Constant_Expression . PLUS Constant_Expression
+   84                    | Constant_Expression . MINUS Constant_Expression
+   85                    | Constant_Expression . TIMES Constant_Expression
+   85                    | Constant_Expression TIMES Constant_Expression .
+   86                    | Constant_Expression . DIVIDE Constant_Expression
+   87                    | Constant_Expression . MODULO Constant_Expression
 
-    PLUS    shift, and go to state 174
-    TIMES   shift, and go to state 176
-    DIVIDE  shift, and go to state 177
-    MODULO  shift, and go to state 178
+    DIVIDE  shift, and go to state 175
+    MODULO  shift, and go to state 176
 
     $default  reduce using rule 85 (Constant_Expression)
 
 
-State 204
+State 203
 
-   84 Constant_Expression: Constant_Expression . PLUS Constant_Expression
-   85                    | Constant_Expression . MINUS Constant_Expression
-   86                    | Constant_Expression . TIMES Constant_Expression
-   86                    | Constant_Expression TIMES Constant_Expression .
-   87                    | Constant_Expression . DIVIDE Constant_Expression
-   88                    | Constant_Expression . MODULO Constant_Expression
-
-    DIVIDE  shift, and go to state 177
-    MODULO  shift, and go to state 178
+   83 Constant_Expression: Constant_Expression . PLUS Constant_Expression
+   84                    | Constant_Expression . MINUS Constant_Expression
+   85                    | Constant_Expression . TIMES Constant_Expression
+   86                    | Constant_Expression . DIVIDE Constant_Expression
+   86                    | Constant_Expression DIVIDE Constant_Expression .
+   87                    | Constant_Expression . MODULO Constant_Expression
 
     $default  reduce using rule 86 (Constant_Expression)
 
 
-State 205
+State 204
 
-   84 Constant_Expression: Constant_Expression . PLUS Constant_Expression
-   85                    | Constant_Expression . MINUS Constant_Expression
-   86                    | Constant_Expression . TIMES Constant_Expression
-   87                    | Constant_Expression . DIVIDE Constant_Expression
-   87                    | Constant_Expression DIVIDE Constant_Expression .
-   88                    | Constant_Expression . MODULO Constant_Expression
+   83 Constant_Expression: Constant_Expression . PLUS Constant_Expression
+   84                    | Constant_Expression . MINUS Constant_Expression
+   85                    | Constant_Expression . TIMES Constant_Expression
+   86                    | Constant_Expression . DIVIDE Constant_Expression
+   87                    | Constant_Expression . MODULO Constant_Expression
+   87                    | Constant_Expression MODULO Constant_Expression .
 
     $default  reduce using rule 87 (Constant_Expression)
 
 
+State 205
+
+   67 Switch_Block: SWITCH OPEN_PAR Constant_Expression CLOSE_PAR OPEN_CURLY . Switch_Body CLOSE_CURLY
+
+    CASE     shift, and go to state 213
+    DEFAULT  shift, and go to state 214
+
+    Switch_Body  go to state 216
+
+
 State 206
 
-   84 Constant_Expression: Constant_Expression . PLUS Constant_Expression
-   85                    | Constant_Expression . MINUS Constant_Expression
-   86                    | Constant_Expression . TIMES Constant_Expression
-   87                    | Constant_Expression . DIVIDE Constant_Expression
-   88                    | Constant_Expression . MODULO Constant_Expression
-   88                    | Constant_Expression MODULO Constant_Expression .
-
-    $default  reduce using rule 88 (Constant_Expression)
-
-
-State 207
-
-   68 Switch_Block: SWITCH OPEN_PAR Constant_Expression CLOSE_PAR OPEN_CURLY . Switch_Body CLOSE_CURLY
-
-    CASE     shift, and go to state 215
-    DEFAULT  shift, and go to state 216
-
-    Switch_Body  go to state 218
-
-
-State 208
-
-   59 Loop_Block: WHILE OPEN_PAR Condition CLOSE_PAR Statement .
-
-    $default  reduce using rule 59 (Loop_Block)
-
-
-State 209
-
-   58 Loop_Block: FOR OPEN_PAR For_Control CLOSE_PAR Statement .
+   58 Loop_Block: WHILE OPEN_PAR Condition CLOSE_PAR Statement .
 
     $default  reduce using rule 58 (Loop_Block)
 
 
-State 210
+State 207
 
-   61 For_Control: Init_Statement SEMI Expression .
-   99 Expression: Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
+   57 Loop_Block: FOR OPEN_PAR For_Control CLOSE_PAR Statement .
 
-    PLUS    shift, and go to state 115
-    MINUS   shift, and go to state 116
-    TIMES   shift, and go to state 117
-    DIVIDE  shift, and go to state 118
-    MODULO  shift, and go to state 119
-
-    $default  reduce using rule 61 (For_Control)
+    $default  reduce using rule 57 (Loop_Block)
 
 
-State 211
+State 208
 
-   60 For_Control: Init_Statement Condition SEMI . Expression
+   60 For_Control: Init_Statement SEMI Expression .
+   98 Expression: Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
 
-    MINUS      shift, and go to state 50
-    INCREMENT  shift, and go to state 51
-    DECREMENT  shift, and go to state 52
-    OPEN_PAR   shift, and go to state 59
-    REAL       shift, and go to state 64
-    ID         shift, and go to state 65
-
-    Var         go to state 67
-    Var_Asgn    go to state 68
-    Func_Call   go to state 69
-    Expression  go to state 219
-
-
-State 212
-
-   38 Param_List: Expression COMMA Param_List .
-
-    $default  reduce using rule 38 (Param_List)
-
-
-State 213
-
-   23 Dim_List: Expression COMMA Dim_List .
-
-    $default  reduce using rule 23 (Dim_List)
-
-
-State 214
-
-   67 If_Else_Block: IF OPEN_PAR Condition CLOSE_PAR Statement ELSE . Statement
-
-    MINUS       shift, and go to state 50
-    INCREMENT   shift, and go to state 51
-    DECREMENT   shift, and go to state 52
-    IF          shift, and go to state 53
-    SWITCH      shift, and go to state 54
-    BREAK       shift, and go to state 55
-    CONTINUE    shift, and go to state 56
-    WHILE       shift, and go to state 57
-    FOR         shift, and go to state 58
-    OPEN_PAR    shift, and go to state 59
-    OPEN_CURLY  shift, and go to state 30
-    SEMI        shift, and go to state 60
-    INT         shift, and go to state 61
-    FLOAT       shift, and go to state 62
-    RETURN      shift, and go to state 63
-    CONST       shift, and go to state 5
-    EXTERN      shift, and go to state 6
-    STATIC      shift, and go to state 7
-    REAL        shift, and go to state 64
-    ID          shift, and go to state 65
-
-    Var_Decl                   go to state 66
-    Var                        go to state 67
-    Var_Asgn                   go to state 68
-    Func_Call                  go to state 69
-    Statement                  go to state 220
-    Non_Conditional_Statement  go to state 72
-    Block                      go to state 73
-    Loop_Block                 go to state 74
-    Conditional_Block          go to state 75
-    If_Else_Block              go to state 76
-    Switch_Block               go to state 77
-    Expression                 go to state 78
-
-
-State 215
-
-   70 Switch_Body: CASE . Constant_Expression COLON Statements
-
-    MINUS     shift, and go to state 134
-    OPEN_PAR  shift, and go to state 135
-    REAL      shift, and go to state 136
-
-    Constant_Expression  go to state 221
-
-
-State 216
-
-   71 Switch_Body: DEFAULT . COLON Statements
-
-    COLON  shift, and go to state 222
-
-
-State 217
-
-   69 Switch_Block: SWITCH OPEN_PAR Var CLOSE_PAR OPEN_CURLY Switch_Body . CLOSE_CURLY
-
-    CLOSE_CURLY  shift, and go to state 223
-
-
-State 218
-
-   68 Switch_Block: SWITCH OPEN_PAR Constant_Expression CLOSE_PAR OPEN_CURLY Switch_Body . CLOSE_CURLY
-
-    CLOSE_CURLY  shift, and go to state 224
-
-
-State 219
-
-   60 For_Control: Init_Statement Condition SEMI Expression .
-   99 Expression: Expression . PLUS Expression
-  100           | Expression . MINUS Expression
-  101           | Expression . TIMES Expression
-  102           | Expression . DIVIDE Expression
-  103           | Expression . MODULO Expression
-
-    PLUS    shift, and go to state 115
-    MINUS   shift, and go to state 116
-    TIMES   shift, and go to state 117
-    DIVIDE  shift, and go to state 118
-    MODULO  shift, and go to state 119
+    PLUS    shift, and go to state 113
+    MINUS   shift, and go to state 114
+    TIMES   shift, and go to state 115
+    DIVIDE  shift, and go to state 116
+    MODULO  shift, and go to state 117
 
     $default  reduce using rule 60 (For_Control)
 
 
+State 209
+
+   59 For_Control: Init_Statement Condition SEMI . Expression
+
+    MINUS      shift, and go to state 48
+    INCREMENT  shift, and go to state 49
+    DECREMENT  shift, and go to state 50
+    OPEN_PAR   shift, and go to state 57
+    REAL       shift, and go to state 62
+    ID         shift, and go to state 63
+
+    Var         go to state 65
+    Var_Asgn    go to state 66
+    Func_Call   go to state 67
+    Expression  go to state 217
+
+
+State 210
+
+   37 Param_List: Expression COMMA Param_List .
+
+    $default  reduce using rule 37 (Param_List)
+
+
+State 211
+
+   22 Dim_List: Expression COMMA Dim_List .
+
+    $default  reduce using rule 22 (Dim_List)
+
+
+State 212
+
+   66 If_Else_Block: IF OPEN_PAR Condition CLOSE_PAR Statement ELSE . Statement
+
+    MINUS       shift, and go to state 48
+    INCREMENT   shift, and go to state 49
+    DECREMENT   shift, and go to state 50
+    IF          shift, and go to state 51
+    SWITCH      shift, and go to state 52
+    BREAK       shift, and go to state 53
+    CONTINUE    shift, and go to state 54
+    WHILE       shift, and go to state 55
+    FOR         shift, and go to state 56
+    OPEN_PAR    shift, and go to state 57
+    OPEN_CURLY  shift, and go to state 28
+    SEMI        shift, and go to state 58
+    INT         shift, and go to state 59
+    FLOAT       shift, and go to state 60
+    RETURN      shift, and go to state 61
+    CONST       shift, and go to state 4
+    EXTERN      shift, and go to state 5
+    STATIC      shift, and go to state 6
+    REAL        shift, and go to state 62
+    ID          shift, and go to state 63
+
+    Var_Decl                   go to state 64
+    Var                        go to state 65
+    Var_Asgn                   go to state 66
+    Func_Call                  go to state 67
+    Statement                  go to state 218
+    Non_Conditional_Statement  go to state 70
+    Block                      go to state 71
+    Loop_Block                 go to state 72
+    Conditional_Block          go to state 73
+    If_Else_Block              go to state 74
+    Switch_Block               go to state 75
+    Expression                 go to state 76
+
+
+State 213
+
+   69 Switch_Body: CASE . Constant_Expression COLON Statements
+
+    MINUS     shift, and go to state 132
+    OPEN_PAR  shift, and go to state 133
+    REAL      shift, and go to state 134
+
+    Constant_Expression  go to state 219
+
+
+State 214
+
+   70 Switch_Body: DEFAULT . COLON Statements
+
+    COLON  shift, and go to state 220
+
+
+State 215
+
+   68 Switch_Block: SWITCH OPEN_PAR Var CLOSE_PAR OPEN_CURLY Switch_Body . CLOSE_CURLY
+
+    CLOSE_CURLY  shift, and go to state 221
+
+
+State 216
+
+   67 Switch_Block: SWITCH OPEN_PAR Constant_Expression CLOSE_PAR OPEN_CURLY Switch_Body . CLOSE_CURLY
+
+    CLOSE_CURLY  shift, and go to state 222
+
+
+State 217
+
+   59 For_Control: Init_Statement Condition SEMI Expression .
+   98 Expression: Expression . PLUS Expression
+   99           | Expression . MINUS Expression
+  100           | Expression . TIMES Expression
+  101           | Expression . DIVIDE Expression
+  102           | Expression . MODULO Expression
+
+    PLUS    shift, and go to state 113
+    MINUS   shift, and go to state 114
+    TIMES   shift, and go to state 115
+    DIVIDE  shift, and go to state 116
+    MODULO  shift, and go to state 117
+
+    $default  reduce using rule 59 (For_Control)
+
+
+State 218
+
+   66 If_Else_Block: IF OPEN_PAR Condition CLOSE_PAR Statement ELSE Statement .
+
+    $default  reduce using rule 66 (If_Else_Block)
+
+
+State 219
+
+   69 Switch_Body: CASE Constant_Expression . COLON Statements
+   83 Constant_Expression: Constant_Expression . PLUS Constant_Expression
+   84                    | Constant_Expression . MINUS Constant_Expression
+   85                    | Constant_Expression . TIMES Constant_Expression
+   86                    | Constant_Expression . DIVIDE Constant_Expression
+   87                    | Constant_Expression . MODULO Constant_Expression
+
+    PLUS    shift, and go to state 172
+    MINUS   shift, and go to state 173
+    TIMES   shift, and go to state 174
+    DIVIDE  shift, and go to state 175
+    MODULO  shift, and go to state 176
+    COLON   shift, and go to state 223
+
+
 State 220
 
-   67 If_Else_Block: IF OPEN_PAR Condition CLOSE_PAR Statement ELSE Statement .
+   70 Switch_Body: DEFAULT COLON . Statements
 
-    $default  reduce using rule 67 (If_Else_Block)
+    MINUS       shift, and go to state 48
+    INCREMENT   shift, and go to state 49
+    DECREMENT   shift, and go to state 50
+    IF          shift, and go to state 51
+    SWITCH      shift, and go to state 52
+    BREAK       shift, and go to state 53
+    CONTINUE    shift, and go to state 54
+    WHILE       shift, and go to state 55
+    FOR         shift, and go to state 56
+    OPEN_PAR    shift, and go to state 57
+    OPEN_CURLY  shift, and go to state 28
+    SEMI        shift, and go to state 58
+    INT         shift, and go to state 59
+    FLOAT       shift, and go to state 60
+    RETURN      shift, and go to state 61
+    CONST       shift, and go to state 4
+    EXTERN      shift, and go to state 5
+    STATIC      shift, and go to state 6
+    REAL        shift, and go to state 62
+    ID          shift, and go to state 63
+
+    Var_Decl                   go to state 64
+    Var                        go to state 65
+    Var_Asgn                   go to state 66
+    Func_Call                  go to state 67
+    Statements                 go to state 224
+    Statement                  go to state 69
+    Non_Conditional_Statement  go to state 70
+    Block                      go to state 71
+    Loop_Block                 go to state 72
+    Conditional_Block          go to state 73
+    If_Else_Block              go to state 74
+    Switch_Block               go to state 75
+    Expression                 go to state 76
 
 
 State 221
 
-   70 Switch_Body: CASE Constant_Expression . COLON Statements
-   84 Constant_Expression: Constant_Expression . PLUS Constant_Expression
-   85                    | Constant_Expression . MINUS Constant_Expression
-   86                    | Constant_Expression . TIMES Constant_Expression
-   87                    | Constant_Expression . DIVIDE Constant_Expression
-   88                    | Constant_Expression . MODULO Constant_Expression
-
-    PLUS    shift, and go to state 174
-    MINUS   shift, and go to state 175
-    TIMES   shift, and go to state 176
-    DIVIDE  shift, and go to state 177
-    MODULO  shift, and go to state 178
-    COLON   shift, and go to state 225
-
-
-State 222
-
-   71 Switch_Body: DEFAULT COLON . Statements
-
-    MINUS       shift, and go to state 50
-    INCREMENT   shift, and go to state 51
-    DECREMENT   shift, and go to state 52
-    IF          shift, and go to state 53
-    SWITCH      shift, and go to state 54
-    BREAK       shift, and go to state 55
-    CONTINUE    shift, and go to state 56
-    WHILE       shift, and go to state 57
-    FOR         shift, and go to state 58
-    OPEN_PAR    shift, and go to state 59
-    OPEN_CURLY  shift, and go to state 30
-    SEMI        shift, and go to state 60
-    INT         shift, and go to state 61
-    FLOAT       shift, and go to state 62
-    RETURN      shift, and go to state 63
-    CONST       shift, and go to state 5
-    EXTERN      shift, and go to state 6
-    STATIC      shift, and go to state 7
-    REAL        shift, and go to state 64
-    ID          shift, and go to state 65
-
-    Var_Decl                   go to state 66
-    Var                        go to state 67
-    Var_Asgn                   go to state 68
-    Func_Call                  go to state 69
-    Statements                 go to state 226
-    Statement                  go to state 71
-    Non_Conditional_Statement  go to state 72
-    Block                      go to state 73
-    Loop_Block                 go to state 74
-    Conditional_Block          go to state 75
-    If_Else_Block              go to state 76
-    Switch_Block               go to state 77
-    Expression                 go to state 78
-
-
-State 223
-
-   69 Switch_Block: SWITCH OPEN_PAR Var CLOSE_PAR OPEN_CURLY Switch_Body CLOSE_CURLY .
-
-    $default  reduce using rule 69 (Switch_Block)
-
-
-State 224
-
-   68 Switch_Block: SWITCH OPEN_PAR Constant_Expression CLOSE_PAR OPEN_CURLY Switch_Body CLOSE_CURLY .
+   68 Switch_Block: SWITCH OPEN_PAR Var CLOSE_PAR OPEN_CURLY Switch_Body CLOSE_CURLY .
 
     $default  reduce using rule 68 (Switch_Block)
 
 
-State 225
+State 222
 
-   70 Switch_Body: CASE Constant_Expression COLON . Statements
+   67 Switch_Block: SWITCH OPEN_PAR Constant_Expression CLOSE_PAR OPEN_CURLY Switch_Body CLOSE_CURLY .
 
-    MINUS       shift, and go to state 50
-    INCREMENT   shift, and go to state 51
-    DECREMENT   shift, and go to state 52
-    IF          shift, and go to state 53
-    SWITCH      shift, and go to state 54
-    BREAK       shift, and go to state 55
-    CONTINUE    shift, and go to state 56
-    WHILE       shift, and go to state 57
-    FOR         shift, and go to state 58
-    OPEN_PAR    shift, and go to state 59
-    OPEN_CURLY  shift, and go to state 30
-    SEMI        shift, and go to state 60
-    INT         shift, and go to state 61
-    FLOAT       shift, and go to state 62
-    RETURN      shift, and go to state 63
-    CONST       shift, and go to state 5
-    EXTERN      shift, and go to state 6
-    STATIC      shift, and go to state 7
-    REAL        shift, and go to state 64
-    ID          shift, and go to state 65
-
-    Var_Decl                   go to state 66
-    Var                        go to state 67
-    Var_Asgn                   go to state 68
-    Func_Call                  go to state 69
-    Statements                 go to state 227
-    Statement                  go to state 71
-    Non_Conditional_Statement  go to state 72
-    Block                      go to state 73
-    Loop_Block                 go to state 74
-    Conditional_Block          go to state 75
-    If_Else_Block              go to state 76
-    Switch_Block               go to state 77
-    Expression                 go to state 78
+    $default  reduce using rule 67 (Switch_Block)
 
 
-State 226
+State 223
 
-   71 Switch_Body: DEFAULT COLON Statements .
+   69 Switch_Body: CASE Constant_Expression COLON . Statements
 
-    $default  reduce using rule 71 (Switch_Body)
+    MINUS       shift, and go to state 48
+    INCREMENT   shift, and go to state 49
+    DECREMENT   shift, and go to state 50
+    IF          shift, and go to state 51
+    SWITCH      shift, and go to state 52
+    BREAK       shift, and go to state 53
+    CONTINUE    shift, and go to state 54
+    WHILE       shift, and go to state 55
+    FOR         shift, and go to state 56
+    OPEN_PAR    shift, and go to state 57
+    OPEN_CURLY  shift, and go to state 28
+    SEMI        shift, and go to state 58
+    INT         shift, and go to state 59
+    FLOAT       shift, and go to state 60
+    RETURN      shift, and go to state 61
+    CONST       shift, and go to state 4
+    EXTERN      shift, and go to state 5
+    STATIC      shift, and go to state 6
+    REAL        shift, and go to state 62
+    ID          shift, and go to state 63
+
+    Var_Decl                   go to state 64
+    Var                        go to state 65
+    Var_Asgn                   go to state 66
+    Func_Call                  go to state 67
+    Statements                 go to state 225
+    Statement                  go to state 69
+    Non_Conditional_Statement  go to state 70
+    Block                      go to state 71
+    Loop_Block                 go to state 72
+    Conditional_Block          go to state 73
+    If_Else_Block              go to state 74
+    Switch_Block               go to state 75
+    Expression                 go to state 76
 
 
-State 227
+State 224
 
-   70 Switch_Body: CASE Constant_Expression COLON Statements .
+   70 Switch_Body: DEFAULT COLON Statements .
 
     $default  reduce using rule 70 (Switch_Body)
+
+
+State 225
+
+   69 Switch_Body: CASE Constant_Expression COLON Statements .
+
+    $default  reduce using rule 69 (Switch_Body)

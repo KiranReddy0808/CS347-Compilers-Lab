@@ -1,0 +1,85 @@
+
+
+$$Func_Decl$$
+
+func_decl, int_plist ## 
+
+decl_plist, decl_type_more ## 
+
+decl_pm, int ## decl_plist, defn_type_one ## 
+
+defn_pm, int ## 
+
+id, a ## 
+
+$$Var_Decl$$
+
+var_decl, const_int ## 
+
+var_list, var_asgn ## 
+
+var_asgn, default ## 
+
+var, id ## expr, real ## 
+
+num, 1 ## 
+
+$$Var_Decl$$
+
+var_decl, int ## 
+
+var_list, var_asgn ## 
+
+var_asgn, default ## 
+
+var, id ## expr, plus ## 
+
+expr, times ## expr, real ## 
+
+expr, real ## expr, real ## num, 30 ## 
+
+num, 0 ## num, 20 ## 
+
+$$Func_Defn$$
+
+func_defn,  ## 
+
+func_decl, int_plist ## block,  ## 
+
+decl_plist, defn_type_more ## statements, one ## 
+
+defn_pm, int ## decl_plist, defn_type_one ## statement, non_condl ## 
+
+id, a ## defn_pm, int ## non_condl, ret_semi ## 
+
+id, b ## expr, real ## 
+
+num, 1 ## 
+
+$$Func_Defn$$
+
+func_defn,  ## 
+
+func_decl, int_none ## block,  ## 
+
+statements, more ## 
+
+statement, non_condl ## statements, more ## 
+
+non_condl, var_decl ## statement, non_condl ## statements, one ## 
+
+var_decl, int ## non_condl, var_decl ## statement, non_condl ## 
+
+var_list, var_asgn ## var_decl, int ## non_condl, ret_semi ## 
+
+var_asgn, default ## var_list, var_asgn ## expr, real ## 
+
+var, id ## expr, real ## var_asgn, default ## num, 0 ## 
+
+num, 1 ## var, id ## expr, minus ## 
+
+expr, plus ## expr, times ## 
+
+expr, real ## expr, real ## expr, real ## expr, real ## 
+
+num, 1 ## num, 22 ## num, 3 ## num, 8 ## 

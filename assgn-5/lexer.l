@@ -2,14 +2,11 @@
 
 %{
 #include <bits/stdc++.h>
-#include "parser.tab.h"
 #include "compiler.h"
+#include "parser.tab.h"
 using namespace std;
 
 %}
-
-%option yylineno
-%option noyywrap
 
 
 ID      [a-zA-Z][a-zA-Z0-9_]*
@@ -64,8 +61,8 @@ STRING  \'[^\'\n]*\'|\"[^\"\n]*\"
 "float"                 return FLOAT;
 "void"                  return VOID;
 "return"                return RETURN;
-{REAL}                  return REAL;    { yyval.node = new Node()}
-{ID}                    return ID;      { yylval.node = new Node()}
+{REAL}                  { yylval.node = new Node("num", yytext); return REAL;}
+{ID}                    { yylval.node = new Node("id", yytext); return ID;}
 {SPACE}                 ;
 <<EOF>>                 return END;
 .                       return ERROR;

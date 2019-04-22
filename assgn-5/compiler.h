@@ -12,3 +12,5 @@ struct Node
         this->valueType = valueType;
     }
 };
+
+void printTree(Node *root);

@@ -2,23 +2,29 @@
 
 using namespace std;
 
-struct Node
-{
-    string dataType;
-    string valueType;
-    vector <Node *> childs;
-    Node(string dataType, string valueType){
-        this->dataType = dataType;
-        this->valueType = valueType;
-    }
-};
-
 enum DataType
 {
     dt_int,
     dt_flt,
     dt_void,
     dt_err
+};
+
+struct Node
+{
+    string dataType;
+    string valueType;
+    vector <Node *> childs;
+
+    DataType elemType;
+    string code;
+    float nodeVal;
+    vector<int> dimList;
+    vector<Node *> paramList;
+    Node(string dataType, string valueType){
+        this->dataType = dataType;
+        this->valueType = valueType;
+    }
 };
 
 struct SymbolNode
@@ -47,8 +53,5 @@ struct FuncNode
         this->retType=retType;
     }
 };
-
-
-bool SemanticAnalysis(Node *root);
 
 void printTree(Node *root);

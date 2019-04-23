@@ -1050,34 +1050,42 @@ return RETURN;
 case 43:
 YY_RULE_SETUP
 #line 64 "lexer.l"
-{ yylval.node = new Node("num", yytext); return REAL;}
+{ 
+                            yylval.node = new Node("num", yytext); 
+                            
+                            return REAL;
+                        }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 65 "lexer.l"
-{ yylval.node = new Node("id", yytext); return ID;}
+#line 69 "lexer.l"
+{ 
+                            yylval.node = new Node("id", yytext); 
+                            
+                            return ID;
+                        }
 	YY_BREAK
 case 45:
 /* rule 45 can match eol */
 YY_RULE_SETUP
-#line 66 "lexer.l"
+#line 74 "lexer.l"
 ;
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 67 "lexer.l"
+#line 75 "lexer.l"
 return END;
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 68 "lexer.l"
+#line 76 "lexer.l"
 return ERROR;
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 71 "lexer.l"
+#line 79 "lexer.l"
 ECHO;
 	YY_BREAK
-#line 1080 "lex.yy.c"
+#line 1088 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2092,6 +2100,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 71 "lexer.l"
+#line 79 "lexer.l"
 
 

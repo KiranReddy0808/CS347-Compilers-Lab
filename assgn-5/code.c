@@ -1,15 +1,14 @@
-int abc(int, int a);
+int main(int a, float b, int s, float c, float d){
+    int a;
+    int b = 1+22;
+    if (a<1){
+        xyz=1;
+        abcd-2;
+    }
 
-const int c = 1;
-
-int b=0*20+30;
-
-int a(int a, int b){
-    return 1;
-}
-
-int main(){
-    int a = 1;
-    int b = 1+22-3*8;
+    {
+        sddbgc=3;
+    }
+    
     return 0;
 }

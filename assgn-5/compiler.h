@@ -4,8 +4,10 @@ using namespace std;
 
 enum DataType
 {
+    dt_none,
     dt_int,
     dt_flt,
+    dt_bool,
     dt_void,
     dt_err
 };
@@ -18,12 +20,14 @@ struct Node
 
     DataType elemType;
     string code;
+    int nodeValInt;
     float nodeVal;
     vector<int> dimList;
     vector<Node *> paramList;
     Node(string dataType, string valueType){
         this->dataType = dataType;
         this->valueType = valueType;
+        this->elemType = dt_none;
     }
 };
 

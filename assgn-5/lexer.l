@@ -54,9 +54,6 @@ STRING  \'[^\'\n]*\'|\"[^\"\n]*\"
 "default"               return DEFAULT;
 "break"                 return BREAK;
 "continue"              return CONTINUE;
-"const"                 return CONST;
-"static"                return STATIC;
-"extern"                return EXTERN;
 "int"                   return INT;
 "float"                 return FLOAT;
 "void"                  return VOID;

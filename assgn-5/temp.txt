@@ -1,0 +1,13 @@
+Expression	%prec COND_EXPR
+		{
+			$$ = new Node("condition", "expr");
+			$$->childs.push_back($1);
+			if ($1->elemType == dt_err || $1->elemType == dt_void){
+				$$->elemType = dt_err;
+			}
+			else{
+				$$->elemType = dt_bool;
+			}
+		}
+
+Arrays

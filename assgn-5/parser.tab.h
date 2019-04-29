@@ -89,14 +89,11 @@ extern int yydebug;
     FLOAT = 295,
     VOID = 296,
     RETURN = 297,
-    CONST = 298,
-    EXTERN = 299,
-    STATIC = 300,
-    REAL = 301,
-    ID = 302,
-    ERROR = 303,
-    END = 304,
-    NEG = 305
+    REAL = 298,
+    ID = 299,
+    ERROR = 300,
+    END = 301,
+    NEG = 302
   };
 #endif
 
@@ -105,11 +102,11 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 17 "parser.y" /* yacc.c:1927  */
+#line 121 "parser.y" /* yacc.c:1927  */
 
 	Node *node;
 
-#line 113 "parser.tab.h" /* yacc.c:1927  */
+#line 110 "parser.tab.h" /* yacc.c:1927  */
 };
 
 typedef union YYSTYPE YYSTYPE;

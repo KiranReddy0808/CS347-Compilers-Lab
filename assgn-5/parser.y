@@ -814,12 +814,38 @@ Switch_Block:
 ;
 
 Switch_Body:
-	CASE Constant_Expression COLON Level_PP Statements Clear_Level Level_MM
+	CASE Constant_Expression COLON Level_PP Statements Clear_Level Level_MM Switch_Body
 		{
-			$$ = new Node("switch_body", "case");
+			$$ = new Node("switch_body", "case_more");
 			$$->childs.push_back($2);
 			$$->childs.push_back($5);
-			if ($2->elemType == dt_int){
+			$$->childs.push_back($8);
+			if ($2->elemType == dt_int && $5->elemType != dt_err && $8->elemType != dt_err){
+				
+			}
+			else{
+				$$->elemType = dt_err;
+			}
+			
+		}
+	| DEFAULT COLON Level_PP Statements Clear_Level Level_MM Switch_Body
+		{
+			$$ = new Node("switch_body", "deafult_more");
+			$$->childs.push_back($4);
+			$$->childs.push_back($7);
+			if ($4->elemType != dt_err && $7->elemType != dt_err){
+				
+			}
+			else{
+				$$->elemType = dt_err;
+			}
+		}
+	| CASE Constant_Expression COLON Level_PP Statements Clear_Level Level_MM
+		{
+			$$ = new Node("switch_body", "case_one");
+			$$->childs.push_back($2);
+			$$->childs.push_back($5);
+			if ($2->elemType == dt_int && $5->elemType != dt_err){
 				
 			}
 			else{
@@ -829,8 +855,14 @@ Switch_Body:
 		}
 	| DEFAULT COLON Level_PP Statements Clear_Level Level_MM
 		{
-			$$ = new Node("switch_body", "deafult");
+			$$ = new Node("switch_body", "deafult_one");
 			$$->childs.push_back($4);
+			if ($4->elemType != dt_err){
+				
+			}
+			else{
+				$$->elemType = dt_err;
+			}
 		}
 ;
 
@@ -1357,5 +1389,7 @@ int main(int argc, char *argv[]){
 	yyin = fopen(argv[1], "r");
 	yyparse();
 	fclose(yyin);
+	cout << "***********";
+	printTree(parseTree);
 	return 0;
 }

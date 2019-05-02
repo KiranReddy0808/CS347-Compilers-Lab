@@ -36,7 +36,7 @@ SymbolNode* paramExists(vector <SymbolNode*> &paramList, string name){
 	return NULL;
 }
 
-int convertParamList(vector <Node*> &nodeList ,vector <SymbolNode*> paramList, string funcName){
+int convertParamList(vector <Node*> &nodeList ,vector <SymbolNode*> &paramList, string funcName){
 	int retValue = 0;
 	for (int i=nodeList.size()-1; i>=0; i--){
 		if (nodeList[i]->dataType == "decl_pm"){
@@ -67,7 +67,7 @@ int convertParamList(vector <Node*> &nodeList ,vector <SymbolNode*> paramList, s
 
 SymbolNode *varExists(string name){
 	if (functionFinder(name)!=NULL){
-		return new SymbolNode(name, false, 1, dt_void);
+		return new SymbolNode(name, false, 0, dt_void);
 	}
 	if (activeFuncPtr!=NULL){
 		for (int i=activeFuncPtr->localVar.size()-1; i>=0; i--){
@@ -222,7 +222,11 @@ Var_List:
 					addVariable($1->childs[0]->valueType);
 				}
 				else{
-					if (temp->level != level || temp->type != dt_void){
+					if (temp->level == 1 && level==2){
+						$$->elemType = dt_err;
+						cout << "Declaration of variable with same name as parameter: "<<$1->childs[0]->valueType<<endl;
+					}
+					else if (temp->level != level || temp->type != dt_void){
 						addVariable($1->childs[0]->valueType);
 					}
 					else{
@@ -243,7 +247,11 @@ Var_List:
 			if ($3->elemType != dt_err){
 				SymbolNode *temp = varExists($1->childs[0]->childs[0]->valueType);
 				if (temp==NULL){
-					if ($1->childs[1]->elemType != dt_err){
+					if (temp->level == 1 && level==2){
+						$$->elemType = dt_err;
+						cout << "Declaration of variable with same name as parameter: "<<$1->childs[0]->childs[0]->valueType<<endl;
+					}
+					else if ($1->childs[1]->elemType != dt_err){
 						addVariable($1->childs[0]->childs[0]->valueType);
 					}
 					else{
@@ -268,41 +276,59 @@ Var_List:
 		{
 			$$ = new Node("var_list", "var");
 			$$->childs.push_back($1);
-			SymbolNode *temp = varExists($1->childs[0]->valueType);
-			if (temp==NULL){
-				addVariable($1->childs[0]->valueType);
-			}
-			else{
-				if (temp->level != level || temp->type != dt_void){
+			if ($1->elemType != dt_err){
+				SymbolNode *temp = varExists($1->childs[0]->valueType);
+				if (temp==NULL){
 					addVariable($1->childs[0]->valueType);
 				}
 				else{
-					$$->elemType = dt_err;
-					cout << "Duplicate declaration of variable: "<<$1->childs[0]->valueType<<endl;
+					if (temp->level == 1 && level==2){
+						$$->elemType = dt_err;
+						cout << "Declaration of variable with same name as parameter: "<<$1->childs[0]->valueType<<endl;
+					}
+					else if (temp->level != level || temp->type != dt_void){
+						addVariable($1->childs[0]->valueType);
+					}
+					else{
+						$$->elemType = dt_err;
+						cout << "Duplicate declaration of variable: "<<$1->childs[0]->valueType<<endl;
+					}
 				}
+			}
+			else{
+				$$->elemType = dt_err;
 			}
 		}
 	| Var_Asgn							
 		{
 			$$ = new Node("var_list", "var_asgn");
 			$$->childs.push_back($1);
-			SymbolNode *temp = varExists($1->childs[0]->childs[0]->valueType);
-			if (temp==NULL){
-				if ($1->childs[1]->elemType != dt_err){
-					addVariable($1->childs[0]->childs[0]->valueType);
+			if ($1->childs[0]->elemType != dt_err){
+				SymbolNode *temp = varExists($1->childs[0]->childs[0]->valueType);
+				if (temp==NULL){
+					if ($1->childs[1]->elemType != dt_err){
+						addVariable($1->childs[0]->childs[0]->valueType);
+					}
+					else{
+						$$->elemType = dt_err;
+					}
 				}
 				else{
-					$$->elemType = dt_err;
+					if (temp->level == 1 && level==2){
+						$$->elemType = dt_err;
+						cout << "Declaration of variable with same name as parameter: "<<$1->childs[0]->childs[0]->valueType<<endl;
+					}
+					else if (temp->level != level && temp->type != dt_void){
+						addVariable($1->childs[0]->childs[0]->valueType);
+					}
+					else{
+						$$->elemType = dt_err;
+						cout << "Duplicate declaration of variable: "<<$1->childs[0]->childs[0]->valueType<<endl;
+					}
 				}
 			}
 			else{
-				if (temp->level != level && temp->type != dt_void){
-					addVariable($1->childs[0]->childs[0]->valueType);
-				}
-				else{
-					$$->elemType = dt_err;
-					cout << "Duplicate declaration of variable: "<<$1->childs[0]->childs[0]->valueType<<endl;
-				}
+				$$->elemType = dt_err;
 			}
 		}
 ;
@@ -311,10 +337,12 @@ Var:
 	ID															
 		{
 			$$ = new Node("var", "id");
+			$$->childs.push_back($1);
 		}
 	| ID OPEN_BRAC Expression COMMA Dim_List CLOSE_BRAC			
 		{
 			$$ = new Node("var", "id_dim_list");
+			$$->childs.push_back($1);
 			$$->childs.push_back($3);
 			$$->childs.push_back($5);
 			$$->elemType = dt_err;
@@ -323,6 +351,7 @@ Var:
 	| ID Brac_Dim_List											
 		{
 			$$ = new Node("var", "id_brac");
+			$$->childs.push_back($1);
 			$$->childs.push_back($2);
 			$$->elemType = dt_err;
 			cout << "Arrays not implemented" << endl;
@@ -378,6 +407,7 @@ Func_Decl:
 			if (convertParamList($$->paramList, paramList, $3->valueType)==0){
 				FuncNode *funcEntry = new FuncNode($3->valueType, dt_int);
 				funcEntry->paramList = paramList;
+				funcEntry->localVar = paramList;
 				activeFuncPtr = funcEntry;
 			}
 			else{
@@ -393,6 +423,7 @@ Func_Decl:
 			if (convertParamList($$->paramList, paramList, $3->valueType)==0){
 				FuncNode *funcEntry = new FuncNode($3->valueType, dt_flt);
 				funcEntry->paramList = paramList;
+				funcEntry->localVar = paramList;
 				activeFuncPtr = funcEntry;
 			}
 			else{
@@ -408,6 +439,7 @@ Func_Decl:
 			if (convertParamList($$->paramList, paramList, $2->valueType)==0){
 				FuncNode *funcEntry = new FuncNode($2->valueType, dt_void);
 				funcEntry->paramList = paramList;
+				funcEntry->localVar = paramList;
 				activeFuncPtr = funcEntry;
 			}
 			else{
@@ -507,7 +539,7 @@ Func_Defn:
 					$$->elemType = dt_err;
 				}
 				else{
-
+					
 				}
 			}
 			else{
@@ -647,7 +679,9 @@ Block:
 		{
 			$$ = new Node("block", "");
 			$$->childs.push_back($3);
-			
+			if ($3->elemType == dt_err){
+				$$->elemType = dt_err;
+			}
 		}
 ;
 
@@ -1323,8 +1357,5 @@ int main(int argc, char *argv[]){
 	yyin = fopen(argv[1], "r");
 	yyparse();
 	fclose(yyin);
-
-	cout << "*******************"<<endl;
-	printTree(parseTree);
 	return 0;
 }
